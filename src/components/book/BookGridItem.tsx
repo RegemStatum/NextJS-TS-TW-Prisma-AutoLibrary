@@ -9,7 +9,7 @@ type Props = BookWithAuthorNameT;
 const Book: FC<Props> = (book) => {
   return (
     <Link href={`books/${book.id}`} className="">
-      <div className=" border border-stone-200 border-collapse cursor-pointer hover:border-stone-400 hover:shadow-md lg:p-3">
+      <div className=" border border-stone-200 border-collapse cursor-pointer hover:border-stone-400 hover:shadow-lg lg:p-3">
         {/* image  */}
         <div className="w-full h-[300px] relative bg-slate-50">
           <Image
