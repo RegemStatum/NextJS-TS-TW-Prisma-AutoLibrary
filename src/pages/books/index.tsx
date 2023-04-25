@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next";
 import React, { FC } from "react";
-import prisma from "../../utils/prisma";
+import prisma from "@/utils/prisma";
 import BookGrid from "@/components/book/BookGrid";
 import BookWithAuthorNameT from "@/types/BookWithAuthorNameT";
 
