@@ -8,7 +8,7 @@ interface Props {
 
 const BookGrid: FC<Props> = ({ books }) => {
   return (
-    <div className="grid gap-2 shrink-0 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4 ">
+    <div className="grid gap-3 shrink-0 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4 ">
       {books.map((book) => {
         return <Book key={book.id} {...book} />;
       })}

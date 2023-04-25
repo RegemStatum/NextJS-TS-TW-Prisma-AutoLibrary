@@ -4,7 +4,7 @@ import React, { FC } from "react";
 
 const HeaderLinks: FC = () => {
   return (
-    <div className="hidden lg:flex gap-2">
+    <div className="hidden lg:flex">
       {pagesLinks.map((pageLink) => {
         const { id, name, path } = pageLink;
 
@@ -12,7 +12,7 @@ const HeaderLinks: FC = () => {
           <Link
             key={id}
             href={path}
-            className="px-4 py-2 text-xl font-bold hover:outline hover:bg-slate-50 rounded-sm outline-1 outline-slate-600 lg:text-2xl"
+            className="px-6 py-2 text-xl font-bold hover:bg-stone-100  hover:text-sky-500 rounded-sm outline-slate-600 lg:text-2xl"
           >
             {name}
           </Link>
