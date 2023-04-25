@@ -1,10 +1,11 @@
 import React, { FC } from "react";
 import Link from "next/link";
+import BookGrid from "@/components/book/BookGrid";
 
 const index: FC = () => {
   return (
     <div>
-      <Link href="/books">Books</Link>
+      <h1>Home</h1>
     </div>
   );
 };

@@ -9,10 +9,10 @@ interface Props {
 
 const Layout: FC<Props> = ({ children }) => {
   return (
-    <div className="container mx-auto">
+    <div className="relative">
       <Header />
-      <main>{children}</main>
       <Sidebar />
+      <main className="container">{children}</main>
       <Footer />
     </div>
   );

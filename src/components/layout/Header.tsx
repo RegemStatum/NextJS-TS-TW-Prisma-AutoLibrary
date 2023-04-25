@@ -1,26 +1,21 @@
 import React, { FC } from "react";
-import pagesLinks from "@/utils/pagesLinks";
-import Link from "next/link";
+import Logo from "./Logo";
+import { MenuBars } from "../ui/icons";
+import { useAppContext } from "@/context/AppContext";
+import HeaderLinks from "./HeaderLinks";
 
 const Header: FC = () => {
-  return (
-    <header className="flex flex-row items-center ">
-      {/* logo */}
-      <div>
-        <h2 className="font-bold">Auto Library</h2>
-      </div>
-      {/* links */}
-      <div className="flex flex-row gap-2 text-blue-800">
-        {pagesLinks.map((pageLink) => {
-          const { id, name, path } = pageLink;
+  const appContext = useAppContext();
 
-          return (
-            <Link key={id} href={path}>
-              {name}
-            </Link>
-          );
-        })}
-      </div>
+  return (
+    <header className="container py-4 flex flex-row items-center justify-between lg:py-8">
+      <Logo />
+      <MenuBars
+        width={42}
+        onClick={appContext.openSidebar}
+        className="lg:hidden"
+      />
+      <HeaderLinks />
     </header>
   );
 };
