@@ -18,6 +18,7 @@ model Book {
   language        String
   bookImgUrl      String  @map("book_img_url")
   available       Boolean
+  featured        Boolean
   author          Author  @relation(fields: [authorId], references: [id])
   authorId        String  @map("author_id")
 }
@@ -27,7 +28,7 @@ model Author {
   firstName    String    @map("first_name")
   secondName   String    @map("last_name")
   description  String
-  birthDate    DateTime? @map("birth_date")
+  birthDate    DateTime  @map("birth_date")
   deathDate    DateTime? @map("death_date")
   authorImgUrl String    @map("author_img_url")
   books        Book[]

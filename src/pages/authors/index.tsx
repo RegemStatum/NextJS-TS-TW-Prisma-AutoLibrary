@@ -8,7 +8,9 @@ export const getStaticProps: GetStaticProps = async () => {
   const authors = await prisma.author.findMany({
     include: {
       books: {
-        take: 3,
+        where: {
+          featured: true,
+        },
         select: {
           title: true,
           bookImgUrl: true,
