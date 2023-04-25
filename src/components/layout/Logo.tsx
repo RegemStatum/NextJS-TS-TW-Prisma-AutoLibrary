@@ -10,8 +10,7 @@ const Logo: FC = () => {
     <Link href="/" onClick={appContext.closeSidebar}>
       <div className="flex items-center gap-2">
         <LogoBookIcon width={42} />
-
-        <h2 className="font-black text-3xl  hidden lg:block">AutoLibrary</h2>
+        <h2 className="font-black text-3xl hidden lg:block">AutoLibrary</h2>
       </div>
     </Link>
   );

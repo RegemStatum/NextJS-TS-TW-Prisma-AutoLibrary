@@ -10,7 +10,9 @@ const SecondaryButton: FC<Props> = ({ children, onClick, className }) => {
   return (
     <button
       onClick={onClick}
-      className={`w-full p-2 bg-stone-600 text-slate-50 rounded-sm hover:bg-stone-800 ${className}`}
+      className={`w-full p-2 border-2 text-stone-800 border-stone-600 font-medium rounded-sm select-none hover:border-stone-800 ${
+        className ?? ""
+      }`}
     >
       {children}
     </button>

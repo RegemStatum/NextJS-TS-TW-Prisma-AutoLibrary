@@ -2,6 +2,7 @@ import LogoBookIcon from "./LogoBookIcon";
 import MenuBars from "./MenuBars";
 import XMarkIcon from "./XMarkIcon";
 import ExclamationTriangleIcon from "./ExclamationTriangleIcon";
+import ChevronUpIcon from "./ChevronUpIcon";
 
 // sidebar links icons
 import HomeIcon from "./HomeIcon";
@@ -16,4 +17,5 @@ export {
   AuthorIcon,
   HomeIcon,
   ExclamationTriangleIcon,
+  ChevronUpIcon,
 };
