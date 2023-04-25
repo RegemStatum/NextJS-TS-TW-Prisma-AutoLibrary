@@ -8,7 +8,7 @@ interface Props {
 
 const AuthorList: FC<Props> = ({ authors }) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 lg:gap-6">
       {authors.map((author) => (
         <AuthorListItem key={author.id} author={author} />
       ))}

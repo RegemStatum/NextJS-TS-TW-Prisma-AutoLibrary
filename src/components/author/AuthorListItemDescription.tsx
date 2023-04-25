@@ -10,7 +10,7 @@ const AuthorListItemDescription: FC<Props> = ({
   description,
 }) => {
   return (
-    <div className="py-2 text-sm font-medium">
+    <div className="py-2 text-sm font-medium lg:text-xl lg:leading-8 lg:pr-6 xl:pr-12">
       {isMoreDescription ? description : `${description.substring(0, 150)}...`}
     </div>
   );
