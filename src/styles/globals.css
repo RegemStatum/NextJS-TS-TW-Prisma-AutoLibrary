@@ -33,7 +33,7 @@ h8 {
 
 ::selection {
   background-color: #7dd3fc; /* Replace with your desired color */
-  color: #082f49; /* Replace with your desired text color */
+  /* color: #082f49; Replace with your desired text color */
 }
 
 .page-min-height {
