@@ -11,7 +11,7 @@ const SingleBook: FC<Props> = ({ book }) => {
   return (
     <div>
       {/* image  */}
-      <div className="w-full h-[300px] relative">
+      <div className="w-full h-[450px] relative">
         <Image
           src={book.bookImgUrl}
           alt={book.title}
