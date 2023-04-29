@@ -41,7 +41,7 @@ type Props = {
   authors: AuthorWithBooksT[];
 };
 
-const index: FC<Props> = ({ authors }) => {
+const AuthorsPage: FC<Props> = ({ authors }) => {
   return (
     <div className="page-min-height">
       <AuthorList authors={authors} />
@@ -49,4 +49,4 @@ const index: FC<Props> = ({ authors }) => {
   );
 };
 
-export default index;
+export default AuthorsPage;

@@ -1,7 +1,7 @@
 import Signup from "@/components/auth/Signup";
 import React, { FC } from "react";
 
-const index: FC = () => {
+const HomePage: FC = () => {
   return (
     <div className="page-min-height">
       <h1>Home</h1>
@@ -10,4 +10,4 @@ const index: FC = () => {
   );
 };
 
-export default index;
+export default HomePage;

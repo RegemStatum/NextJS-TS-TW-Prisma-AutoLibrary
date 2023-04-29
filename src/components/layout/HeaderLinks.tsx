@@ -1,4 +1,4 @@
-import pagesLinks from "@/utils/pagesLinks";
+import pagesLinks from "@/utils/constants/pagesLinks";
 import Link from "next/link";
 import React, { FC } from "react";
 

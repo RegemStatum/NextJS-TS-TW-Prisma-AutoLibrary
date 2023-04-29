@@ -1,19 +1,16 @@
 import React, { FC } from "react";
 
-interface Props {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  onClick?: any;
-  className?: string;
 }
 
-const PrimaryButton: FC<Props> = ({ children, onClick, className }) => {
+const PrimaryButton: FC<Props> = ({ children, ...rest }) => {
+  const className = `w-full p-2 bg-stone-600 text-slate-50 font-bold rounded-sm select-none hover:bg-stone-800  lg:p-4 lg:text-xl  ${
+    rest.className ?? ""
+  }`;
+
   return (
-    <button
-      onClick={onClick}
-      className={`w-full p-2 bg-stone-600 text-slate-50 font-bold rounded-sm select-none hover:bg-stone-800  lg:p-4 lg:text-xl  ${
-        className ?? ""
-      }`}
-    >
+    <button className={className} {...rest}>
       {children}
     </button>
   );
