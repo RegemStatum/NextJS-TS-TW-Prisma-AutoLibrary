@@ -26,8 +26,8 @@ type Props = {
   books: BookWithAuthorNameT[];
 };
 
-const index: FC<Props> = ({ books }) => {
+const BooksPage: FC<Props> = ({ books }) => {
   return <BookGrid books={books} />;
 };
 
-export default index;
+export default BooksPage;
