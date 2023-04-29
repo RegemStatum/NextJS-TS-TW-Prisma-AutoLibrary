@@ -42,6 +42,6 @@ h8 {
 
 @media (min-width: 1024px) {
   .page-min-height {
-    min-height: calc(100vh - 112px - 128px);
+    min-height: calc(100vh - 116px - 128px);
   }
 }

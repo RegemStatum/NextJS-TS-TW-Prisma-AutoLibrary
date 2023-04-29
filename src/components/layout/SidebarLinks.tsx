@@ -7,7 +7,7 @@ const SidebarLinks: FC = () => {
   const appContext = useAppContext();
 
   return (
-    <div className="h-[calc(100%-60px)] flex flex-col gap-5 justify-center items-center">
+    <div className="flex flex-col gap-5 justify-center items-center">
       {pagesLinks.map((pageLink) => {
         const { id, name, path, LinkIcon } = pageLink;
 
