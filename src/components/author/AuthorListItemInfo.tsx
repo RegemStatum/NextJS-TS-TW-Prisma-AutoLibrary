@@ -24,8 +24,10 @@ const AuthorListItemInfo: FC<Props> = ({ authorInfo }) => {
       </div>
       {/* info */}
       <div className="py-2 flex flex-col justify-center lg:flex-row lg:justify-start lg:gap-2">
-        <h4 className="text-lg lg:text-2xl">{authorInfo.firstName}</h4>
-        <h4 className="text-lg font-bold lg:text-2xl">
+        <h4 className="text-lg leading-6 lg:text-2xl lg:leading-normal">
+          {authorInfo.firstName}
+        </h4>
+        <h4 className="text-lg leading-6 font-bold lg:text-2xl lg:leading-normal">
           {authorInfo.secondName}
         </h4>
       </div>

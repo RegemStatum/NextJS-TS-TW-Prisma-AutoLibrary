@@ -1,10 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
-import PrimaryButton from "../ui/buttons/PrimaryButton";
-import Input from "../ui/forms/Input";
 import { SecondaryButton } from "../ui/buttons";
 import Link from "next/link";
-import { BadgeError, BadgePending } from "../ui/badges";
+import FormSeparator from "./FormSeparator";
+import AuthForm from "./AuthForm";
 
 interface Props {
   error?: string;
@@ -133,45 +132,15 @@ const Signin: FC<Props> = ({ error }) => {
       <h2 className="pt-2 pb-6 text-2xl text-center lg:pt-4 lg:pb-12 lg:text-3xl">
         Sign In
       </h2>
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-4 lg:gap-5">
-          <Input
-            placeholder="Email"
-            name="email"
-            type="email"
-            minLength={3}
-            value={userData.email}
-            onChange={handleInputChange}
-            errorMsg={
-              validationError.inputName === "email" ? validationError.msg : ""
-            }
-          />
-          <Input
-            placeholder="Password"
-            name="password"
-            type="password"
-            minLength={8}
-            maxLength={16}
-            value={userData.password}
-            onChange={handleInputChange}
-            errorMsg={
-              validationError.inputName === "password"
-                ? validationError.msg
-                : ""
-            }
-          />
-          {isLoading && <BadgePending>Loading...</BadgePending>}
-          {serverAuthError && <BadgeError>{error}</BadgeError>}
-        </div>
-        <PrimaryButton className="mt-5 lg:mt-7" type="submit">
-          Sign in
-        </PrimaryButton>
-      </form>
-      <div className="my-3 flex gap-3 items-center">
-        <div className="w-full h-[1px] bg-stone-400 rounded-md"></div>
-        <p className="text-lg lg:text-xl">or</p>
-        <div className="w-full h-[1px] bg-stone-400 rounded-md"></div>
-      </div>
+      <AuthForm
+        handleSubmit={handleSubmit}
+        handleInputChange={handleInputChange}
+        userData={userData}
+        validationError={validationError}
+        serverAuthError={serverAuthError}
+        isLoading={isLoading}
+      />
+      <FormSeparator />
       <SecondaryButton onClick={() => signIn("google")}>
         Sign in with Google
       </SecondaryButton>

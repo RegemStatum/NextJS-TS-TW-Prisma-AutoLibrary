@@ -1,8 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import React, { FC, useEffect } from "react";
 import prisma from "@/utils/prisma";
-import BookWithAuthorNameT from "@/types/BookWithAuthorNameT";
 import SingleBook from "@/components/book/SingleBook";
+import { Book } from "@prisma/client";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const bookIds = await prisma.book.findMany({
@@ -37,6 +37,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         select: {
           firstName: true,
           secondName: true,
+          authorImgUrl: true,
         },
       },
     },
@@ -49,12 +50,24 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
+interface SingleBookT extends Book {
+  author: {
+    firstName: string;
+    secondName: string;
+    authorImgUrl: string;
+  };
+}
+
 type Props = {
-  book: BookWithAuthorNameT;
+  book: SingleBookT;
 };
 
 const SingleBookPage: FC<Props> = ({ book }) => {
-  return <SingleBook book={book} />;
+  return (
+    <div className="page-min-height xl:flex xl:items-center xl:justify-left">
+      <SingleBook book={book} />
+    </div>
+  );
 };
 
 export default SingleBookPage;

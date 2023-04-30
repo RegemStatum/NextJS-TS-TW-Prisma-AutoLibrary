@@ -58,7 +58,7 @@ const AuthorListItem: FC<Props> = ({ author }) => {
         className="my-2 flex gap-1 items-center justify-center lg:hidden"
       >
         <p className="font-medium">
-          {isShowBooks ? "Hide books" : "Show books"}
+          {isShowBooks ? "Hide books" : "Featured books"}
         </p>
       </PrimaryButton>
       <div className="lg:w-1/2 lg:shrink-0 lg:mt-[212px] text-2xl font-bold">
