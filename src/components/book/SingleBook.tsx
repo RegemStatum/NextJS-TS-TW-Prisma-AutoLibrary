@@ -1,10 +1,14 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import SingleBookDescription from "./SingleBookDescription";
 import SingleBookInfo from "./SingleBookInfo";
 import { Book } from "@prisma/client";
-import { PrimaryButton } from "../ui/buttons";
+import { PrimaryButton, SecondaryButton } from "../ui/buttons";
 import SingleBookBadges from "./SingleBookBadges";
+import { useCartContext } from "@/context/CartContext";
+import { useSession } from "next-auth/react";
+import { BadgeError } from "../ui/badges";
+import Link from "next/link";
 
 interface SingleBookT extends Book {
   author: {
@@ -19,6 +23,17 @@ type Props = {
 };
 
 const SingleBook: FC<Props> = ({ book }) => {
+  const { data: session } = useSession();
+  const cartContext = useCartContext();
+  const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    const isBookInCart =
+      cartContext.cartBooksIds.findIndex((bookId) => bookId === book.id) !== -1;
+    setIsAlreadyInCart(isBookInCart);
+  }, [cartContext.cartBooksIds, book.id]);
+
   const bookInfo = {
     id: book.id,
     publisher: book.publisher,
@@ -36,7 +51,24 @@ const SingleBook: FC<Props> = ({ book }) => {
     },
   };
 
-  const handleOrderBook = () => {};
+  const handleOrderBook = () => {
+    try {
+      cartContext.addBookToCart(book.id);
+      setIsAlreadyInCart(true);
+    } catch (e: any) {
+      setErrorMsg(e.message);
+    }
+  };
+
+  useEffect(() => {
+    let timer: NodeJS.Timer;
+    if (errorMsg !== "") {
+      timer = setTimeout(() => {
+        setErrorMsg("");
+      }, 5000);
+    }
+    return () => clearTimeout(timer);
+  }, [errorMsg]);
 
   return (
     <div>
@@ -68,12 +100,27 @@ const SingleBook: FC<Props> = ({ book }) => {
           <SingleBookDescription description={book.description} />
         </div>
       </div>
-      <PrimaryButton
-        className="mb-3 xl:w-[500px]"
-        onClick={() => handleOrderBook()}
-      >
-        Order
-      </PrimaryButton>
+      <div className="xl:w-[500px] space-y-1 xl:space-y-2">
+        <PrimaryButton
+          onClick={() => handleOrderBook()}
+          disabled={
+            book.quantity <= 0 ||
+            !book.available ||
+            isAlreadyInCart ||
+            !session?.user
+          }
+        >
+          {!session?.user
+            ? "Sign in to access"
+            : isAlreadyInCart
+            ? "Already in cart"
+            : "Add to cart"}
+        </PrimaryButton>
+        <Link href="/books" className="block mb-3">
+          <SecondaryButton>Back to all books</SecondaryButton>
+        </Link>
+        {errorMsg && <BadgeError>{errorMsg}</BadgeError>}
+      </div>
       <SingleBookInfo book={bookInfo} />
     </div>
   );

@@ -15,10 +15,14 @@ const SidebarLinks: FC = () => {
           <Link
             key={id}
             href={path}
-            onClick={appContext.closeSidebar}
+            onClick={() => {
+              setTimeout(() => {
+                appContext.closeSidebar();
+              }, 300);
+            }}
             className="flex flex-row gap-3"
           >
-            <LinkIcon width={32} height={32} className="" />
+            <LinkIcon width={32} height={32} />
             <p className="w-[100px] font-medium text-2xl">{name}</p>
           </Link>
         );

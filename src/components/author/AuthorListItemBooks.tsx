@@ -29,7 +29,7 @@ const AuthorListItemBooks: FC<Props> = ({ books }) => {
                   />
                 </div>
                 <div className="px-2">
-                  <h4 className="mb-2 font-bold text-lg lg:text-2xl">
+                  <h4 className="mb-2 font-bold text-lg lg:text-xl">
                     {book.title}
                   </h4>
                   {book.available ? (
