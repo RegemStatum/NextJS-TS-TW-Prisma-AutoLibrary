@@ -1,7 +1,9 @@
+import CartList from "@/components/cart/CartList";
 import { useCartContext } from "@/context/CartContext";
+import prisma from "@/utils/prisma";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req } = context;
@@ -22,14 +24,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const CartPage: FC = () => {
-  const cartContext = useCartContext();
-
   return (
     <div className="page-min-height">
-      <h1>Ordered books</h1>
-      {cartContext.cartBooksIds.map((id) => (
-        <p key={id}>Book in cart with id: {id}</p>
-      ))}
+      <CartList />
     </div>
   );
 };

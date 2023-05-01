@@ -23,7 +23,7 @@ const Book: FC<Props> = (book) => {
         </div>
         {/* info */}
         <div className="p-3 flex flex-col shrink-0 justify-between">
-          <h4 className="min-h-[48px] mb-auto text-lg font-medium leading-6 line-clamp-2 lg:text-xl lg:min-h-[56px] lg:pt-1">
+          <h4 className="min-h-[48px] mb-auto text-lg font-medium leading-snug line-clamp-2 lg:text-xl lg:min-h-[56px] lg:pt-1">
             {book.title}
           </h4>
           <div>

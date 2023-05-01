@@ -11,24 +11,20 @@ interface Props {
 
 const ShoppingCartLink: FC<Props> = ({ session, className }) => {
   return (
-    <div
-      className={`w-[52px] h-[52px] group inline-block relative rounded-sm shrink-0 hover:bg-stone-100  hover:text-sky-500 ${className}`}
+    <Link
+      href="/cart"
+      className={`w-[52px] h-[52px] group inline-block relative rounded-sm shrink-0 hover:bg-stone-100  hover:text-sky-500 ${
+        !session?.user ? "pointer-events-none text-stone-400" : ""
+      } ${className}`}
     >
-      <Link
-        href="/cart"
-        className={` ${
-          !session?.user ? "pointer-events-none text-stone-400" : ""
-        }`}
-      >
-        <ShoppingBagIcon />
-      </Link>
+      <ShoppingBagIcon />
       <ShoppingCartLinkCounter />
       {!session?.user && (
         <div className="w-[100px] opacity-0 invisible group-hover:opacity-100 group-hover:visible absolute z-10 left-1/2 -translate-x-1/2 mt-3 py-2 px-3 rounded-sm text-sm bg-stone-600 text-white text-center ">
           Sign in to access cart
         </div>
       )}
-    </div>
+    </Link>
   );
 };
 

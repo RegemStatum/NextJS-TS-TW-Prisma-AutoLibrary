@@ -11,7 +11,7 @@ const AuthorListItemBooks: FC<Props> = ({ books }) => {
     <div className="flex flex-col gap-4 lg:gap-0">
       {books.map((book, index) => {
         return (
-          <>
+          <React.Fragment key={index}>
             <Link
               href={`/books/${book.id}`}
               key={book.id}
@@ -50,7 +50,7 @@ const AuthorListItemBooks: FC<Props> = ({ books }) => {
             ) : (
               <div className="mb-7"></div>
             )}
-          </>
+          </React.Fragment>
         );
       })}
     </div>

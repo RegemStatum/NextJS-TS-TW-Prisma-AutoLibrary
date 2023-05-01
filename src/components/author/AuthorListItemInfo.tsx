@@ -16,10 +16,11 @@ const AuthorListItemInfo: FC<Props> = ({ authorInfo }) => {
         <Image
           src={authorInfo.authorImgUrl}
           alt={authorInfo.firstName}
-          fill
-          style={{ objectFit: "contain" }}
+          style={{ objectFit: "cover" }}
           placeholder="blur"
           blurDataURL={authorInfo.authorImgUrl}
+          width={200}
+          height={200}
         />
       </div>
       {/* info */}
