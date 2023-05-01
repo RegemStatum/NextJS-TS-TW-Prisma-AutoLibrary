@@ -21,7 +21,7 @@ const Header: FC = () => {
       />
       <div className="hidden lg:flex items-center gap-4">
         <HeaderLinks />
-        <div className="ml-4 space-x-2">
+        <div className="ml-4 space-x-2 lg:flex">
           <ShoppingCartLink session={session} />
           <HeaderAuthButton session={session} />
         </div>
