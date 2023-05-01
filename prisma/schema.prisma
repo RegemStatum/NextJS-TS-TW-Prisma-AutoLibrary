@@ -61,14 +61,14 @@ model Order {
 
   User   User   @relation(fields: [userId], references: [id])
   userId String
-  Book   Book   @relation(fields: [bookId], references: [id])
-  bookId String
 
+  Book    Book[]
   Cabinet Cabinet[]
 }
 
 model Cabinet {
   id      String  @id @default(cuid())
+  number  Int     @unique @default(autoincrement())
   isEmpty Boolean @default(true) @map("is_empty")
 
   Book   Book   @relation(fields: [bookId], references: [id])
