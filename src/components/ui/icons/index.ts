@@ -5,6 +5,7 @@ import ExclamationTriangleIcon from "./ExclamationTriangleIcon";
 import ChevronUpIcon from "./ChevronUpIcon";
 import ShoppingCartIcon from "./ShoppingCartIcon";
 import ShoppingBagIcon from "./ShoppingBagIcon";
+import UserIcon from "./UserIcon";
 
 // sidebar links icons
 import HomeIcon from "./HomeIcon";
@@ -22,4 +23,5 @@ export {
   ChevronUpIcon,
   ShoppingCartIcon,
   ShoppingBagIcon,
+  UserIcon,
 };

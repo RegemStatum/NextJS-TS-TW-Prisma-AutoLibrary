@@ -14,7 +14,7 @@ const ShoppingCartLinkCounter: FC<Props> = ({ className }) => {
     <div
       className={`${
         !session ? "hidden" : ""
-      } absolute right-[5px] bottom-[2px] w-5 h-5 flex items-center justify-center bg-sky-500 rounded-sm select-none cursor-pointer ${
+      } absolute flex items-center justify-center bg-sky-500 rounded-sm select-none cursor-pointer ${
         className ?? ""
       }`}
     >

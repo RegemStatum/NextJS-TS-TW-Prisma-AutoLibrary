@@ -121,7 +121,7 @@ const SingleBook: FC<Props> = ({ book }) => {
         </Link>
         {errorMsg && <BadgeError>{errorMsg}</BadgeError>}
       </div>
-      <SingleBookInfo book={bookInfo} />
+      <SingleBookInfo book={bookInfo} authorId={book.authorId} />
     </div>
   );
 };

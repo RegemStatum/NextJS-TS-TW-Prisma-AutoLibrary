@@ -2,12 +2,12 @@ import { useCartContext } from "@/context/CartContext";
 import CartBook from "@/types/CartBook";
 import React, { FC, useEffect, useState } from "react";
 import Spinner1 from "../ui/spinners/Spinner1";
-import CartListItem from "./CartListItem";
+import CartGridItem from "./CartGridItem";
 import { BadgeError } from "../ui/badges";
 import { PrimaryButton, SecondaryButton } from "../ui/buttons";
 import Link from "next/link";
 
-const CartList: FC = () => {
+const CartGrid: FC = () => {
   const cartContext = useCartContext();
   const cartBooksIds = cartContext.cartBooksIds;
   const [cartBooks, setCartBooks] = useState<CartBook[]>([]);
@@ -71,7 +71,7 @@ const CartList: FC = () => {
     <div>
       <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
         {cartBooks.map((cartBook, index) => (
-          <CartListItem
+          <CartGridItem
             key={cartBook.id}
             cartBook={cartBook}
             bookOrderIndex={index + 1}
@@ -91,4 +91,4 @@ const CartList: FC = () => {
   );
 };
 
-export default CartList;
+export default CartGrid;

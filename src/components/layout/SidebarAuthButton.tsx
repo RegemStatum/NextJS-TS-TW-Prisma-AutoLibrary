@@ -5,6 +5,7 @@ import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useCartContext } from "@/context/CartContext";
+import { UserIcon } from "../ui/icons";
 
 interface Props {
   session: Session | null;
@@ -24,21 +25,30 @@ const SidebarAuthButton: FC<Props> = ({ session }) => {
     }
   };
 
+  const handleLinkClick = () => {
+    setTimeout(() => {
+      appContext.closeSidebar();
+    }, 300);
+  };
+
   return session ? (
-    <div className="w-[205px] mx-auto">
-      <SecondaryButton
-        onClick={() => handleSignOutButtonClick()}
-        className="mx-auto text-lg px-[4rem] py-3 shrink-1"
-      >
-        Sign out
-      </SecondaryButton>
-    </div>
+    <Link
+      href="/profile"
+      className="w-fit mx-auto flex gap-3 hover:text-sky-500"
+      onClick={() => handleLinkClick()}
+    >
+      <div className={`w-[32px] h-[32px] inline-block rounded-sm shrink-0`}>
+        <UserIcon />
+      </div>
+      <p className="w-[100px] text-2xl font-medium">Profile</p>
+    </Link>
   ) : (
-    <Link href="/auth/signin" className="w-fit mx-auto">
-      <PrimaryButton
-        onClick={() => appContext.closeSidebar()}
-        className="w-fit text-lg px-[4rem] py-3"
-      >
+    <Link
+      href="/auth/signin"
+      className="w-fit mx-auto"
+      onClick={() => handleLinkClick()}
+    >
+      <PrimaryButton className="w-fit text-lg px-[4rem] py-3">
         Sign in
       </PrimaryButton>
     </Link>

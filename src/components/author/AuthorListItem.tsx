@@ -28,7 +28,10 @@ const AuthorListItem: FC<Props> = ({ author }) => {
   }, []);
 
   return (
-    <div className="p-2 bg-stone-100 rounded-sm shadow-lg lg:p-8 lg:flex lg:gap-1">
+    <div
+      className="p-2 bg-stone-100 rounded-sm shadow-lg lg:p-8 lg:flex lg:gap-1"
+      id={author.id}
+    >
       <div className="lg:w-[1/2 - 5px]">
         {/* image + name */}
         <AuthorListItemInfo authorInfo={authorInfo} />

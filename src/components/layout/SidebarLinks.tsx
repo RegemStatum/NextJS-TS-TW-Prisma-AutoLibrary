@@ -20,7 +20,7 @@ const SidebarLinks: FC = () => {
                 appContext.closeSidebar();
               }, 300);
             }}
-            className="flex flex-row gap-3"
+            className="flex flex-row gap-3 hover:text-sky-500"
           >
             <LinkIcon width={32} height={32} />
             <p className="w-[100px] font-medium text-2xl">{name}</p>

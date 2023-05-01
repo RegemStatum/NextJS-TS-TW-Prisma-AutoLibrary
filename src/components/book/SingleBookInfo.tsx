@@ -20,9 +20,10 @@ interface SingleBookInfoT extends SingleBookInfoWithoutAuthorT {
 
 type Props = {
   book: SingleBookInfoT;
+  authorId: string;
 };
 
-const SingleBookInfo: FC<Props> = ({ book }) => {
+const SingleBookInfo: FC<Props> = ({ book, authorId }) => {
   const authorInfo = {
     firstName: book.author.firstName,
     secondName: book.author.secondName,
@@ -40,7 +41,7 @@ const SingleBookInfo: FC<Props> = ({ book }) => {
   return (
     <div>
       {/* author */}
-      <Link href="/authors">
+      <Link href={`/authors#${authorId}`}>
         <div className="my-2 p-2 rounded-sm  hover:bg-stone-100 xl:p-4">
           <AuthorListItemInfo authorInfo={authorInfo} />
         </div>

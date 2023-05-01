@@ -9,7 +9,7 @@ interface Props {
   bookOrderIndex: number;
 }
 
-const CartListItem: FC<Props> = ({ cartBook, bookOrderIndex }) => {
+const CartGridItem: FC<Props> = ({ cartBook, bookOrderIndex }) => {
   const cartContext = useCartContext();
 
   return (
@@ -52,4 +52,4 @@ const CartListItem: FC<Props> = ({ cartBook, bookOrderIndex }) => {
   );
 };
 
-export default CartListItem;
+export default CartGridItem;
