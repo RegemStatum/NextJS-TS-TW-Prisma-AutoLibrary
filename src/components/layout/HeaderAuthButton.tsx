@@ -1,9 +1,7 @@
 import { Session } from "next-auth";
 import React, { FC } from "react";
-import { PrimaryButton, SecondaryButton } from "../ui/buttons";
+import { PrimaryButton } from "../ui/buttons";
 import Link from "next/link";
-import { useCartContext } from "@/context/CartContext";
-import { signOut } from "next-auth/react";
 import { UserIcon } from "../ui/icons";
 
 type Props = {
@@ -11,17 +9,6 @@ type Props = {
 };
 
 const HeaderAuthButton: FC<Props> = ({ session }) => {
-  const cartContext = useCartContext();
-
-  const handleSignOutButtonClick = async () => {
-    try {
-      await signOut();
-      cartContext.clearCart();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return session?.user ? (
     <Link
       href="/profile"

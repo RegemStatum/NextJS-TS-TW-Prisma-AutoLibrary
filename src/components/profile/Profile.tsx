@@ -1,8 +1,20 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import React, { FC } from "react";
+import { PrimaryButton, SecondaryButton } from "../ui/buttons";
+import { useCartContext } from "@/context/CartContext";
 
 const Profile: FC = () => {
   const { data: session } = useSession();
+  const cartContext = useCartContext();
+
+  const handleSignOutButtonClick = async () => {
+    try {
+      await signOut();
+      cartContext.clearCart();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -12,6 +24,12 @@ const Profile: FC = () => {
         <p className="text-lg lg:text-xl">
           Hello, {session?.user?.name || session?.user?.email}
         </p>
+        <SecondaryButton
+          className="w-full max-w-[250px] mt-2"
+          onClick={() => handleSignOutButtonClick()}
+        >
+          Sign out
+        </SecondaryButton>
       </div>
       {/* orders */}
       <div>

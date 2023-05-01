@@ -1,10 +1,8 @@
 import React, { FC } from "react";
-import { PrimaryButton, SecondaryButton } from "../ui/buttons";
+import { PrimaryButton } from "../ui/buttons";
 import { useAppContext } from "@/context/AppContext";
 import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useCartContext } from "@/context/CartContext";
 import { UserIcon } from "../ui/icons";
 
 interface Props {
@@ -13,17 +11,6 @@ interface Props {
 
 const SidebarAuthButton: FC<Props> = ({ session }) => {
   const appContext = useAppContext();
-  const cartContext = useCartContext();
-
-  const handleSignOutButtonClick = async () => {
-    try {
-      await signOut();
-      cartContext.clearCart();
-      appContext.closeSidebar();
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const handleLinkClick = () => {
     setTimeout(() => {
