@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/utils/prisma";
-import CartBook from "@/types/CartBook";
 import { BadRequestError, NotFoundError } from "@/utils/errors";
 
 type Data = {

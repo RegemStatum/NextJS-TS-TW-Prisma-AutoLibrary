@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import prisma from "@/utils/prisma";
 import SingleBook from "@/components/book/SingleBook";
 import { Book } from "@prisma/client";
