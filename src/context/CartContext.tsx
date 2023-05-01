@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { MAX_BOOKS_IN_ORDER } from "@/utils/constants/misc";
 
 type Props = {
   children: React.ReactNode;
@@ -28,11 +29,12 @@ const CartContext = createContext(contextDefaultValue);
 
 const CartContextProvider: FC<Props> = ({ children }) => {
   const [cartBooksIds, setCartBooksIds] = useState<string[]>([]);
-  const MAX_BOOKS_IN_ORDER = 3;
 
   const addBookToCart = (id: string) => {
     if (cartBooksIds.length >= MAX_BOOKS_IN_ORDER) {
-      throw new Error("Your order can contain up to 3 books");
+      throw new Error(
+        `Your order can contain up to ${MAX_BOOKS_IN_ORDER} books`
+      );
     }
     const newCartBooksIds = [...cartBooksIds, id];
     localStorage.setItem("cartBooksIds", JSON.stringify(newCartBooksIds));

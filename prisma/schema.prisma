@@ -19,7 +19,8 @@ model Book {
   bookImgUrl      String  @map("book_img_url")
   available       Boolean
   featured        Boolean
-  quantity        Int     @default(1)
+  currentQuantity Int     @default(1) @map("current_quantity")
+  maxQuantity     Int     @default(1) @map("max_quantity")
 
   author   Author @relation(fields: [authorId], references: [id])
   authorId String @map("author_id")

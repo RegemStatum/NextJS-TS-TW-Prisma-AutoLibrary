@@ -1,7 +1,7 @@
-import CartList from "@/components/cart/CartGrid";
+import Cart from "@/components/cart/Cart";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req } = context;
@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const CartPage: FC = () => {
   return (
     <div className="page-min-height">
-      <CartList />
+      <Cart />
     </div>
   );
 };

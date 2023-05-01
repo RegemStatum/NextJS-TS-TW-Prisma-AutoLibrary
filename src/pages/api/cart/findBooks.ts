@@ -4,6 +4,7 @@ import CartBook from "@/types/CartBook";
 
 type Data = {
   cartBooks: CartBook[];
+  msg: string;
 };
 
 export default async function handler(
@@ -34,5 +35,5 @@ export default async function handler(
       },
     })) || [];
 
-  res.status(200).json({ cartBooks });
+  res.status(200).json({ cartBooks, msg: "Books found" });
 }

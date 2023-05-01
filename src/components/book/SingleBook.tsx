@@ -43,7 +43,8 @@ const SingleBook: FC<Props> = ({ book }) => {
     language: book.language,
     available: book.available,
     featured: book.featured,
-    quantity: book.quantity,
+    currentQuantity: book.currentQuantity,
+    maxQuantity: book.maxQuantity,
     author: {
       firstName: book.author.firstName,
       secondName: book.author.secondName,
@@ -88,7 +89,7 @@ const SingleBook: FC<Props> = ({ book }) => {
           {/* badges [featured, quantity, available]*/}
           <SingleBookBadges
             featured={book.featured}
-            quantity={book.quantity}
+            quantity={book.currentQuantity}
             available={book.available}
           />
         </div>
@@ -104,7 +105,7 @@ const SingleBook: FC<Props> = ({ book }) => {
         <PrimaryButton
           onClick={() => handleOrderBook()}
           disabled={
-            book.quantity <= 0 ||
+            book.currentQuantity <= 0 ||
             !book.available ||
             isAlreadyInCart ||
             !session?.user

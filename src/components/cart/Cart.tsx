@@ -2,17 +2,75 @@ import { useCartContext } from "@/context/CartContext";
 import CartBook from "@/types/CartBook";
 import React, { FC, useEffect, useState } from "react";
 import Spinner1 from "../ui/spinners/Spinner1";
-import CartGridItem from "./CartGridItem";
 import { BadgeError } from "../ui/badges";
-import { PrimaryButton, SecondaryButton } from "../ui/buttons";
-import Link from "next/link";
+import CartControlButtons from "./CartControlButtons";
+import CartNoBooks from "./CartNoBooks";
+import CartGridItem from "./CartGridItem";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const CartGrid: FC = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
   const cartContext = useCartContext();
   const cartBooksIds = cartContext.cartBooksIds;
   const [cartBooks, setCartBooks] = useState<CartBook[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+
+  const getUserId: () => Promise<string> = async () => {
+    if (!session || !session.user) {
+      throw new Error("No session or no user with id in session");
+    }
+
+    const res = await fetch("/api/profile/getIdByEmail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: session.user.email }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Something went wrong while trying to receive user id");
+    }
+
+    const data = await res.json();
+    const id = data.id;
+    return id;
+  };
+
+  const createOrder = async () => {
+    const userId = await getUserId();
+    const res = await fetch("/api/order/createOrder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        booksIds: cartBooksIds,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Something went wrong while trying to create order");
+    }
+    return;
+  };
+
+  const handleOrder = async () => {
+    try {
+      setIsLoading(true);
+      await createOrder();
+      cartContext.clearCart();
+      router.push("/profile");
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     const setNewCartBooksInfo = async () => {
@@ -31,7 +89,7 @@ const CartGrid: FC = () => {
         setCartBooks(newCartBooks);
         setIsLoading(false);
       } catch (e: any) {
-        console.log(e.message);
+        console.log(e);
         setErrorMsg(e.message);
         setIsLoading(false);
       }
@@ -39,12 +97,17 @@ const CartGrid: FC = () => {
     setNewCartBooksInfo();
   }, [cartBooksIds]);
 
+  // clear error msg after 5 secs
   useEffect(() => {
     const timer = setTimeout(() => {
       setErrorMsg("");
     }, 5000);
     return () => clearTimeout(timer);
   }, [errorMsg]);
+
+  if (!session || !session.user) {
+    router.push("/");
+  }
 
   if (isLoading) {
     return (
@@ -55,16 +118,7 @@ const CartGrid: FC = () => {
   }
 
   if (cartBooks.length === 0) {
-    return (
-      <div className="pt-4">
-        <h2 className="text-xl font-medium lg:text-3xl">
-          There are no books yet
-        </h2>
-        <p className="pt-1 text-normal lg:pt-2 lg:text-xl">
-          Add books to your cart
-        </p>
-      </div>
-    );
+    return <CartNoBooks />;
   }
 
   return (
@@ -78,14 +132,10 @@ const CartGrid: FC = () => {
           />
         ))}
       </div>
-      <div className="mt-5 space-y-2 lg:w-[calc(50%_-_8px)] xl:w-[calc(33.33%_-_8px)]">
-        <SecondaryButton onClick={() => cartContext.clearCart()}>
-          Remove all books
-        </SecondaryButton>
-        <Link href="/order" className="block">
-          <PrimaryButton>Order</PrimaryButton>
-        </Link>
-      </div>
+      <CartControlButtons
+        clearCart={cartContext.clearCart}
+        handleOrder={handleOrder}
+      />
       {errorMsg && <BadgeError>{errorMsg}</BadgeError>}
     </div>
   );
