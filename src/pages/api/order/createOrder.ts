@@ -8,7 +8,6 @@ import {
 import {
   BadRequestError,
   ConflictRequestError,
-  CustomApiError,
   NotFoundError,
 } from "@/utils/errors";
 

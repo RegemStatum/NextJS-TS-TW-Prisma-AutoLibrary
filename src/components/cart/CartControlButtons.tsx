@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { DeleteButton, PrimaryButton, SecondaryButton } from "../ui/buttons";
+import { DeleteButton, PrimaryButton } from "../ui/buttons";
 
 interface Props {
   clearCart: () => void;

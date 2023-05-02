@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { Book } from "@prisma/client";
-import Image from "next/image";
 import AuthorListItemInfo from "../author/AuthorListItemInfo";
 import Link from "next/link";
 import SingleBookOtherInfo from "./SingleBookOtherInfo";
