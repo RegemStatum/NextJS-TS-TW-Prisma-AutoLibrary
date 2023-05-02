@@ -158,7 +158,12 @@ const Signin: FC = () => {
         isLoading={isLoading}
       />
       <FormSeparator />
-      <SecondaryButton onClick={() => signIn("google")}>
+      <SecondaryButton
+        onClick={(e) => {
+          e.preventDefault;
+          signIn("google");
+        }}
+      >
         Sign in with Google
       </SecondaryButton>
       <p className="pt-4 text-sm lg:pt-6 lg:text-base">

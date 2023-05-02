@@ -6,6 +6,10 @@ import prisma from "@/utils/prisma";
 import { hash, compare } from "bcrypt";
 import BadRequestError from "@/utils/errors/BadRequestError";
 import validatePassword from "@/utils/auth/validatePassword";
+import { SessionStrategy } from "next-auth";
+import { User } from ".prisma/client";
+
+const sessionStrategy: SessionStrategy = "jwt";
 
 export const AuthOptions = {
   providers: [
@@ -61,7 +65,14 @@ export const AuthOptions = {
         }
 
         // create password for user if user has email but doesnt have password
-        let updatedUser = null;
+        let updatedUser: User = {
+          id: "",
+          name: "",
+          password: "",
+          email: "",
+          emailVerified: null,
+          image: null,
+        };
         if (!user.password) {
           updatedUser = await prisma.user.update({
             where: {
@@ -79,7 +90,7 @@ export const AuthOptions = {
 
         // compare provided password and db password
         let isValid = false;
-        if (updatedUser) {
+        if (updatedUser && updatedUser.password) {
           isValid = await compare(password, updatedUser.password);
         }
         isValid = await compare(password, user.password);
@@ -92,14 +103,14 @@ export const AuthOptions = {
       },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt",
+    strategy: sessionStrategy,
   },
   pages: {
     error: "/auth/signin",
@@ -112,14 +123,14 @@ export const AuthOptions = {
     updateAge: 24 * 60 * 60, // 24 hours
   },
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user }: { token: any; user: any }) => {
       if (user) {
         token.id = user.id;
         token.email = user.email;
       }
       return token;
     },
-    session: async ({ session, token }) => {
+    session: async ({ session, token }: { session: any; token: any }) => {
       if (token) {
         session.id = token.id;
       }

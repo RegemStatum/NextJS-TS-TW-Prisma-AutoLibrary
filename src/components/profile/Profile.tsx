@@ -5,7 +5,6 @@ import { useCartContext } from "@/context/CartContext";
 import OrderInfo from "@/types/OrderInfo";
 import OrdersNoItems from "../order/OrdersNoItems";
 import OrdersList from "../order/OrdersList";
-import getUserId from "@/utils/helpers/getUserId";
 import { BadgeError, BadgeSuccess } from "../ui/badges";
 import { Spinner1 } from "../ui/spinners";
 
@@ -50,7 +49,33 @@ const Profile: FC<Props> = ({ orders: extOrders }) => {
   const cancelOrder = async (orderId: string) => {
     try {
       setIsOrdersLoading(true);
-      const userId = await getUserId(session);
+      if (!session) {
+        throw new Error("No session");
+      }
+
+      if (!session.user) {
+        throw new Error("No user in session");
+      }
+
+      const email = session.user.email;
+      if (!email) {
+        throw new Error("No user email in session");
+      }
+
+      const userIdRes = await fetch(`/api/profile/getIdByEmail`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email }),
+      });
+
+      if (!userIdRes.ok) {
+        throw new Error("Something went wrong while trying to receive user id");
+      }
+
+      const userData = await userIdRes.json();
+      const userId = userData.id;
       // delete order fetch delete, increment quantity to books in order
       const res = await fetch(`/api/order/cancelOrder`, {
         method: "POST",

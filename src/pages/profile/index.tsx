@@ -1,11 +1,11 @@
 import Profile from "@/components/profile/Profile";
 import OrderInfo from "@/types/OrderInfo";
-import getUserId from "@/utils/helpers/getUserId";
 import prisma from "@/utils/prisma";
 import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
 import Head from "next/head";
 import React, { FC } from "react";
+import { AuthOptions } from "../api/auth/[...nextauth]";
 
 type Props = {
   orders?: OrderInfo[];
@@ -15,19 +15,48 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const { req, res } = context;
-  const session = await getSession({ req });
+  const session = await getServerSession(req, res, AuthOptions);
 
   if (!session || !session.user) {
-    res.statusCode = 401;
     return {
       props: {},
       redirect: {
         destination: "/books",
+        permanent: false,
       },
     };
   }
 
-  const userId = await getUserId(session);
+  if (!session) {
+    throw new Error("No session");
+  }
+
+  if (!session.user) {
+    throw new Error("No user in session");
+  }
+
+  const email = session.user.email;
+  if (!email) {
+    throw new Error("No user email in session");
+  }
+
+  const userIdRes = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/profile/getIdByEmail`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email }),
+    }
+  );
+
+  if (!userIdRes.ok) {
+    throw new Error("Something went wrong while trying to receive user id");
+  }
+
+  const data = await userIdRes.json();
+  const userId = data.id;
 
   const orders = await prisma.order.findMany({
     where: {
@@ -58,8 +87,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       },
     },
   });
-
-  console.log(orders);
 
   return {
     props: {
