@@ -33,7 +33,7 @@ const CartGrid: FC = () => {
     const setNewCartBooksInfo = async () => {
       try {
         setIsLoading(true);
-        const res = await fetch(`${process.env.BASE_URL}/api/cart/findBooks`, {
+        const res = await fetch(`/api/cart/findBooks`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

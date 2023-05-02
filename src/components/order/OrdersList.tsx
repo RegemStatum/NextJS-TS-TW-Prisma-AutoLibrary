@@ -8,7 +8,7 @@ type Props = {
 
 const OrdersList: FC<Props> = ({ orders }) => {
   return (
-    <div>
+    <div className="space-y-3">
       {orders.map((order) => (
         <OrderListItem key={order.id} order={order} />
       ))}

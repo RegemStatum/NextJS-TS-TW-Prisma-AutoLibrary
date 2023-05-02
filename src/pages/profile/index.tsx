@@ -56,13 +56,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
               secondName: true,
             },
           },
-        },
-      },
-      Cabinet: {
-        select: {
-          id: true,
-          number: true,
-          isEmpty: true,
+          cabinet: {
+            select: {
+              id: true,
+              number: true,
+              isEmpty: true,
+            },
+          },
         },
       },
     },

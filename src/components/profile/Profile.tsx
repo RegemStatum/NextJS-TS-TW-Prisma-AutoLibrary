@@ -40,7 +40,7 @@ const Profile: FC<Props> = ({ orders }) => {
       </div>
       {/* orders */}
       <div>
-        <h2 className="mb-1 text-xl font-bold lg:mb-2 lg:text-2xl">
+        <h2 className="mb-2 text-xl font-bold lg:mb-2 lg:text-2xl">
           Your orders
         </h2>
         {!orders && <OrdersNoItems />}

@@ -1,19 +1,23 @@
+export type OrderInfoBook = {
+  id: string;
+  title: string;
+  author: {
+    firstName: string;
+    secondName: string;
+  };
+  cabinet: OrderInfoCabinet;
+};
+
+export type OrderInfoCabinet = {
+  id: string;
+  number: number;
+  isEmpty: boolean;
+} | null;
+
 type OrderInfo = {
   id: string;
   number: number;
-  Book: {
-    id: string;
-    title: string;
-    author: {
-      firstName: string;
-      secondName: string;
-    };
-  }[];
-  Cabinet: {
-    id: string;
-    number: number;
-    isEmpty: boolean;
-  }[];
+  Book: OrderInfoBook[];
 };
 
 export default OrderInfo;
