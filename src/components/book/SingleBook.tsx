@@ -79,7 +79,7 @@ const SingleBook: FC<Props> = ({ book }) => {
 
   return (
     <div>
-      <div className="xl:flex xl:justify-between xl:mb-3 xl:gap-8">
+      <div className="xl:flex xl:justify-between xl:mb-2 xl:gap-8">
         <div className="">
           {/* image  */}
           <div className="w-full h-[400px] my-2 bg-stone-100 relative xl:w-[500px]">
@@ -107,26 +107,28 @@ const SingleBook: FC<Props> = ({ book }) => {
           <SingleBookDescription description={book.description} />
         </div>
       </div>
-      <div className="xl:w-[500px] space-y-1">
-        <PrimaryButton
-          onClick={() => handleOrderBook()}
-          disabled={
-            book.currentQuantity <= 0 ||
-            !book.available ||
-            isAlreadyInCart ||
-            !session?.user
-          }
-        >
-          {!session?.user
-            ? "Sign in to access"
-            : isAlreadyInCart
-            ? "Already in cart"
-            : "Add to cart"}
-        </PrimaryButton>
-        <Link href="/books" className="block mb-3">
-          <SecondaryButton>Back to all books</SecondaryButton>
-        </Link>
-        {errorMsg && <BadgeError>{errorMsg}</BadgeError>}
+      <div className="mb-3 xl:w-[500px]">
+        <div className="flex flex-col gap-1 lg:flex-row">
+          <PrimaryButton
+            onClick={() => handleOrderBook()}
+            disabled={
+              book.currentQuantity <= 0 ||
+              !book.available ||
+              isAlreadyInCart ||
+              !session?.user
+            }
+          >
+            {!session?.user
+              ? "Sign in to access"
+              : isAlreadyInCart
+              ? "Already in cart"
+              : "Add to cart"}
+          </PrimaryButton>
+          <Link href="/books" className="w-[calc(50%_-_8px)] block shrink-0">
+            <SecondaryButton>Back to all books</SecondaryButton>
+          </Link>
+        </div>
+        {errorMsg && <BadgeError className="mt-2">{errorMsg}</BadgeError>}
       </div>
       <SingleBookInfo book={bookInfo} authorId={book.authorId} />
     </div>

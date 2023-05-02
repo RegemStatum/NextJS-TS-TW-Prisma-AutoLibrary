@@ -5,9 +5,10 @@ import { DeleteButton, PrimaryButton } from "../ui/buttons";
 
 interface Props {
   order: OrderInfo;
+  cancelOrder: (id: string) => void;
 }
 
-const OrderListItem: FC<Props> = ({ order }) => {
+const OrderListItem: FC<Props> = ({ order, cancelOrder }) => {
   return (
     <div className="p-3 space-y-3 rounded-sm outline outline-1 outline-stone-300 shadow-md lg:p-5">
       <h3 className="text-xl font-medium">
@@ -22,7 +23,9 @@ const OrderListItem: FC<Props> = ({ order }) => {
       </div>
       <div className="w-full flex flex-col gap-1 lg:w-[calc(50%_-_4px)] lg:flex-row lg:justify-between xl:w-[calc(33.33%_-_4px)]">
         <PrimaryButton>Receive order</PrimaryButton>
-        <DeleteButton>Cancel order</DeleteButton>
+        <DeleteButton onClick={async () => await cancelOrder(order.id)}>
+          Cancel order
+        </DeleteButton>
       </div>
     </div>
   );

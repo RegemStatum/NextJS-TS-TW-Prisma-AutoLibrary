@@ -8,6 +8,7 @@ import CartNoBooks from "./CartNoBooks";
 import CartGridItem from "./CartGridItem";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import getUserId from "@/utils/helpers/getUserId";
 
 const CartGrid: FC = () => {
   const { data: session } = useSession();
@@ -62,34 +63,9 @@ const CartGrid: FC = () => {
     return () => clearTimeout(timer);
   }, [errorMsg]);
 
-  const getUserId: () => Promise<string> = async () => {
-    if (!session || !session.user) {
-      throw new Error("No session or no user with id in session");
-    }
-
-    const res = await fetch(
-      `${process.env.BASE_URL}/api/profile/getIdByEmail`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: session.user.email }),
-      }
-    );
-
-    if (!res.ok) {
-      throw new Error("Something went wrong while trying to receive user id");
-    }
-
-    const data = await res.json();
-    const id = data.id;
-    return id;
-  };
-
   const createOrder = async () => {
-    const userId = await getUserId();
-    const res = await fetch(`${process.env.BASE_URL}/api/order/createOrder`, {
+    const userId = await getUserId(session);
+    const res = await fetch(`/api/order/createOrder`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -100,10 +76,13 @@ const CartGrid: FC = () => {
       }),
     });
 
+    const data = await res.json();
+
     if (!res.ok) {
-      throw new Error("Something went wrong while trying to create order");
+      throw new Error(
+        data.msg || "Something went wrong while trying to create order"
+      );
     }
-    return;
   };
 
   const handleOrder = async () => {
@@ -113,8 +92,9 @@ const CartGrid: FC = () => {
       cartContext.clearCart();
       router.push("/profile");
       setIsLoading(false);
-    } catch (e) {
+    } catch (e: any) {
       console.log(e);
+      setErrorMsg(e.message);
       setIsLoading(false);
     }
   };
@@ -154,7 +134,7 @@ const CartGrid: FC = () => {
         clearCart={cartContext.clearCart}
         handleOrder={handleOrder}
       />
-      {errorMsg && <BadgeError>{errorMsg}</BadgeError>}
+      {errorMsg && <BadgeError className="mt-2">{errorMsg}</BadgeError>}
     </div>
   );
 };

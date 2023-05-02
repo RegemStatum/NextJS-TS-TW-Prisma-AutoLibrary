@@ -10,7 +10,9 @@ const OrderListItemBooksGridItem: FC<Props> = ({ book }) => {
   return (
     <div className="p-2 bg-stone-50 lg:p-4 shadow-sm">
       <div>
-        <h4 className="font-medium leading-snug">{book.title}</h4>
+        <h4 className="font-medium leading-snug lg:min-h-[44px]">
+          {book.title}
+        </h4>
         <p>
           {book.author.firstName} {book.author.secondName}
         </p>

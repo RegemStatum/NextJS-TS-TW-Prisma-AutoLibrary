@@ -19,7 +19,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     res.statusCode = 401;
     return {
       props: {},
-      error: "No session",
       redirect: {
         destination: "/books",
       },
@@ -42,6 +41,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const orders = await prisma.order.findMany({
     where: {
       userId,
+      status: "ready",
     },
     select: {
       id: true,
