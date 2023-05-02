@@ -1,9 +1,39 @@
+import Home from "@/components/home/Home";
+import BookWithAuthorNameT from "@/types/BookWithAuthorNameT";
+import prisma from "@/utils/prisma";
+import { GetStaticProps } from "next";
 import React, { FC } from "react";
 
-const HomePage: FC = () => {
+type Props = {
+  books: BookWithAuthorNameT[];
+};
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const books = await prisma.book.findMany({
+    where: {
+      featured: true,
+    },
+    take: 3,
+    include: {
+      author: {
+        select: {
+          firstName: true,
+          secondName: true,
+        },
+      },
+    },
+  });
+
+  return {
+    props: { books },
+    revalidate: 86400,
+  };
+};
+
+const HomePage: FC<Props> = ({ books }) => {
   return (
     <div className="page-min-height">
-      <h1>Home</h1>
+      <Home books={books} />
     </div>
   );
 };

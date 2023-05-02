@@ -32,6 +32,7 @@ export default async function handler(
     },
     data: {
       status: "canceled",
+      updatedAt: new Date().toISOString(),
     },
     select: {
       id: true,
