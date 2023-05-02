@@ -1,5 +1,6 @@
 import Profile from "@/components/profile/Profile";
 import OrderInfo from "@/types/OrderInfo";
+import getUserId from "@/utils/helpers/getUserId";
 import prisma from "@/utils/prisma";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
@@ -26,18 +27,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     };
   }
 
-  const getIdRes = await fetch(
-    `${process.env.BASE_URL}/api/profile/getIdByEmail`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: session.user.email }),
-    }
-  );
-  const data = await getIdRes.json();
-  const userId = data.userId;
+  const userId = await getUserId(session);
 
   const orders = await prisma.order.findMany({
     where: {
@@ -68,6 +58,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       },
     },
   });
+
+  console.log(orders);
 
   return {
     props: {

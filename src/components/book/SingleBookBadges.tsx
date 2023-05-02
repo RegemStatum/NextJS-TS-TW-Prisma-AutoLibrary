@@ -24,6 +24,7 @@ const SingleBookBadges: FC<Props> = ({ featured, available, quantity }) => {
       {available && quantity > 0 && quantity <= 5 && (
         <BadgePending>{quantity} left</BadgePending>
       )}
+      {available && quantity === 0 && <BadgeError>{quantity} left</BadgeError>}
     </div>
   );
 };
