@@ -1,25 +1,64 @@
 import React, { FC, useEffect, useState } from "react";
-import { signIn } from "next-auth/react";
-import PrimaryButton from "../ui/buttons/PrimaryButton";
-import Input from "../ui/forms/Input";
+import { signIn, useSession } from "next-auth/react";
 import { SecondaryButton } from "../ui/buttons";
 import Link from "next/link";
-import { BadgeError, BadgePending } from "../ui/badges";
 import AuthForm from "./AuthForm";
 import FormSeparator from "./FormSeparator";
+import { useRouter } from "next/router";
 
-interface Props {
-  error?: string;
-}
-
-const Signup: FC<Props> = ({ error }) => {
+const Signup: FC = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
   const [userData, setUserData] = useState({ email: "", password: "" });
   const [validationError, setValidationError] = useState({
     inputName: "email",
     msg: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [serverAuthError, setServerAuthError] = useState(error);
+  const [serverAuthError, setServerAuthError] = useState("");
+
+  useEffect(() => {
+    if (!session) return;
+    const redirectToHome = async () => {
+      setIsLoading(true);
+      await router.push("/");
+      setIsLoading(false);
+    };
+    redirectToHome();
+  }, [session, router]);
+
+  useEffect(() => {
+    let error = router.query.error;
+    if (error) {
+      error = typeof error === "string" ? error : error.join(" ");
+      setServerAuthError(error);
+    }
+  }, [router.query]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (validationError.msg) {
+      timer = setTimeout(() => {
+        setValidationError({
+          inputName: "",
+          msg: "",
+        });
+      }, 5000);
+    }
+    return () => clearTimeout(timer);
+  }, [validationError]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (serverAuthError) {
+      timer = setTimeout(() => {
+        setServerAuthError("");
+      }, 10000);
+    }
+    return () => clearTimeout(timer);
+  }, [serverAuthError]);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -104,31 +143,6 @@ const Signup: FC<Props> = ({ error }) => {
     };
     setUserData(newUserData);
   };
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-
-    if (validationError.msg) {
-      timer = setTimeout(() => {
-        setValidationError({
-          inputName: "",
-          msg: "",
-        });
-      }, 5000);
-    }
-
-    return () => clearTimeout(timer);
-  }, [validationError, validationError.msg]);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-
-    if (serverAuthError) {
-      timer = setTimeout(() => {
-        setServerAuthError("");
-      }, 10000);
-    }
-  }, [serverAuthError]);
 
   return (
     <div className="w-full mx-auto p-4 bg-stone-100 shadow-lg rounded-sm shrink-0 max-w-[500px] lg:p-8">
