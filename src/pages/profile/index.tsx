@@ -3,6 +3,7 @@ import OrderInfo from "@/types/OrderInfo";
 import prisma from "@/utils/prisma";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
+import Head from "next/head";
 import React, { FC } from "react";
 
 type Props = {
@@ -77,9 +78,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
 const ProfilePage: FC<Props> = ({ orders }) => {
   return (
-    <div className="page-min-height">
-      <Profile orders={orders} />
-    </div>
+    <>
+      <Head>
+        <title>Auto Library | Profile</title>
+        <meta name="description" content="Auto Library user profile" />
+      </Head>
+      <div className="page-min-height">
+        <Profile orders={orders} />
+      </div>
+    </>
   );
 };
 

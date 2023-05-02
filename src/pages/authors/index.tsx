@@ -3,6 +3,7 @@ import prisma from "@/utils/prisma";
 import { GetStaticProps } from "next";
 import AuthorWithBooksT from "@/types/AuthorWithBooksT";
 import AuthorList from "@/components/author/AuthorList";
+import Head from "next/head";
 
 type Props = {
   authors: AuthorWithBooksT[];
@@ -42,9 +43,15 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 const AuthorsPage: FC<Props> = ({ authors }) => {
   return (
-    <div className="page-min-height">
-      <AuthorList authors={authors} />
-    </div>
+    <>
+      <Head>
+        <title>Auto Library | Authors</title>
+        <meta name="description" content="Auto Library authors" />
+      </Head>
+      <div className="page-min-height">
+        <AuthorList authors={authors} />
+      </div>
+    </>
   );
 };
 

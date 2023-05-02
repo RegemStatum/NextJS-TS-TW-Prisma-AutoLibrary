@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import prisma from "@/utils/prisma";
 import SingleBook from "@/components/book/SingleBook";
 import { Book } from "@prisma/client";
+import Head from "next/head";
 
 interface SingleBookT extends Book {
   author: {
@@ -75,9 +76,18 @@ export const getStaticProps: GetStaticProps<Props> = async (context) => {
 
 const SingleBookPage: FC<Props> = ({ book }) => {
   return (
-    <div className="page-min-height xl:flex xl:items-center xl:justify-left">
-      <SingleBook book={book} />
-    </div>
+    <>
+      <Head>
+        <title>Auto Library | {book?.title || "Book"}</title>
+        <meta
+          name="description"
+          content={book?.description || "Auto Library single book page"}
+        />
+      </Head>
+      <div className="page-min-height xl:flex xl:items-center xl:justify-left">
+        <SingleBook book={book} />
+      </div>
+    </>
   );
 };
 

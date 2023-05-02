@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import prisma from "@/utils/prisma";
 import BookGrid from "@/components/book/BookGrid";
 import BookWithAuthorNameT from "@/types/BookWithAuthorNameT";
+import Head from "next/head";
 
 type Props = {
   books: BookWithAuthorNameT[];
@@ -27,7 +28,15 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 const BooksPage: FC<Props> = ({ books }) => {
-  return <BookGrid books={books} />;
+  return (
+    <>
+      <Head>
+        <title>Auto Library | Books</title>
+        <meta name="description" content="Auto Library books page" />
+      </Head>
+      <BookGrid books={books} />
+    </>
+  );
 };
 
 export default BooksPage;
