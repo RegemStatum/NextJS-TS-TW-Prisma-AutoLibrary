@@ -33,7 +33,7 @@ const CartGrid: FC = () => {
     const setNewCartBooksInfo = async () => {
       try {
         setIsLoading(true);
-        const res = await fetch("/api/cart/findBooks", {
+        const res = await fetch(`${process.env.BASE_URL}/api/cart/findBooks`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -67,13 +67,16 @@ const CartGrid: FC = () => {
       throw new Error("No session or no user with id in session");
     }
 
-    const res = await fetch("/api/profile/getIdByEmail", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: session.user.email }),
-    });
+    const res = await fetch(
+      `${process.env.BASE_URL}/api/profile/getIdByEmail`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: session.user.email }),
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Something went wrong while trying to receive user id");
@@ -86,7 +89,7 @@ const CartGrid: FC = () => {
 
   const createOrder = async () => {
     const userId = await getUserId();
-    const res = await fetch("/api/order/createOrder", {
+    const res = await fetch(`${process.env.BASE_URL}/api/order/createOrder`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -4,7 +4,11 @@ import prisma from "@/utils/prisma";
 import BookGrid from "@/components/book/BookGrid";
 import BookWithAuthorNameT from "@/types/BookWithAuthorNameT";
 
-export const getStaticProps: GetStaticProps = async () => {
+type Props = {
+  books: BookWithAuthorNameT[];
+};
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
   const books = await prisma.book.findMany({
     include: {
       author: {
@@ -20,10 +24,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: { books },
     revalidate: 86400,
   };
-};
-
-type Props = {
-  books: BookWithAuthorNameT[];
 };
 
 const BooksPage: FC<Props> = ({ books }) => {

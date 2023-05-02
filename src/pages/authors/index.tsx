@@ -4,7 +4,11 @@ import { GetStaticProps } from "next";
 import AuthorWithBooksT from "@/types/AuthorWithBooksT";
 import AuthorList from "@/components/author/AuthorList";
 
-export const getStaticProps: GetStaticProps = async () => {
+type Props = {
+  authors: AuthorWithBooksT[];
+};
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
   const authors = await prisma.author.findMany({
     include: {
       books: {
@@ -27,7 +31,6 @@ export const getStaticProps: GetStaticProps = async () => {
       birthDate: JSON.stringify(author.birthDate),
       deathDate: JSON.stringify(author.deathDate),
     };
-
     return newAuthor;
   });
 
@@ -35,10 +38,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: { authors: authorsToJson },
     revalidate: 86400,
   };
-};
-
-type Props = {
-  authors: AuthorWithBooksT[];
 };
 
 const AuthorsPage: FC<Props> = ({ authors }) => {

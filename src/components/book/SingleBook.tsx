@@ -9,6 +9,7 @@ import { useCartContext } from "@/context/CartContext";
 import { useSession } from "next-auth/react";
 import { BadgeError } from "../ui/badges";
 import Link from "next/link";
+import SingleBookNotFound from "./SingleBookNotFound";
 
 interface SingleBookT extends Book {
   author: {
@@ -19,7 +20,7 @@ interface SingleBookT extends Book {
 }
 
 type Props = {
-  book: SingleBookT;
+  book?: SingleBookT;
 };
 
 const SingleBook: FC<Props> = ({ book }) => {
@@ -29,10 +30,25 @@ const SingleBook: FC<Props> = ({ book }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
+    if (!book) return;
     const isBookInCart =
       cartContext.cartBooksIds.findIndex((bookId) => bookId === book.id) !== -1;
     setIsAlreadyInCart(isBookInCart);
-  }, [cartContext.cartBooksIds, book.id]);
+  }, [cartContext.cartBooksIds, book]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timer;
+    if (errorMsg !== "") {
+      timer = setTimeout(() => {
+        setErrorMsg("");
+      }, 5000);
+    }
+    return () => clearTimeout(timer);
+  }, [errorMsg]);
+
+  if (!book) {
+    return <SingleBookNotFound />;
+  }
 
   const bookInfo = {
     id: book.id,
@@ -60,16 +76,6 @@ const SingleBook: FC<Props> = ({ book }) => {
       setErrorMsg(e.message);
     }
   };
-
-  useEffect(() => {
-    let timer: NodeJS.Timer;
-    if (errorMsg !== "") {
-      timer = setTimeout(() => {
-        setErrorMsg("");
-      }, 5000);
-    }
-    return () => clearTimeout(timer);
-  }, [errorMsg]);
 
   return (
     <div>
@@ -101,7 +107,7 @@ const SingleBook: FC<Props> = ({ book }) => {
           <SingleBookDescription description={book.description} />
         </div>
       </div>
-      <div className="xl:w-[500px] space-y-1 xl:space-y-2">
+      <div className="xl:w-[500px] space-y-1">
         <PrimaryButton
           onClick={() => handleOrderBook()}
           disabled={

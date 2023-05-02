@@ -4,6 +4,18 @@ import prisma from "@/utils/prisma";
 import SingleBook from "@/components/book/SingleBook";
 import { Book } from "@prisma/client";
 
+interface SingleBookT extends Book {
+  author: {
+    firstName: string;
+    secondName: string;
+    authorImgUrl: string;
+  };
+}
+
+type Props = {
+  book?: SingleBookT;
+};
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const bookIds = await prisma.book.findMany({
     select: {
@@ -18,10 +30,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps<Props> = async (context) => {
   if (!context.params) {
     return {
       props: {},
+      error: "No context params",
+      redirect: "/books",
     };
   }
 
@@ -43,23 +57,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
     },
   });
 
+  if (!book) {
+    console.log(`There is no book with id ${bookId}`);
+    return {
+      props: {},
+      redirect: "/books",
+    };
+  }
+
   return {
     props: {
       book,
     },
   };
-};
-
-interface SingleBookT extends Book {
-  author: {
-    firstName: string;
-    secondName: string;
-    authorImgUrl: string;
-  };
-}
-
-type Props = {
-  book: SingleBookT;
 };
 
 const SingleBookPage: FC<Props> = ({ book }) => {

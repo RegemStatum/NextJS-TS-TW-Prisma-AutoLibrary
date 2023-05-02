@@ -6,7 +6,13 @@ export type BookShortInfo = Pick<
   "title" | "bookImgUrl" | "available" | "id"
 >;
 
-interface AuthorWithBooksT extends Author {
+interface AuthorWithStringifiedDates
+  extends Omit<Author, "birthDate" | "deathDate"> {
+  birthDate: string;
+  deathDate: string | null;
+}
+
+interface AuthorWithBooksT extends AuthorWithStringifiedDates {
   books: BookShortInfo[];
 }
 

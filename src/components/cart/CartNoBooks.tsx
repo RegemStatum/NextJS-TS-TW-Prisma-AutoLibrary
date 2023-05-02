@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { FC } from "react";
 
 const CartNoBooks: FC = () => {
@@ -6,9 +7,12 @@ const CartNoBooks: FC = () => {
       <h2 className="text-xl font-medium lg:text-3xl">
         There are no books yet
       </h2>
-      <p className="pt-1 text-normal lg:pt-2 lg:text-xl">
+      <Link
+        href="/books"
+        className="pt-1 text-normal text-blue-600 underline lg:pt-2 lg:text-xl"
+      >
         Add books to your cart
-      </p>
+      </Link>
     </div>
   );
 };

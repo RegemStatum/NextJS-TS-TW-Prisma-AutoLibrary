@@ -7,7 +7,9 @@ interface Props {
   error?: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
   const { req, query } = context;
   const session = await getSession({ req });
 
@@ -20,16 +22,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  if (query.error) {
+  if (!query.error) {
     return {
-      props: {
-        error: query.error,
-      },
+      props: {},
     };
   }
 
+  const error =
+    typeof query.error === "string" ? query.error : query.error.join(" ");
   return {
-    props: {},
+    props: {
+      error,
+    },
   };
 };
 
