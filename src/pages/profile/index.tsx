@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   }
 
   const userIdRes = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/profile/getIdByEmail`,
+    `${process.env.BASE_URL}/api/profile/getIdByEmail`,
     {
       method: "POST",
       headers: {
