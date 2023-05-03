@@ -156,6 +156,7 @@ const Signup: FC = () => {
         validationError={validationError}
         serverAuthError={serverAuthError}
         isLoading={isLoading}
+        type="signup"
       />
       <FormSeparator />
       <SecondaryButton

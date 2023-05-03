@@ -108,7 +108,7 @@ const SingleBook: FC<Props> = ({ book }) => {
         </div>
       </div>
       <div className="mb-3 xl:w-[500px]">
-        <div className="flex flex-col gap-1 lg:flex-row">
+        <div className="flex flex-col gap-1 sm:flex-row">
           <PrimaryButton
             onClick={() => handleOrderBook()}
             disabled={
@@ -124,7 +124,10 @@ const SingleBook: FC<Props> = ({ book }) => {
               ? "Already in cart"
               : "Add to cart"}
           </PrimaryButton>
-          <Link href="/books" className="w-[calc(50%_-_8px)] block shrink-0">
+          <Link
+            href="/books"
+            className="w-full sm:w-[calc(50%_-_8px)] block shrink-0"
+          >
             <SecondaryButton>Back to all books</SecondaryButton>
           </Link>
         </div>

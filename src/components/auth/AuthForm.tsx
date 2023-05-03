@@ -16,6 +16,7 @@ interface Props {
   };
   serverAuthError: string | undefined;
   isLoading: boolean;
+  type: "signin" | "signup";
 }
 
 const AuthForm: FC<Props> = ({
@@ -25,6 +26,7 @@ const AuthForm: FC<Props> = ({
   validationError,
   serverAuthError,
   isLoading,
+  type,
 }) => {
   return (
     <form onSubmit={handleSubmit}>
@@ -56,7 +58,7 @@ const AuthForm: FC<Props> = ({
         {serverAuthError && <BadgeError>{serverAuthError}</BadgeError>}
       </div>
       <PrimaryButton className="mt-5 lg:mt-7" type="submit">
-        Sign in
+        {type === "signin" ? "Sign in" : "Sign up"}
       </PrimaryButton>
     </form>
   );

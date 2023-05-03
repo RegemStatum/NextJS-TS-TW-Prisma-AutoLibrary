@@ -156,6 +156,7 @@ const Signin: FC = () => {
         validationError={validationError}
         serverAuthError={serverAuthError}
         isLoading={isLoading}
+        type="signin"
       />
       <FormSeparator />
       <SecondaryButton
