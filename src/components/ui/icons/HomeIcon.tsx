@@ -5,7 +5,7 @@ export default function HomeIcon(props: SVGAttributes<SVGElement>) {
     <svg
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.75"
+      strokeWidth="1.5"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"

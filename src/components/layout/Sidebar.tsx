@@ -13,15 +13,16 @@ const Sidebar: FC = () => {
 
   return (
     <aside
-      className={`absolute z-10 py-4 h-screen top-0 bg-stone-100 ${
+      className={`h-screen py-2 fixed z-10 top-0 overflow-hidden bg-neutral-100 ${
         appContext.isSidebarOpen ? "w-full" : "w-0 p-0 hidden"
-      }  lg:hidden`}
+      } md:py-3 lg:hidden`}
     >
       <div className="container flex justify-between">
         <Logo />
         <XMarkIcon
-          width={42}
-          className="ml-auto"
+          width={30}
+          strokeWidth={1.5}
+          className="ml-auto mr-[1px] cursor-pointer"
           onClick={appContext.closeSidebar}
         />
       </div>

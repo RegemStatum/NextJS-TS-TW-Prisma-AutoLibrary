@@ -145,7 +145,7 @@ const Signin: FC = () => {
   };
 
   return (
-    <div className="w-full mx-auto p-4 bg-stone-100 shadow-lg rounded-sm shrink-0 max-w-[500px] lg:p-8">
+    <div className="w-full mx-auto p-4 bg-neutral-100 shadow-lg rounded-md shrink-0 max-w-[500px] lg:p-8">
       <h2 className="pt-2 pb-6 text-2xl text-center lg:pt-4 lg:pb-12 lg:text-3xl">
         Sign In
       </h2>

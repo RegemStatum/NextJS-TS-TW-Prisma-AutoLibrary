@@ -7,15 +7,13 @@ const Logo: FC = () => {
   const appContext = useAppContext();
 
   return (
-    <Link
-      href="/"
-      onClick={appContext.closeSidebar}
-      className="hover:text-sky-500"
-    >
-      <div className="flex items-center gap-2">
-        <LogoBookIcon width={42} />
-        <h2 className="font-black text-3xl hidden tracking-wide lg:block">
-          AutoLibrary
+    <Link href="/" onClick={appContext.closeSidebar} className="group">
+      <div className="flex items-center ">
+        <div className="w-[40px] p-1">
+          <LogoBookIcon strokeWidth={1.3} className="text-neutral-800" />
+        </div>
+        <h2 className="inline-block text-xl font-medium text-neutral-800 tracking-wide">
+          autolib
         </h2>
       </div>
     </Link>

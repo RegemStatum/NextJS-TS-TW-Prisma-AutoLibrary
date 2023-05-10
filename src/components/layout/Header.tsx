@@ -12,16 +12,15 @@ const Header: FC = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="container py-4 flex flex-row items-center justify-between lg:py-8">
+    <header className="container mb-2 py-2 sticky top-0 z-10 flex flex-row items-center justify-between bg-neutral-50 border-b lg:relative md:mb-3 md:py-3">
       <Logo />
       <MenuBars
-        width={42}
         onClick={appContext.openSidebar}
-        className="lg:hidden"
+        className="mr-[2px] cursor-pointer lg:hidden"
       />
-      <div className="hidden lg:flex items-center gap-4">
+      <div className="hidden lg:flex lg:items-center lg:gap-4">
         <HeaderLinks />
-        <div className="ml-4 space-x-2 lg:flex">
+        <div className="lg:flex lg:gap-2">
           <ShoppingCartLink session={session} />
           <HeaderAuthButton session={session} />
         </div>

@@ -82,7 +82,7 @@ const SingleBook: FC<Props> = ({ book }) => {
       <div className="xl:flex xl:justify-between xl:mb-2 xl:gap-8">
         <div className="">
           {/* image  */}
-          <div className="w-full h-[400px] my-2 bg-stone-100 relative xl:w-[500px]">
+          <div className="w-full h-[400px] my-2 bg-neutral-100 relative xl:w-[500px]">
             <Image
               src={book.bookImgUrl}
               alt={book.title}

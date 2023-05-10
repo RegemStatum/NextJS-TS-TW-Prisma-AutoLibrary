@@ -12,13 +12,13 @@ const HeaderAuthButton: FC<Props> = ({ session }) => {
   return session?.user ? (
     <Link
       href="/profile"
-      className={`w-[48px] h-[48px] p-1 group inline-block relative rounded-sm shrink-0 hover:bg-stone-100  hover:text-sky-500`}
+      className={`w-[40px] h-[40px] p-1 group inline-block relative rounded-md shrink-0 hover:bg-neutral-100  hover:text-blue-500`}
     >
-      <UserIcon />
+      <UserIcon strokeWidth={1.3} />
     </Link>
   ) : (
     <Link href="/auth/signin">
-      <PrimaryButton className="w-fit lg:px-6 lg:py-3">Sign in</PrimaryButton>
+      <PrimaryButton>Sign in</PrimaryButton>
     </Link>
   );
 };

@@ -21,10 +21,10 @@ const SidebarAuthButton: FC<Props> = ({ session }) => {
   return session ? (
     <Link
       href="/profile"
-      className="w-fit mx-auto flex gap-3 hover:text-sky-500"
+      className="w-fit mx-auto flex gap-3 hover:text-blue-500"
       onClick={() => handleLinkClick()}
     >
-      <div className={`w-[32px] h-[32px] inline-block rounded-sm shrink-0`}>
+      <div className={`w-[32px] h-[32px] inline-block rounded-md shrink-0`}>
         <UserIcon />
       </div>
       <p className="w-[100px] text-2xl font-medium">Profile</p>
@@ -32,12 +32,10 @@ const SidebarAuthButton: FC<Props> = ({ session }) => {
   ) : (
     <Link
       href="/auth/signin"
-      className="w-fit mx-auto"
+      className="shrink-0 flex justify-center"
       onClick={() => handleLinkClick()}
     >
-      <PrimaryButton className="w-fit text-lg px-[4rem] py-3">
-        Sign in
-      </PrimaryButton>
+      <PrimaryButton className="max-w-[144px] text-lg">Sign in</PrimaryButton>
     </Link>
   );
 };

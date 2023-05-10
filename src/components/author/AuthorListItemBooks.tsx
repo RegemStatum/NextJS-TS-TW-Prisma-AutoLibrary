@@ -15,7 +15,7 @@ const AuthorListItemBooks: FC<Props> = ({ books }) => {
             <Link
               href={`/books/${book.id}`}
               key={book.id}
-              className="pt-4 rounded-sm hover:bg-stone-200 lg:px-4 lg:py-6"
+              className="pt-4 rounded-md hover:bg-neutral-200 lg:px-4 lg:py-6"
             >
               <div className="flex gap-2">
                 <div className=" w-[100px] h-[100px] rounded-full overflow-hidden relative shrink-0">

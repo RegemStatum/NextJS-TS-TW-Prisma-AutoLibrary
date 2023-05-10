@@ -8,7 +8,9 @@ interface Props {
 const BadgePending: FC<Props> = ({ children, className }) => {
   return (
     <div
-      className={`p-1 rounded-sm text-sm font-bold bg-yellow-300 text-yellow-900 lg:text-lg ${className ?? ""}`}
+      className={`px-1 rounded-md text-sm font-medium bg-yellow-300 text-yellow-900 lg:text-lg ${
+        className ?? ""
+      }`}
     >
       {children}
     </div>

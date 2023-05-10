@@ -13,9 +13,9 @@ const CartGridItem: FC<Props> = ({ cartBook, bookOrderIndex }) => {
   const cartContext = useCartContext();
 
   return (
-    <div className="rounded-sm shadow-md border border-stone-200">
+    <div className="rounded-md shadow-md border border-neutral-200">
       {/* image */}
-      <div className="w-full min-h-[300px] rounded-sm overflow-hidden relative shrink-0 bg-stone-100 ">
+      <div className="w-full min-h-[300px] rounded-md overflow-hidden relative shrink-0 bg-neutral-100 ">
         <Image
           src={cartBook.bookImgUrl}
           alt={cartBook.title}

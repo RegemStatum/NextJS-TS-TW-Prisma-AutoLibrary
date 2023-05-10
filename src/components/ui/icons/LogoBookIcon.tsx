@@ -4,19 +4,13 @@ const LogoBookIcon: FC<SVGAttributes<SVGElement>> = (props) => {
   return (
     <svg
       fill="none"
-      stroke="url(#linear-gradient)"
-      strokeWidth={1.75}
+      stroke="currentColor"
+      strokeWidth={1.5}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
       {...props}
     >
-      <defs>
-        <linearGradient id="linear-gradient" x1="0%" y1="75%" x2="0%" y2="0%">
-          <stop offset="0%" stopColor="#0ea5e9" /> {/* Start color */}
-          <stop offset="100%" stopColor="#22c55e" /> {/* End color */}
-        </linearGradient>
-      </defs>
       <path
         fill="none"
         strokeLinecap="round"

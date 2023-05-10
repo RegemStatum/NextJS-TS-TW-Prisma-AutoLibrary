@@ -8,7 +8,7 @@ interface Props {
 const BadgeInfo: FC<Props> = ({ children, className }) => {
   return (
     <div
-      className={`p-1 rounded-sm text-sm font-bold bg-sky-300 text-sky-900 lg:text-lg ${
+      className={`px-1 rounded-md text-sm font-medium bg-sky-300 text-sky-900 lg:text-lg ${
         className ?? ""
       }`}
     >

@@ -8,9 +8,11 @@ interface Props {
 const BadgeError: FC<Props> = ({ children, className }) => {
   return (
     <div
-      className={`p-1 rounded-sm text-sm font-bold bg-red-300 text-red-900 lg:text-lg ${className ?? ''}`}
+      className={`px-1 rounded-md text-sm font-medium bg-red-300 text-red-900 lg:text-lg ${
+        className ?? ""
+      }`}
     >
-     {children}
+      {children}
     </div>
   );
 };

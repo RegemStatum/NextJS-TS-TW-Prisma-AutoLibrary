@@ -8,7 +8,7 @@ const DeleteButton: FC<Props> = ({ children, ...rest }) => {
   return (
     <button
       {...rest}
-      className={`w-full p-2 bg-red-500 text-white font-bold rounded-sm select-none hover:bg-red-700 disabled:bg-red-200 disabled:text-red-400 lg:text-xl ${
+      className={`block w-full py-2 px-4 bg-blue-600 text-slate-50 font-medium rounded-md select-none hover:bg-blue-700 disabled:bg-neutral-200 disabled:text-neutral-400 ${
         rest.className ?? ""
       }`}
     >

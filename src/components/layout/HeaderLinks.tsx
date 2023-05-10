@@ -12,7 +12,7 @@ const HeaderLinks: FC = () => {
           <Link
             key={id}
             href={path}
-            className="h-fit px-6 py-2 text-xl font-bold hover:bg-stone-100  hover:text-sky-500 rounded-sm"
+            className="h-fit px-5 py-2 font-medium hover:bg-neutral-100  hover:text-blue-500 rounded-md"
           >
             {name}
           </Link>

@@ -15,7 +15,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body className="text-slate-900">
+      <body>
         <Main />
         <NextScript />
       </body>
