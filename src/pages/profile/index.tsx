@@ -1,11 +1,12 @@
 import Profile from "@/components/profile/Profile";
-import OrderInfo from "@/types/OrderInfo";
+import OrderInfo from "@/types/misc/OrderInfo";
 import prisma from "@/utils/prisma";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth/next";
 import Head from "next/head";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { AuthOptions } from "../api/auth/[...nextauth]";
+import { useProfileContext } from "@/context/ProfileContext";
 
 type Props = {
   orders?: OrderInfo[];
@@ -96,6 +97,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 };
 
 const ProfilePage: FC<Props> = ({ orders }) => {
+  const { setOrders } = useProfileContext();
+
+  // setOrders is memoized
+  useEffect(() => {
+    setOrders(orders || []);
+  }, [orders, setOrders]);
+
   return (
     <>
       <Head>
@@ -103,7 +111,7 @@ const ProfilePage: FC<Props> = ({ orders }) => {
         <meta name="description" content="Auto Library user profile" />
       </Head>
       <div className="page-min-height">
-        <Profile orders={orders} />
+        <Profile />
       </div>
     </>
   );

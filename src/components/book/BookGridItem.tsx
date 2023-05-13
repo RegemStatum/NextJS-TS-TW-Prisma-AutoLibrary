@@ -30,10 +30,10 @@ const Book: FC<Props> = (book) => {
             {book.title}
           </h4>
           <div>
-            <p className="pt-1 text-sm leading-relaxed line-clamp-5 lg:text-lg lg:pt-2">
+            <p className="pt-1 text-sm leading-relaxed line-clamp-5 lg:text-normal lg:pt-2">
               {book.description}
             </p>
-            <div className="py-2 flex flex-row items-center gap-2 text-sm lg:text-lg">
+            <div className="py-2 flex flex-row items-center gap-2 text-sm lg:text-normal">
               <p>{`${book.author.firstName} ${book.author.secondName}`}</p>
               <p> | </p>
               <p>{book.publicationYear}</p>

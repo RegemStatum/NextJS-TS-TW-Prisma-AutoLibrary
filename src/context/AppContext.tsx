@@ -1,28 +1,21 @@
+import { AppContextValue } from "@/types/context";
 import React, { FC, createContext, useContext, useState } from "react";
 
 type Props = {
   children: React.ReactNode;
 };
 
-type AppContextValue = {
-  isSidebarOpen: boolean;
-  openSidebar: () => void;
-  closeSidebar: () => void;
-};
-
-const AppContextDefaultValue: AppContextValue = {
+const AppContextInitialValue: AppContextValue = {
   isSidebarOpen: false,
   openSidebar: () => {},
   closeSidebar: () => {},
 };
 
-const AppContext = createContext<AppContextValue>(
-  AppContextDefaultValue
-);
+const AppContext = createContext<AppContextValue>(AppContextInitialValue);
 
 const AppContextProvider: FC<Props> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(
-    AppContextDefaultValue.isSidebarOpen
+    AppContextInitialValue.isSidebarOpen
   );
 
   const openSidebar = () => {

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BadgeError, BadgeSuccess } from "../ui/badges";
-import AuthorWithBooksT from "@/types/AuthorWithBooksT";
+import AuthorWithBooksT from "@/types/misc/AuthorWithBooksT";
 
 type Props = Pick<AuthorWithBooksT, "books">;
 

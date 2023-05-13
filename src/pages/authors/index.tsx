@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import prisma from "@/utils/prisma";
 import { GetStaticProps } from "next";
-import AuthorWithBooksT from "@/types/AuthorWithBooksT";
+import AuthorWithBooksT from "@/types/misc/AuthorWithBooksT";
 import AuthorList from "@/components/author/AuthorList";
 import Head from "next/head";
 

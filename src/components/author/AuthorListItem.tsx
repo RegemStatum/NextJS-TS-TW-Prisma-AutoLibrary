@@ -1,4 +1,4 @@
-import AuthorWithBooksT from "@/types/AuthorWithBooksT";
+import AuthorWithBooksT from "@/types/misc/AuthorWithBooksT";
 import React, { FC, useEffect, useState } from "react";
 import PrimaryButton from "../ui/buttons/PrimaryButton";
 import SecondaryButton from "../ui/buttons/SecondaryButton";

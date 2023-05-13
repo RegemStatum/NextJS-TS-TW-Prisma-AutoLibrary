@@ -1,14 +1,21 @@
-import OrderInfo from "@/types/OrderInfo";
-import React, { FC } from "react";
+import OrderInfo from "@/types/misc/OrderInfo";
+import React, { FC, useState } from "react";
 import OrderListItemBooksList from "./OrderListItemBooksGrid";
 import { DeleteButton, PrimaryButton } from "../ui/buttons";
 
 interface Props {
   order: OrderInfo;
   cancelOrder: (id: string) => void;
+  changeCabinetsState: (cabinets: number[], type: "open" | "close") => void;
 }
 
-const OrderListItem: FC<Props> = ({ order, cancelOrder }) => {
+const OrderListItem: FC<Props> = ({
+  order,
+  cancelOrder,
+  changeCabinetsState,
+}) => {
+  const [isReceived, setIsReceived] = useState(false);
+
   return (
     <div className="p-3 space-y-3 rounded-md outline outline-1 outline-neutral-300 shadow-md lg:p-5">
       <h3 className="text-xl font-medium">

@@ -1,4 +1,4 @@
-import AuthorWithBooksT from "@/types/AuthorWithBooksT";
+import AuthorWithBooksT from "@/types/misc/AuthorWithBooksT";
 import React, { FC } from "react";
 import AuthorListItem from "./AuthorListItem";
 

@@ -6,19 +6,13 @@ import React, {
   useState,
 } from "react";
 import { MAX_BOOKS_IN_ORDER } from "@/utils/constants/misc";
+import { CartContextValue } from "@/types/context";
 
 type Props = {
   children: React.ReactNode;
 };
 
-type CartContextValueT = {
-  cartBooksIds: string[];
-  addBookToCart: (id: string) => void;
-  removeBookFromCart: (id: string) => void;
-  clearCart: () => void;
-};
-
-const contextDefaultValue: CartContextValueT = {
+const contextDefaultValue: CartContextValue = {
   cartBooksIds: [],
   addBookToCart: () => {},
   removeBookFromCart: () => {},
