@@ -4,7 +4,7 @@ import { BadRequestError, CustomApiError } from "@/utils/errors";
 import { Order } from "@prisma/client";
 
 type Data = {
-  deletedOrder: Order;
+  returnedOrder: Order;
   userOrders: Order[];
   msg: string;
 };
@@ -25,18 +25,24 @@ export default async function handler(
     throw new BadRequestError("Provide user id");
   }
 
-  // delete order
-  const deletedOrder = await prisma.order.delete({
+  // Warning return order only if order status is received and not cancelled
+
+  // return order
+  const returnedOrder = await prisma.order.update({
     where: {
       id: orderId,
+    },
+    data: {
+      status: "returned",
+      updatedAt: new Date().toISOString(),
     },
     select: {
       id: true,
       number: true,
       status: true,
-      userId: true,
       createdAt: true,
       updatedAt: true,
+      userId: true,
       Book: {
         select: {
           id: true,
@@ -45,16 +51,16 @@ export default async function handler(
     },
   });
 
-  if (!deletedOrder) {
-    throw new CustomApiError(`Order with ${orderId} was not deleted`);
+  if (!returnedOrder) {
+    throw new CustomApiError(`Order with ${orderId} was not returned`);
   }
 
-  const deletedOrderBooksIds = deletedOrder.Book.map((book) => book.id);
-  // increment to books quantity
+  const returnedOrderBooksIds = returnedOrder.Book.map((book) => book.id);
+  // decrement to books quantity
   await prisma.book.updateMany({
     where: {
       id: {
-        in: deletedOrderBooksIds,
+        in: returnedOrderBooksIds,
       },
     },
     data: {
@@ -66,8 +72,7 @@ export default async function handler(
 
   const userOrders = await prisma.order.findMany({
     where: {
-      id: userId,
-      status: "ready",
+      userId,
     },
     select: {
       id: true,
@@ -99,8 +104,8 @@ export default async function handler(
   });
 
   res.status(200).json({
-    deletedOrder,
+    returnedOrder,
     userOrders,
-    msg: `Order with id ${orderId} was deleted`,
+    msg: `Order with id ${orderId} was returned`,
   });
 }

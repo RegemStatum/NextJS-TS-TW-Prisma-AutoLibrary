@@ -44,6 +44,16 @@ const ProfileContextProvider: FC<ProfileContextProviderProps> = ({
 }) => {
   const [profile, dispatch] = useReducer(profileReducer, initialProfileState);
 
+  // hide badge after showing for 5 secs
+  useEffect(() => {
+    if (profile.badge.msg === "") return;
+    const timer = setTimeout(() => {
+      setBadge(hiddenBadge);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [profile.badge]);
+  
+  // ORDERS CONTROL
   const setIsOrdersLoading = (isLoading: boolean) => {
     dispatch({
       type: ProfileReducerActionTypes.SET_IS_ORDERS_LOADING,
@@ -60,15 +70,6 @@ const ProfileContextProvider: FC<ProfileContextProviderProps> = ({
   const setOrders = useCallback((orders: OrderInfo[]) => {
     dispatch({ type: ProfileReducerActionTypes.SET_ORDERS, payload: orders });
   }, []);
-
-  // hide badge after showing for 5 secs
-  useEffect(() => {
-    if (profile.badge.msg === "") return;
-    const timer = setTimeout(() => {
-      setBadge(hiddenBadge);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [profile.badge]);
 
   return (
     <ProfileContext.Provider

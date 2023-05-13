@@ -62,11 +62,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const orders = await prisma.order.findMany({
     where: {
       userId,
-      status: "ready",
     },
     select: {
       id: true,
       number: true,
+      status: true,
       Book: {
         select: {
           id: true,

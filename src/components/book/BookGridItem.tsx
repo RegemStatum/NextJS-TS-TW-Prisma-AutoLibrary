@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import Image from "next/image";
 import { BadgeError, BadgeSuccess } from "../ui/badges";
 import Link from "next/link";
-import BookWithAuthorNameT from "@/types/BookWithAuthorNameT";
+import BookWithAuthorNameT from "@/types/misc/BookWithAuthorNameT";
 
 type Props = BookWithAuthorNameT;
 
@@ -21,7 +21,7 @@ const Book: FC<Props> = (book) => {
             fill
             style={{ objectFit: "contain" }}
             placeholder="blur"
-            blurDataURL={book.bookImgUrl}
+            blurDataURL="/images/book-placeholder.webp"
           />
         </div>
         {/* info */}

@@ -89,7 +89,7 @@ const SingleBook: FC<Props> = ({ book }) => {
               fill
               style={{ objectFit: "contain" }}
               placeholder="blur"
-              blurDataURL={book.bookImgUrl}
+              blurDataURL="/images/book-placeholder.webp"
             />
           </div>
           {/* badges [featured, quantity, available]*/}

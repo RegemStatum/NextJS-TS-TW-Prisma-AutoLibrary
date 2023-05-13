@@ -4,7 +4,7 @@ import { BadRequestError, CustomApiError } from "@/utils/errors";
 import { Order } from "@prisma/client";
 
 type Data = {
-  canceledOrder: Order;
+  receivedOrder: Order;
   userOrders: Order[];
   msg: string;
 };
@@ -25,15 +25,15 @@ export default async function handler(
     throw new BadRequestError("Provide user id");
   }
 
-  // Warning cancel order only if order status is ready
+  // Warning receive order only if order status is ready and not cancelled
 
-  // cancel order
-  const canceledOrder = await prisma.order.update({
+  // receive order
+  const receivedOrder = await prisma.order.update({
     where: {
       id: orderId,
     },
     data: {
-      status: "canceled",
+      status: "received",
       updatedAt: new Date().toISOString(),
     },
     select: {
@@ -51,21 +51,21 @@ export default async function handler(
     },
   });
 
-  if (!canceledOrder) {
-    throw new CustomApiError(`Order with ${orderId} was not canceled`);
+  if (!receivedOrder) {
+    throw new CustomApiError(`Order with ${orderId} was not received`);
   }
 
-  const canceledOrderBooksIds = canceledOrder.Book.map((book) => book.id);
-  // increment to books quantity
+  const receivedOrderBooksIds = receivedOrder.Book.map((book) => book.id);
+  // decrement to books quantity
   await prisma.book.updateMany({
     where: {
       id: {
-        in: canceledOrderBooksIds,
+        in: receivedOrderBooksIds,
       },
     },
     data: {
       currentQuantity: {
-        increment: 1,
+        decrement: 1,
       },
     },
   });
@@ -104,8 +104,8 @@ export default async function handler(
   });
 
   res.status(200).json({
-    canceledOrder,
+    receivedOrder,
     userOrders,
-    msg: `Order with id ${orderId} was canceled`,
+    msg: `Order with id ${orderId} was received`,
   });
 }

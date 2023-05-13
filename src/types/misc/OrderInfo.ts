@@ -17,6 +17,7 @@ export type OrderInfoCabinet = {
 type OrderInfo = {
   id: string;
   number: number;
+  status: string;
   Book: OrderInfoBook[];
 };
 
