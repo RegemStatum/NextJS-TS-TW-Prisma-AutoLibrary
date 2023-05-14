@@ -1,12 +1,12 @@
+import { OrderInfoStatus } from "@/types/misc/OrderInfo";
 import React, { FC } from "react";
 
-// Warning modify status
 interface Props
   extends React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > {
-  status: string;
+  status: OrderInfoStatus;
 }
 
 const OrderGridItemStatus: FC<Props> = ({ status, ...rest }) => {

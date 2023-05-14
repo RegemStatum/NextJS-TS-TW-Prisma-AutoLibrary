@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { PrimaryButton, SecondaryButton } from "../ui/buttons";
 import { useOrdersContext } from "@/context/OrdersContext";
+import { OrderInfoStatus } from "@/types/misc/OrderInfo";
 
-// Warning status modify
 interface Props {
-  status: string;
+  status: OrderInfoStatus;
   orderId: string;
 }
 

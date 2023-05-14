@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import OrderGridItemStatus from "./OrderGridItemStatus";
+import { OrderInfoStatus } from "@/types/misc/OrderInfo";
 
-// Warning modify status
 interface Props {
-  status: string;
+  status: OrderInfoStatus;
 }
 
 const OrderGridItemStatuses: FC<Props> = ({ status }) => {

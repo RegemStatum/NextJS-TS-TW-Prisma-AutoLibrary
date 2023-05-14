@@ -3,6 +3,7 @@ import { useProfileContext } from "./ProfileContext";
 import { useSession } from "next-auth/react";
 import OrderInfo from "@/types/misc/OrderInfo";
 import { OrdersContextValue } from "@/types/context";
+import BadgeType from "@/types/misc/BadgeType";
 
 const ordersContextInitialValue: OrdersContextValue = {
   receiveOrder: (orderId) => {},
@@ -45,10 +46,9 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
     checkSession();
   };
 
-  // Warning - handle badgeType correctly
   const finishOrderAction = (
     newUserOrders: OrderInfo[],
-    badgeType: "success" | "error" | "info" | "pending" | "",
+    badgeType: BadgeType,
     badgeMsg: string
   ) => {
     profileContext.setOrders(newUserOrders);

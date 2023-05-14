@@ -1,4 +1,4 @@
-export type OrderInfoBook = {
+type OrderInfoBook = {
   id: string;
   title: string;
   author: {
@@ -8,11 +8,13 @@ export type OrderInfoBook = {
   cabinet: OrderInfoCabinet;
 };
 
-export type OrderInfoCabinet = {
+type OrderInfoCabinet = {
   id: string;
   number: number;
   isEmpty: boolean;
 } | null;
+
+type OrderInfoStatus = "ready" | "received" | "returned" | "canceled";
 
 type OrderInfo = {
   id: string;
@@ -22,3 +24,5 @@ type OrderInfo = {
 };
 
 export default OrderInfo;
+
+export type { OrderInfoBook, OrderInfoCabinet, OrderInfoStatus };
