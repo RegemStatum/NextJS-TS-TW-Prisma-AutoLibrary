@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/utils/prisma";
-import { BadRequestError, CustomApiError } from "@/utils/errors";
+import { BadRequestError, CustomApiError, NotFoundError } from "@/utils/errors";
 import { Order } from "@prisma/client";
+import { OrderStatus } from "@/types/misc/OrderInfo";
 
 type Data = {
   returnedOrder: Order;
@@ -25,7 +26,25 @@ export default async function handler(
     throw new BadRequestError("Provide user id");
   }
 
-  // Warning return order only if order status is received and not cancelled
+  // return order only if order status is received
+  const orderToReturn = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+    select: {
+      status: true,
+    },
+  });
+
+  if (!orderToReturn) {
+    throw new NotFoundError(`There is no order with id ${orderId}`);
+  }
+
+  if (orderToReturn.status !== OrderStatus.received) {
+    throw new BadRequestError(
+      "Only orders with 'received' status can be returned"
+    );
+  }
 
   // return order
   const returnedOrder = await prisma.order.update({
@@ -33,7 +52,7 @@ export default async function handler(
       id: orderId,
     },
     data: {
-      status: "returned",
+      status: OrderStatus.returned,
       updatedAt: new Date().toISOString(),
     },
     select: {

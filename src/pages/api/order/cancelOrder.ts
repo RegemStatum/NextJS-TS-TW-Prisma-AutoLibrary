@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/utils/prisma";
-import { BadRequestError, CustomApiError } from "@/utils/errors";
+import { BadRequestError, CustomApiError, NotFoundError } from "@/utils/errors";
 import { Order } from "@prisma/client";
+import { OrderStatus } from "@/types/misc/OrderInfo";
 
 type Data = {
   canceledOrder: Order;
@@ -25,7 +26,25 @@ export default async function handler(
     throw new BadRequestError("Provide user id");
   }
 
-  // Warning cancel order only if order status is ready
+  // cancel order only if order status is ready
+  const orderToCancel = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+    select: {
+      status: true,
+    },
+  });
+
+  if (!orderToCancel) {
+    throw new NotFoundError(`There is no order with id ${orderId}`);
+  }
+
+  if (orderToCancel.status !== OrderStatus.ready) {
+    throw new BadRequestError(
+      "Only orders with 'ready' status can be canceled"
+    );
+  }
 
   // cancel order
   const canceledOrder = await prisma.order.update({
@@ -33,7 +52,7 @@ export default async function handler(
       id: orderId,
     },
     data: {
-      status: "canceled",
+      status: OrderStatus.canceled,
       updatedAt: new Date().toISOString(),
     },
     select: {

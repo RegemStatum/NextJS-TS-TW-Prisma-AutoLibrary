@@ -10,6 +10,7 @@ import {
   ConflictRequestError,
   NotFoundError,
 } from "@/utils/errors";
+import { OrderStatus } from "@/types/misc/OrderInfo";
 
 type Data = {
   order: Order | null;
@@ -46,7 +47,7 @@ export default async function handler(
     select: {
       orders: {
         where: {
-          status: "ready",
+          status: OrderStatus.ready,
         },
         select: {
           id: true,
@@ -115,7 +116,7 @@ export default async function handler(
   const connectedBooksIds = booksIds.map((bookId) => ({ id: bookId }));
   const newOrder = await prisma.order.create({
     data: {
-      status: "ready",
+      status: OrderStatus.ready,
       userId: userId,
       Book: {
         connect: connectedBooksIds,

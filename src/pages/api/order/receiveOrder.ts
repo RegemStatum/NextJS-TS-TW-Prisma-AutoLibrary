@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/utils/prisma";
-import { BadRequestError, CustomApiError } from "@/utils/errors";
+import { BadRequestError, CustomApiError, NotFoundError } from "@/utils/errors";
 import { Order } from "@prisma/client";
+import { OrderStatus } from "@/types/misc/OrderInfo";
 
 type Data = {
   receivedOrder: Order;
@@ -25,7 +26,25 @@ export default async function handler(
     throw new BadRequestError("Provide user id");
   }
 
-  // Warning receive order only if order status is ready and not cancelled
+  // receive order only if order status is ready
+  const orderToReceive = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+    select: {
+      status: true,
+    },
+  });
+
+  if (!orderToReceive) {
+    throw new NotFoundError(`There is no order with id ${orderId}`);
+  }
+
+  if (orderToReceive.status !== OrderStatus.ready) {
+    throw new BadRequestError(
+      "Only orders with 'ready' status can be received"
+    );
+  }
 
   // receive order
   const receivedOrder = await prisma.order.update({
@@ -33,7 +52,7 @@ export default async function handler(
       id: orderId,
     },
     data: {
-      status: "received",
+      status: OrderStatus.received,
       updatedAt: new Date().toISOString(),
     },
     select: {
@@ -54,21 +73,6 @@ export default async function handler(
   if (!receivedOrder) {
     throw new CustomApiError(`Order with ${orderId} was not received`);
   }
-
-  const receivedOrderBooksIds = receivedOrder.Book.map((book) => book.id);
-  // decrement to books quantity
-  await prisma.book.updateMany({
-    where: {
-      id: {
-        in: receivedOrderBooksIds,
-      },
-    },
-    data: {
-      currentQuantity: {
-        decrement: 1,
-      },
-    },
-  });
 
   const userOrders = await prisma.order.findMany({
     where: {

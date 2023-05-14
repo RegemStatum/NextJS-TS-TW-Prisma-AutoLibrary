@@ -1,4 +1,4 @@
-import OrderInfo from "@/types/misc/OrderInfo";
+import OrderInfo, { OrderStatus } from "@/types/misc/OrderInfo";
 import React, { FC, useState } from "react";
 import OrderGridItemBooksList from "./OrderGridItemBooksGrid";
 import OrderGridItemStatuses from "./OrderGridItemStatuses";
@@ -21,7 +21,7 @@ const OrderGridItem: FC<Props> = ({ order }) => {
 
   return (
     <div className="max-w-[1100px] relative rounded-md outline outline-1 outline-neutral-200 shadow-md overflow-hidden">
-      {order.status === "ready" && (
+      {order.status === OrderStatus.ready && (
         <OrderGridItemOtherControl
           isOpen={isOtherControlOpen}
           orderId={order.id}
@@ -31,6 +31,7 @@ const OrderGridItem: FC<Props> = ({ order }) => {
       <div className="p-2 md:p-5 md:pt-4">
         <div className="mt-1 mb-4 md:mb-7">
           <OrderGridItemHeader
+            orderStatus={order.status}
             orderNumber={order.number}
             toggleShowOtherControl={toggleShowOtherControl}
           />

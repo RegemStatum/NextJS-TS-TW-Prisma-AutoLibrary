@@ -20,8 +20,11 @@ const CartGrid: FC = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    const navigateHome = async () => {
+      await router.push("/");
+    };
     if (router.isReady && !session) {
-      router.push("/");
+      navigateHome();
     }
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -66,7 +69,7 @@ const CartGrid: FC = () => {
     try {
       setIsLoading(true);
       await cartContext.createOrder();
-      router.push("/profile");
+      await router.push("/profile");
       cartContext.clearCart();
       setIsLoading(false);
     } catch (e: any) {

@@ -1,12 +1,15 @@
 import React, { FC } from "react";
 import { EllipsisVerticalIcon } from "../ui/icons";
+import { OrderStatus } from "@/types/misc/OrderInfo";
 
 interface Props {
+  orderStatus: OrderStatus;
   orderNumber: number;
   toggleShowOtherControl: () => void;
 }
 
 const OrderGridItemHeader: FC<Props> = ({
+  orderStatus,
   orderNumber,
   toggleShowOtherControl,
 }) => {
@@ -18,12 +21,14 @@ const OrderGridItemHeader: FC<Props> = ({
           {orderNumber}
         </span>
       </h3>
-      <div
-        onClick={toggleShowOtherControl}
-        className="p-1 rounded-md cursor-pointer hover:bg-neutral-100 hover:text-blue-500"
-      >
-        <EllipsisVerticalIcon width={30} className="select-none" />
-      </div>
+      {orderStatus === OrderStatus.ready && (
+        <div
+          onClick={toggleShowOtherControl}
+          className="p-1 rounded-md cursor-pointer hover:bg-neutral-100 hover:text-blue-500"
+        >
+          <EllipsisVerticalIcon width={30} className="select-none" />
+        </div>
+      )}
     </div>
   );
 };
