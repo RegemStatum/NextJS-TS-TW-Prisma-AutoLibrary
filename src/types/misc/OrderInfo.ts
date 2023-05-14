@@ -19,7 +19,7 @@ type OrderInfoStatus = "ready" | "received" | "returned" | "canceled";
 type OrderInfo = {
   id: string;
   number: number;
-  status: string;
+  status: OrderInfoStatus;
   Book: OrderInfoBook[];
 };
 

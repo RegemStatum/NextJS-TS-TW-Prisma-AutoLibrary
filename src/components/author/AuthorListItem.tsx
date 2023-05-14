@@ -1,10 +1,10 @@
 import AuthorWithBooksT from "@/types/misc/AuthorWithBooksT";
 import React, { FC, useEffect, useState } from "react";
-import PrimaryButton from "../ui/buttons/PrimaryButton";
 import SecondaryButton from "../ui/buttons/SecondaryButton";
 import AuthorListItemInfo from "./AuthorListItemInfo";
 import AuthorListItemDescription from "./AuthorListItemDescription";
 import AuthorListItemBooks from "./AuthorListItemBooksList";
+import AuthorListItemShowBooksButton from "./AuthorListItemShowBooksButton";
 
 interface Props {
   author: AuthorWithBooksT;
@@ -26,6 +26,9 @@ const AuthorListItem: FC<Props> = ({ author }) => {
       setIsShowBooks(true);
     }
   }, []);
+
+  const toggleShowBooks = () =>
+    isShowBooks ? setIsShowBooks(false) : setIsShowBooks(true);
 
   return (
     <div
@@ -54,21 +57,11 @@ const AuthorListItem: FC<Props> = ({ author }) => {
         </div>
       </div>
       {/* author books*/}
-      <PrimaryButton
-        onClick={() => {
-          isShowBooks ? setIsShowBooks(false) : setIsShowBooks(true);
-        }}
-        disabled={author.books.length === 0}
-        className="my-2 flex gap-1 items-center justify-center lg:hidden"
-      >
-        <p className="font-medium">
-          {author.books.length === 0
-            ? "No featured books"
-            : isShowBooks
-            ? "Hide books"
-            : "Featured books"}
-        </p>
-      </PrimaryButton>
+      <AuthorListItemShowBooksButton
+        isShowBooks={isShowBooks}
+        booksLength={author.books.length}
+        toggleShowBooks={toggleShowBooks}
+      />
       <div className="lg:w-1/2 lg:shrink-0 lg:mt-[212px] text-xl font-medium">
         <h3 className="hidden lg:block lg:pl-4">Featured books</h3>
         {isShowBooks && <AuthorListItemBooks books={author.books} />}

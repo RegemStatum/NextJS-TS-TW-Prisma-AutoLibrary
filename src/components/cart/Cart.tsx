@@ -62,61 +62,12 @@ const CartGrid: FC = () => {
     return () => clearTimeout(timer);
   }, [errorMsg]);
 
-  const createOrder = async () => {
-    if (!session) {
-      throw new Error("No session");
-    }
-
-    if (!session.user) {
-      throw new Error("No user in session");
-    }
-
-    const email = session.user.email;
-    if (!email) {
-      throw new Error("No user email in session");
-    }
-
-    const userIdRes = await fetch(`/api/profile/getIdByEmail`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: email }),
-    });
-
-    if (!userIdRes.ok) {
-      throw new Error("Something went wrong while trying to receive user id");
-    }
-
-    const userData = await userIdRes.json();
-    const userId = userData.id;
-
-    const res = await fetch(`/api/order/createOrder`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId,
-        booksIds: cartBooksIds,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(
-        data.msg || "Something went wrong while trying to create order"
-      );
-    }
-  };
-
   const handleOrder = async () => {
     try {
       setIsLoading(true);
-      await createOrder();
-      cartContext.clearCart();
+      await cartContext.createOrder();
       router.push("/profile");
+      cartContext.clearCart();
       setIsLoading(false);
     } catch (e: any) {
       console.log(e);

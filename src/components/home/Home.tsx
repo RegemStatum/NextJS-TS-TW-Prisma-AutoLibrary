@@ -1,4 +1,4 @@
-import BookWithAuthorNameT from "@/types/BookWithAuthorNameT";
+import BookWithAuthorNameT from "@/types/misc/BookWithAuthorNameT";
 import React, { FC } from "react";
 import BookGrid from "../book/BookGrid";
 import Hero from "./Hero";

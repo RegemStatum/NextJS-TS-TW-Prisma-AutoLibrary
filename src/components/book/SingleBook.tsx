@@ -3,13 +3,12 @@ import Image from "next/image";
 import SingleBookDescription from "./SingleBookDescription";
 import SingleBookInfo from "./SingleBookInfo";
 import { Book } from "@prisma/client";
-import { PrimaryButton, SecondaryButton } from "../ui/buttons";
 import SingleBookBadges from "./SingleBookBadges";
 import { useCartContext } from "@/context/CartContext";
 import { useSession } from "next-auth/react";
 import { BadgeError } from "../ui/badges";
-import Link from "next/link";
 import SingleBookNotFound from "./SingleBookNotFound";
+import SingleBookControlButtons from "./SingleBookControlButtons";
 
 interface SingleBookT extends Book {
   author: {
@@ -108,29 +107,13 @@ const SingleBook: FC<Props> = ({ book }) => {
         </div>
       </div>
       <div className="mb-3 xl:w-[500px]">
-        <div className="flex flex-col gap-1 sm:flex-row">
-          <PrimaryButton
-            onClick={() => handleOrderBook()}
-            disabled={
-              book.currentQuantity <= 0 ||
-              !book.available ||
-              isAlreadyInCart ||
-              !session?.user
-            }
-          >
-            {!session?.user
-              ? "Sign in to access"
-              : isAlreadyInCart
-              ? "Already in cart"
-              : "Add to cart"}
-          </PrimaryButton>
-          <Link
-            href="/books"
-            className="w-full sm:w-[calc(50%_-_8px)] block shrink-0"
-          >
-            <SecondaryButton>Back to all books</SecondaryButton>
-          </Link>
-        </div>
+        <SingleBookControlButtons
+          bookCurrentQuantity={book.currentQuantity}
+          bookAvailable={book.available}
+          isAlreadyInCart={isAlreadyInCart}
+          isSessionUser={!!session?.user}
+          handleOrderBook={handleOrderBook}
+        />
         {errorMsg && <BadgeError className="mt-2">{errorMsg}</BadgeError>}
       </div>
       <SingleBookInfo book={bookInfo} authorId={book.authorId} />

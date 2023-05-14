@@ -3,6 +3,7 @@ type CartContextValue = {
   addBookToCart: (id: string) => void;
   removeBookFromCart: (id: string) => void;
   clearCart: () => void;
+  createOrder: () => Promise<void>;
 };
 
 export default CartContextValue;
