@@ -101,7 +101,7 @@ const SingleBook: FC<Props> = ({ book }) => {
         </div>
         {/* info */}
         <div className="">
-          <h1 className="pt-2 text-lg font-medium leading-6 lg:text-3xl lg:py-3 xl:max-w-[750px] ">
+          <h1 className="pt-2 text-lg font-medium leading-6 md:pt-3 md:text-2xl lg:pt-6 xl:max-w-[750px] xl:py-8">
             {book.title}
           </h1>
           <SingleBookDescription description={book.description} />

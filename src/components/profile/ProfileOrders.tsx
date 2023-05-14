@@ -1,6 +1,6 @@
 import { useProfileContext } from "@/context/ProfileContext";
 import React, { FC } from "react";
-import OrdersList from "../order/OrdersList";
+import OrdersList from "../order/OrdersGrid";
 import { BadgeError, BadgeSuccess } from "../ui/badges";
 import OrdersNoItems from "../order/OrdersNoItems";
 import { Spinner1 } from "../ui/spinners";
@@ -22,7 +22,7 @@ const ProfileOrders: FC = ({}) => {
 
   return (
     <div>
-      <h2 className="mb-2 text-xl font-bold lg:mb-2 lg:text-2xl">
+      <h2 className="mb-2 text-xl font-bold lg:mb-3 lg:text-2xl">
         Your orders
       </h2>
       <OrdersList />

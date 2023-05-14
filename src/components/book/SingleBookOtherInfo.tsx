@@ -14,7 +14,7 @@ interface Props {
 
 const SingleBookOtherInfo: FC<Props> = ({ infoArr }) => {
   return (
-    <div className="flex gap-2 overflow-x-auto">
+    <div className="scrollbar pb-1 flex gap-2 overflow-x-auto">
       {infoArr.map((infoItem) => {
         return (
           <React.Fragment key={infoItem.id}>

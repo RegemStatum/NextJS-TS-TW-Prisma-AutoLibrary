@@ -1,10 +1,22 @@
-import React, { FC } from "react";
-import OrderListItem from "./OrderListItem";
+import React, { FC, useContext } from "react";
+import { useProfileContext } from "./ProfileContext";
 import { useSession } from "next-auth/react";
-import { useProfileContext } from "@/context/ProfileContext";
 import OrderInfo from "@/types/misc/OrderInfo";
+import { OrdersContextValue } from "@/types/context";
 
-const OrdersList: FC = () => {
+const ordersContextInitialValue: OrdersContextValue = {
+  receiveOrder: (orderId) => {},
+  returnOrder: (orderId) => {},
+  cancelOrder: (orderId) => {},
+};
+
+const OrdersContext = React.createContext(ordersContextInitialValue);
+
+type Props = {
+  children: React.ReactNode;
+};
+
+const OrdersContextProvider: FC<Props> = ({ children }) => {
   const { data: session } = useSession();
   const profileContext = useProfileContext();
 
@@ -221,20 +233,18 @@ const OrdersList: FC = () => {
   };
 
   return (
-    <div className="space-y-3">
-      {profileContext.orders.map((order) => {
-        return (
-          <OrderListItem
-            key={order.id}
-            order={order}
-            cancelOrder={cancelOrder}
-            receiveOrder={receiveOrder}
-            returnOrder={returnOrder}
-          />
-        );
-      })}
-    </div>
+    <OrdersContext.Provider
+      value={{
+        receiveOrder,
+        returnOrder,
+        cancelOrder,
+      }}
+    >
+      {children}
+    </OrdersContext.Provider>
   );
 };
 
-export default OrdersList;
+export default OrdersContextProvider;
+
+export const useOrdersContext = () => useContext(OrdersContext);

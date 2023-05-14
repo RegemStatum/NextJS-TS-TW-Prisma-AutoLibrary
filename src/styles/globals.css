@@ -55,26 +55,43 @@ h8 {
     }
   }
 
-  ::-webkit-scrollbar,
+  /* overflow elements scrollbar */
   .scrollbar::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 2px;
+    background: var(--background);
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #e7e5e4;
+    border-radius: 2px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #a8a29e;
+  }
+
+  /* browser scrollbar */
+  ::-webkit-scrollbar {
     width: 15px;
     height: 15px;
   }
 
-  ::-webkit-scrollbar-track,
-  .scrollbar::-webkit-scrollbar-track {
+  ::-webkit-scrollbar-track {
     border-radius: 3px;
     background: var(--background);
   }
 
-  ::-webkit-scrollbar-thumb,
-  .scrollbar::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     background: #e7e5e4;
     border-radius: 3px;
   }
 
-  ::-webkit-scrollbar-thumb:hover,
-  .scrollbar::-webkit-scrollbar-thumb:hover {
+  ::-webkit-scrollbar-thumb:hover {
     background: #a8a29e;
   }
 }

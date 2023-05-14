@@ -16,7 +16,7 @@ const SingleBookBadges: FC<Props> = ({ featured, available, quantity }) => {
   return (
     <div className="flex gap-2 flex-wrap">
       {featured && <BadgeInfo>featured</BadgeInfo>}
-      {available ? (
+      {available && quantity > 0 ? (
         <BadgeSuccess>available</BadgeSuccess>
       ) : (
         <BadgeError>not available</BadgeError>

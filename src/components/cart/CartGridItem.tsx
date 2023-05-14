@@ -1,4 +1,4 @@
-import CartBook from "@/types/CartBook";
+import CartBook from "@/types/misc/CartBook";
 import Link from "next/link";
 import React, { FC } from "react";
 import Image from "next/image";
@@ -15,7 +15,7 @@ const CartGridItem: FC<Props> = ({ cartBook, bookOrderIndex }) => {
   return (
     <div className="rounded-md shadow-md border border-neutral-200">
       {/* image */}
-      <div className="w-full min-h-[300px] rounded-md overflow-hidden relative shrink-0 bg-neutral-100 ">
+      <div className="w-full min-h-[300px] rounded-md overflow-hidden relative shrink-0 bg-neutral-100">
         <Image
           src={cartBook.bookImgUrl}
           alt={cartBook.title}
@@ -25,28 +25,32 @@ const CartGridItem: FC<Props> = ({ cartBook, bookOrderIndex }) => {
           blurDataURL={cartBook.bookImgUrl}
         />
       </div>
-      <div className="p-3">
-        <h2 className="min-h-[48px] text-lg font-medium leading-snug lg:min-h-[56px]">
-          {cartBook.title}
-        </h2>
-        <p className="text-lg">
-          {cartBook.author.firstName} {cartBook.author.secondName}
-        </p>
-      </div>
-      <div className="flex gap-4 p-3 pt-0">
-        <span className="font-bold">#{bookOrderIndex}</span>
-        <Link
-          href={`/books/${cartBook.id}`}
-          className="text-blue-500 underline"
-        >
-          Go to book page
-        </Link>
-        <p
-          className="text-red-500 underline cursor-pointer"
-          onClick={() => cartContext.removeBookFromCart(cartBook.id)}
-        >
-          Remove
-        </p>
+      <div className="p-4 pb-5">
+        {/* book info */}
+        <div className="mb-3 md:mb-5">
+          <h2 className="mb-1 text-lg font-medium leading-snug lg:min-h-[60px] md:text-xl">
+            {cartBook.title}
+          </h2>
+          <p className="text-lg">
+            {cartBook.author.firstName} {cartBook.author.secondName}
+          </p>
+        </div>
+        {/* book control */}
+        <div className="flex gap-4">
+          <span className="font-bold">#{bookOrderIndex}</span>
+          <Link
+            href={`/books/${cartBook.id}`}
+            className="text-blue-500 underline"
+          >
+            Go to book page
+          </Link>
+          <p
+            className="text-red-500 underline cursor-pointer"
+            onClick={() => cartContext.removeBookFromCart(cartBook.id)}
+          >
+            Remove
+          </p>
+        </div>
       </div>
     </div>
   );

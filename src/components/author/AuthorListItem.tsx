@@ -4,7 +4,7 @@ import PrimaryButton from "../ui/buttons/PrimaryButton";
 import SecondaryButton from "../ui/buttons/SecondaryButton";
 import AuthorListItemInfo from "./AuthorListItemInfo";
 import AuthorListItemDescription from "./AuthorListItemDescription";
-import AuthorListItemBooks from "./AuthorListItemBooks";
+import AuthorListItemBooks from "./AuthorListItemBooksList";
 
 interface Props {
   author: AuthorWithBooksT;
@@ -29,7 +29,7 @@ const AuthorListItem: FC<Props> = ({ author }) => {
 
   return (
     <div
-      className="p-2 bg-neutral-100 rounded-md shadow-lg lg:p-8 lg:flex lg:gap-1"
+      className="px-4 py-3 bg-neutral-100 rounded-md shadow-lg md:px-6 md:py-6 lg:p-8 lg:flex lg:gap-1"
       id={author.id}
     >
       <div className="lg:w-[1/2 - 5px]">
@@ -58,14 +58,19 @@ const AuthorListItem: FC<Props> = ({ author }) => {
         onClick={() => {
           isShowBooks ? setIsShowBooks(false) : setIsShowBooks(true);
         }}
+        disabled={author.books.length === 0}
         className="my-2 flex gap-1 items-center justify-center lg:hidden"
       >
         <p className="font-medium">
-          {isShowBooks ? "Hide books" : "Featured books"}
+          {author.books.length === 0
+            ? "No featured books"
+            : isShowBooks
+            ? "Hide books"
+            : "Featured books"}
         </p>
       </PrimaryButton>
-      <div className="lg:w-1/2 lg:shrink-0 lg:mt-[212px] text-2xl font-bold">
-        <h3 className="hidden lg:block lg:mb-4 lg:pl-4">Featured books</h3>
+      <div className="lg:w-1/2 lg:shrink-0 lg:mt-[212px] text-xl font-medium">
+        <h3 className="hidden lg:block lg:pl-4">Featured books</h3>
         {isShowBooks && <AuthorListItemBooks books={author.books} />}
       </div>
     </div>

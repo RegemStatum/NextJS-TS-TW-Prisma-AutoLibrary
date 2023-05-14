@@ -10,9 +10,9 @@ interface Props {
 
 const AuthorListItemInfo: FC<Props> = ({ authorInfo }) => {
   return (
-    <div className="flex gap-4 lg:flex-col lg:gap-1">
+    <div className="flex gap-4 md:gap-5 lg:flex-col lg:gap-1">
       {/* image */}
-      <div className="w-[100px] h-[100px] rounded-full overflow-hidden relative lg:w-[200px] lg:h-[200px] ">
+      <div className="w-[100px] h-[100px] rounded-full overflow-hidden relative md:w-[150px] md:h-[150px]">
         <Image
           src={authorInfo.authorImgUrl}
           alt={authorInfo.firstName}
@@ -24,11 +24,11 @@ const AuthorListItemInfo: FC<Props> = ({ authorInfo }) => {
         />
       </div>
       {/* info */}
-      <div className="py-2 flex flex-col justify-center lg:flex-row lg:justify-start lg:gap-2">
-        <h4 className="text-lg leading-6 lg:text-2xl lg:leading-normal">
+      <div className="py-2 flex flex-col justify-center md:flex-row md:justify-start md:items-center md:gap-2">
+        <h4 className="text-lg leading-6  md:text-2xl lg:leading-normal">
           {authorInfo.firstName}
         </h4>
-        <h4 className="text-lg leading-6 font-bold lg:text-2xl lg:leading-normal">
+        <h4 className="text-lg leading-6 font-bold md:text-2xl lg:leading-normal">
           {authorInfo.secondName}
         </h4>
       </div>

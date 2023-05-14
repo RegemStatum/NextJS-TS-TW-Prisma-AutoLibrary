@@ -41,7 +41,7 @@ const SingleBookInfo: FC<Props> = ({ book, authorId }) => {
     <div>
       {/* author */}
       <Link href={`/authors#${authorId}`}>
-        <div className="my-2 p-2 rounded-md  hover:bg-neutral-100 xl:p-4">
+        <div className="my-2 p-2 rounded-md  hover:bg-neutral-100 md:my-4 md:p-4 xl:p-4">
           <AuthorListItemInfo authorInfo={authorInfo} />
         </div>
       </Link>

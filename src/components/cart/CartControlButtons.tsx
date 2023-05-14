@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { DeleteButton, PrimaryButton } from "../ui/buttons";
+import { PrimaryButton, SecondaryButton } from "../ui/buttons";
 
 interface Props {
   clearCart: () => void;
@@ -12,7 +12,9 @@ const CartControlButtons: FC<Props> = ({ clearCart, handleOrder }) => {
       <PrimaryButton onClick={async () => await handleOrder()}>
         Order
       </PrimaryButton>
-      <DeleteButton onClick={() => clearCart()}>Remove all books</DeleteButton>
+      <SecondaryButton onClick={() => clearCart()}>
+        Remove all books
+      </SecondaryButton>
     </div>
   );
 };

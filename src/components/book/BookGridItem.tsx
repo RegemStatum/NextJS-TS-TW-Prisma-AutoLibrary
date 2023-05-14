@@ -41,7 +41,7 @@ const Book: FC<Props> = (book) => {
               <p> | </p>
               <p>{book.publicationYear}</p>
               <p> | </p>
-              {book.available ? (
+              {book.available && book.currentQuantity > 0 ? (
                 <BadgeSuccess>
                   <p>available</p>
                 </BadgeSuccess>
