@@ -11,7 +11,7 @@ const Book: FC<Props> = (book) => {
     <Link href={`books/${book.id}`} className="">
       <div
         className="border border-neutral-200 border-collapse cursor-pointer 
-      rounded-lg  overflow-hidden hover:border-neutral-400 hover:shadow-md"
+      rounded-lg  overflow-hidden hover:border-neutral-300 hover:shadow-md"
       >
         {/* image  */}
         <div className="w-full h-[300px] relative bg-neutral-100">
@@ -25,15 +25,18 @@ const Book: FC<Props> = (book) => {
           />
         </div>
         {/* info */}
-        <div className="p-2 flex flex-col shrink-0 justify-between">
-          <h4 className="min-h-[48px] mb-auto py-1 font-medium leading-snug line-clamp-2 lg:text-xl lg:min-h-[56px]">
+        <div className="px-4 pt-3 pb-4 flex flex-col shrink-0 justify-between">
+          {/* title */}
+          <h4 className="mb-1 pt-1 font-medium leading-snug line-clamp-2 md:text-xl md:min-h-[60px] ">
             {book.title}
           </h4>
           <div>
-            <p className="pt-1 text-sm leading-relaxed line-clamp-5 lg:text-normal lg:pt-2">
+            {/* description */}
+            <p className="pb-1 text-sm leading-relaxed line-clamp-5 md:text-base lg:text-normal lg:pt-2">
               {book.description}
             </p>
-            <div className="py-2 flex flex-row items-center gap-2 text-sm lg:text-normal">
+            {/* badges */}
+            <div className="py-1 flex flex-row items-center gap-2 text-sm font-medium md:pt-2 md:text-base">
               <p>{`${book.author.firstName} ${book.author.secondName}`}</p>
               <p> | </p>
               <p>{book.publicationYear}</p>

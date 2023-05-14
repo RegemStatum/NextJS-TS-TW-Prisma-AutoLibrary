@@ -3,15 +3,15 @@ import React, { FC } from "react";
 
 const CartNoBooks: FC = () => {
   return (
-    <div className="pt-4">
-      <h2 className="text-xl font-medium lg:text-3xl">
-        There are no books yet
+    <div className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+      <h2 className="text-2xl font-medium md:text-3xl">
+        No books in your cart
       </h2>
       <Link
         href="/books"
-        className="pt-1 text-normal text-blue-600 underline lg:pt-2 lg:text-xl"
+        className="block pt-1 text-lg text-blue-600 underline md:pt-3 md:text-xl"
       >
-        Add books to your cart
+        Go to all books
       </Link>
     </div>
   );

@@ -2,8 +2,8 @@ import React, { FC } from "react";
 
 const Footer: FC = () => {
   return (
-    <footer className="container mt-3 py-2 flex flex-col  border-t leading-snug text-center md:mt-3 md:py-3 lg:text-lg">
-      <h4 className="font-['Open_Sans'] font-bold ">Autolib</h4>
+    <footer className="container mt-4 py-3 flex flex-col border-t text-center md:mt-5 md:py-4 lg:mt-6 lg:text-lg ">
+      <p className="font-medium lg:text-lg">Autolib</p>
       <div className="flex justify-center gap-1">
         <p>Oleksandr Kondratov</p>
         <p>&copy; {new Date().getFullYear()}</p>

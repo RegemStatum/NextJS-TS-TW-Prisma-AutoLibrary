@@ -1,5 +1,5 @@
 import { useCartContext } from "@/context/CartContext";
-import CartBook from "@/types/CartBook";
+import CartBook from "@/types/misc/CartBook";
 import React, { FC, useEffect, useState } from "react";
 import Spinner1 from "../ui/spinners/Spinner1";
 import { BadgeError } from "../ui/badges";

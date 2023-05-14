@@ -23,7 +23,9 @@ const SidebarLinks: FC = () => {
             className="flex flex-row gap-3 hover:text-blue-500"
           >
             <LinkIcon width={32} height={32} />
-            <p className="w-[100px] font-medium text-2xl">{name}</p>
+            <p className="w-[100px] font-medium text-2xl leading-[1.45] ">
+              {name}
+            </p>
           </Link>
         );
       })}
