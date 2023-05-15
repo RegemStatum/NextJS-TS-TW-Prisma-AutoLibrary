@@ -60,23 +60,32 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
     []
   );
 
-  useEffect(() => {
-    const handlePageChange = () => {
-      if (orderConfirmationModal.orderCabinetNumbers.length !== 0) {
-        closeCabinets(orderConfirmationModal.orderCabinetNumbers);
-      }
-    };
-    router.events.on("routeChangeStart", handlePageChange);
-    return () => {
-      router.events.off("routeChangeStart", handlePageChange);
-      handlePageChange();
-    };
-  }, [
-    router.events,
-    closeCabinets,
-    orderConfirmationModal.isOpen,
-    orderConfirmationModal.orderCabinetNumbers,
-  ]);
+  // Warning - not working - test again. handle page leave or reload while confirmation modal is open
+  // useEffect(() => {
+  //   const handlePageChange = () => {
+  //     if (
+  //       orderConfirmationModal.isOpen &&
+  //       orderConfirmationModal.orderCabinetNumbers.length !== 0
+  //     ) {
+  //       closeCabinets(orderConfirmationModal.orderCabinetNumbers);
+  //     }
+  //   };
+  //   router.events.on("routeChangeStart", handlePageChange);
+  //   return () => {
+  //     router.events.off("routeChangeStart", handlePageChange);
+  //     if (
+  //       orderConfirmationModal.isOpen &&
+  //       orderConfirmationModal.orderCabinetNumbers.length !== 0
+  //     ) {
+  //       handlePageChange();
+  //     }
+  //   };
+  // }, [
+  //   router.events,
+  //   closeCabinets,
+  //   orderConfirmationModal.isOpen,
+  //   orderConfirmationModal.orderCabinetNumbers,
+  // ]);
 
   const openOrderModal = (
     modalType: OrderConfirmationModalTypes,
