@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import OrderGridItem from "./OrderGridItem";
 import { useProfileContext } from "@/context/ProfileContext";
 
-const OrdersList: FC = () => {
+const OrdersGrid: FC = () => {
   const profileContext = useProfileContext();
 
   return (
@@ -14,4 +14,4 @@ const OrdersList: FC = () => {
   );
 };
 
-export default OrdersList;
+export default OrdersGrid;

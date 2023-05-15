@@ -8,12 +8,16 @@ import ShoppingBagIcon from "./ShoppingBagIcon";
 import UserIcon from "./UserIcon";
 import EllipsisVerticalIcon from "./EllipsisVerticalicon";
 
+// icon wrapper
+import IconWrapper from "./IconWrapper";
+
 // sidebar links icons
 import HomeIcon from "./HomeIcon";
 import BookIcon from "./BookIcon";
 import AuthorIcon from "./AuthorIcon";
 
 export {
+  IconWrapper,
   LogoBookIcon,
   MenuBars,
   XMarkIcon,

@@ -5,10 +5,19 @@ import { useOrdersContext } from "@/context/OrdersContext";
 interface Props {
   isOpen: boolean;
   orderId: string;
+  orderNumber: number;
 }
 
-const OrderGridItemOtherControl: FC<Props> = ({ isOpen, orderId }) => {
+const OrderGridItemOtherControl: FC<Props> = ({
+  isOpen,
+  orderId,
+  orderNumber,
+}) => {
   const ordersContext = useOrdersContext();
+
+  const cancelOrder = () => {
+    ordersContext.openOrderModal("cancel", [], orderId, orderNumber);
+  };
 
   return (
     <div
@@ -16,10 +25,7 @@ const OrderGridItemOtherControl: FC<Props> = ({ isOpen, orderId }) => {
         isOpen ? "" : "hidden"
       }`}
     >
-      <DeleteButton
-        onClick={() => ordersContext.cancelOrder(orderId)}
-        className=""
-      >
+      <DeleteButton onClick={cancelOrder} className="">
         Cancel order
       </DeleteButton>
     </div>

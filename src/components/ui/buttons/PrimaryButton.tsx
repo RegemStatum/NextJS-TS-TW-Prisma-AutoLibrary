@@ -8,7 +8,7 @@ const PrimaryButton: FC<Props> = ({ children, ...rest }) => {
   return (
     <button
       {...rest}
-      className={`block w-full py-2 px-4 bg-blue-600 text-slate-50 font-medium rounded-md select-none hover:bg-blue-700 disabled:bg-neutral-200 disabled:text-neutral-400 ${
+      className={`block w-full py-2 px-4 bg-blue-600 text-slate-50 font-medium leading-tight rounded-md select-none hover:bg-blue-700 disabled:bg-neutral-200 disabled:text-neutral-400 md:py-3 ${
         rest.className ?? ""
       }`}
     >

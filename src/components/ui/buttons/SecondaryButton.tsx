@@ -8,7 +8,7 @@ const SecondaryButton: FC<Props> = ({ children, ...rest }) => {
   return (
     <button
       {...rest}
-      className={`block w-full py-2 px-4 text-blue-600 border border-blue-100 font-medium rounded-md select-none hover:bg-blue-100 disabled:bg-neutral-200 disabled:text-neutral-400 ${
+      className={`block w-full py-2 px-4 text-blue-600 border border-blue-100 font-medium rounded-md select-none hover:bg-blue-100 disabled:bg-neutral-200 disabled:text-neutral-400 md:py-3 ${
         rest.className ?? ""
       }`}
     >

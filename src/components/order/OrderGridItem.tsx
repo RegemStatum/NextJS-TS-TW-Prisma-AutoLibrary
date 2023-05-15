@@ -25,6 +25,7 @@ const OrderGridItem: FC<Props> = ({ order }) => {
         <OrderGridItemOtherControl
           isOpen={isOtherControlOpen}
           orderId={order.id}
+          orderNumber={order.number}
         />
       )}
       <OrderGridItemStatuses status={order.status} />
@@ -39,8 +40,13 @@ const OrderGridItem: FC<Props> = ({ order }) => {
         <div>
           <OrderGridItemBooksList books={order.Book} />
         </div>
-        <div className="mt-5 mb-1">
-          <OrderGridItemMainControl status={order.status} orderId={order.id} />
+        <div className="mt-4">
+          <OrderGridItemMainControl
+            status={order.status}
+            orderId={order.id}
+            orderNumber={order.number}
+            orderCabinetNumbers={order.Book.map((book) => book.cabinet!.number)}
+          />
         </div>
       </div>
     </div>

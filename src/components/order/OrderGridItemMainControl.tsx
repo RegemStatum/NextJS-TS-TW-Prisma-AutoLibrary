@@ -6,22 +6,45 @@ import { OrderInfoStatus, OrderStatus } from "@/types/misc/OrderInfo";
 interface Props {
   status: OrderInfoStatus;
   orderId: string;
+  orderNumber: number;
+  orderCabinetNumbers: number[];
 }
 
-const OrderGridItemMainControl: FC<Props> = ({ status, orderId }) => {
+const OrderGridItemMainControl: FC<Props> = ({
+  status,
+  orderId,
+  orderNumber,
+  orderCabinetNumbers,
+}) => {
   const ordersContext = useOrdersContext();
+
+  const receiveOrder = () => {
+    ordersContext.receiveOrder(orderId);
+    ordersContext.openOrderModal(
+      "receive",
+      orderCabinetNumbers,
+      orderId,
+      orderNumber
+    );
+  };
+
+  const returnOrder = () => {
+    ordersContext.returnOrder(orderId);
+    ordersContext.openOrderModal(
+      "return",
+      orderCabinetNumbers,
+      orderId,
+      orderNumber
+    );
+  };
 
   return (
     <div>
       {status === OrderStatus.ready && (
-        <PrimaryButton onClick={() => ordersContext.receiveOrder(orderId)}>
-          Receive order
-        </PrimaryButton>
+        <PrimaryButton onClick={receiveOrder}>Receive order</PrimaryButton>
       )}
       {status === OrderStatus.received && (
-        <SecondaryButton onClick={() => ordersContext.returnOrder(orderId)}>
-          Return order
-        </SecondaryButton>
+        <SecondaryButton onClick={returnOrder}>Return order</SecondaryButton>
       )}
     </div>
   );

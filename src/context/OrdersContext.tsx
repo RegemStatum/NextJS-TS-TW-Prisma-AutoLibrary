@@ -1,14 +1,36 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 import { useProfileContext } from "./ProfileContext";
 import { useSession } from "next-auth/react";
 import OrderInfo from "@/types/misc/OrderInfo";
 import { OrdersContextValue } from "@/types/context";
 import BadgeType from "@/types/misc/BadgeType";
+import {
+  OrderConfirmationModal,
+  OrderConfirmationModalTypes,
+} from "@/types/context/OrdersContextValue";
+import { useRouter } from "next/router";
+
+const hiddenOrderConfirmationModal: OrderConfirmationModal = {
+  modalType: "receive",
+  isOpen: false,
+  orderId: "",
+  orderNumber: -1,
+  orderCabinetNumbers: [],
+};
 
 const ordersContextInitialValue: OrdersContextValue = {
   receiveOrder: (orderId) => {},
   returnOrder: (orderId) => {},
   cancelOrder: (orderId) => {},
+  closeCabinets: (cabinets) => {},
+  openOrderModal: (
+    type: OrderConfirmationModalTypes,
+    orderCabinetNumbers: number[],
+    orderId: string,
+    orderNumber: number
+  ) => {},
+  closeOrderModal: () => {},
+  orderConfirmationModal: hiddenOrderConfirmationModal,
 };
 
 const OrdersContext = React.createContext(ordersContextInitialValue);
@@ -18,8 +40,62 @@ type Props = {
 };
 
 const OrdersContextProvider: FC<Props> = ({ children }) => {
+  const router = useRouter();
   const { data: session } = useSession();
   const profileContext = useProfileContext();
+  const [orderConfirmationModal, setOrderConfirmationModal] =
+    useState<OrderConfirmationModal>(hiddenOrderConfirmationModal);
+
+  // disable page scroll when modal is open
+  useEffect(() => {
+    const bodyHTMLElement = document.getElementById("body");
+    if (orderConfirmationModal.isOpen === true) {
+      bodyHTMLElement?.classList.add("overflow-hidden");
+    }
+    return () => bodyHTMLElement?.classList.remove("overflow-hidden");
+  }, [orderConfirmationModal]);
+
+  const closeCabinets = useCallback(
+    (cabinets: number[]) => changeCabinetsState(cabinets, "close"),
+    []
+  );
+
+  useEffect(() => {
+    const handlePageChange = () => {
+      if (orderConfirmationModal.orderCabinetNumbers.length !== 0) {
+        closeCabinets(orderConfirmationModal.orderCabinetNumbers);
+      }
+    };
+    router.events.on("routeChangeStart", handlePageChange);
+    return () => {
+      router.events.off("routeChangeStart", handlePageChange);
+      handlePageChange();
+    };
+  }, [
+    router.events,
+    closeCabinets,
+    orderConfirmationModal.isOpen,
+    orderConfirmationModal.orderCabinetNumbers,
+  ]);
+
+  const openOrderModal = (
+    modalType: OrderConfirmationModalTypes,
+    orderCabinetNumbers: number[],
+    orderId: string,
+    orderNumber: number
+  ) => {
+    setOrderConfirmationModal({
+      modalType,
+      isOpen: true,
+      orderCabinetNumbers,
+      orderId,
+      orderNumber,
+    });
+  };
+
+  const closeOrderModal = () => {
+    setOrderConfirmationModal(hiddenOrderConfirmationModal);
+  };
 
   const handleError = (e: any) => {
     console.log(e);
@@ -165,7 +241,7 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
     try {
       startOrderAction();
       const cabinets = getOrderCabinets(orderId);
-      await changeCabinetsState(cabinets, "close");
+      await changeCabinetsState(cabinets, "open");
 
       // update order state to returned
       const userId = await getUserIdByEmail();
@@ -238,6 +314,10 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
         receiveOrder,
         returnOrder,
         cancelOrder,
+        closeCabinets,
+        openOrderModal,
+        closeOrderModal,
+        orderConfirmationModal,
       }}
     >
       {children}
