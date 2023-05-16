@@ -15,7 +15,7 @@ const OrderGridItemOtherControl: FC<Props> = ({
 }) => {
   const ordersContext = useOrdersContext();
 
-  const cancelOrder = () => {
+  const openConfirmationModal = () => {
     ordersContext.openOrderModal("cancel", [], orderId, orderNumber);
   };
 
@@ -25,7 +25,7 @@ const OrderGridItemOtherControl: FC<Props> = ({
         isOpen ? "" : "hidden"
       }`}
     >
-      <DeleteButton onClick={cancelOrder} className="">
+      <DeleteButton onClick={openConfirmationModal} className="">
         Cancel order
       </DeleteButton>
     </div>

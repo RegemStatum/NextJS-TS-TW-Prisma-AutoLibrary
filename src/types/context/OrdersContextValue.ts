@@ -1,4 +1,10 @@
-type OrderConfirmationModalTypes = "receive" | "return" | "cancel";
+type OrderConfirmationModalTypes =
+  | "receive"
+  | "return"
+  | "cancel"
+  | "cabinetsToClose";
+
+type PrevModalTypeToCabinetsClosedConfirmationModal = "receive" | "return";
 
 type OrderConfirmationModal = {
   modalType: OrderConfirmationModalTypes;
@@ -6,18 +12,21 @@ type OrderConfirmationModal = {
   orderId: string;
   orderNumber: number;
   orderCabinetNumbers: number[];
+  prevModalTypeToCabinetsClosedConfirmationModal: PrevModalTypeToCabinetsClosedConfirmationModal;
 };
 
 type OrdersContextValue = {
   receiveOrder: (orderId: string) => void;
   returnOrder: (orderId: string) => void;
   cancelOrder: (orderId: string) => void;
-  closeCabinets: (cabinets: number[]) => void;
+  openCabinets: (cabinets: number[]) => Promise<void>;
+  closeCabinets: (cabinets: number[]) => Promise<void>;
   openOrderModal: (
     type: OrderConfirmationModalTypes,
     orderCabinetNumbers: number[],
     orderId: string,
-    orderNumber: number
+    orderNumber: number,
+    prevModalTypeToCabinetsClosedConfirmationModal?: PrevModalTypeToCabinetsClosedConfirmationModal
   ) => void;
   closeOrderModal: () => void;
   orderConfirmationModal: OrderConfirmationModal;
@@ -25,4 +34,8 @@ type OrdersContextValue = {
 
 export default OrdersContextValue;
 
-export type { OrderConfirmationModalTypes, OrderConfirmationModal };
+export type {
+  OrderConfirmationModalTypes,
+  OrderConfirmationModal,
+  PrevModalTypeToCabinetsClosedConfirmationModal,
+};

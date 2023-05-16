@@ -9,6 +9,7 @@ import OrderReceptionConfirmationModal from "../order/OrderReceptionConfirmation
 import { useOrdersContext } from "@/context/OrdersContext";
 import OrderReturnConfirmationModal from "../order/OrderReturnConfirmationModal";
 import OrderCancelationConfirmationModal from "../order/OrderCancelationConfirmationModal";
+import OrderCabinetsClosedConfirmationModal from "../order/OrderCabinetsClosedConfirmationModal";
 
 const ProfileOrders: FC = ({}) => {
   const profileContext = useProfileContext();
@@ -31,8 +32,10 @@ const ProfileOrders: FC = ({}) => {
       <OrderReceptionConfirmationModal />
     ) : ordersContext.orderConfirmationModal.modalType === "return" ? (
       <OrderReturnConfirmationModal />
-    ) : (
+    ) : ordersContext.orderConfirmationModal.modalType === "cancel" ? (
       <OrderCancelationConfirmationModal />
+    ) : (
+      <OrderCabinetsClosedConfirmationModal />
     );
 
   return (

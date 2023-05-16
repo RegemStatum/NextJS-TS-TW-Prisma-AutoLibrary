@@ -18,33 +18,37 @@ const OrderGridItemMainControl: FC<Props> = ({
 }) => {
   const ordersContext = useOrdersContext();
 
-  const receiveOrder = () => {
-    ordersContext.receiveOrder(orderId);
+  const openReceptionConfirmationModal = () => {
     ordersContext.openOrderModal(
       "receive",
       orderCabinetNumbers,
       orderId,
-      orderNumber
+      orderNumber,
+      "receive"
     );
   };
 
-  const returnOrder = () => {
-    ordersContext.returnOrder(orderId);
+  const openReturnConfirmationModal = () => {
     ordersContext.openOrderModal(
       "return",
       orderCabinetNumbers,
       orderId,
-      orderNumber
+      orderNumber,
+      "return"
     );
   };
 
   return (
     <div>
       {status === OrderStatus.ready && (
-        <PrimaryButton onClick={receiveOrder}>Receive order</PrimaryButton>
+        <PrimaryButton onClick={openReceptionConfirmationModal}>
+          Receive order
+        </PrimaryButton>
       )}
       {status === OrderStatus.received && (
-        <SecondaryButton onClick={returnOrder}>Return order</SecondaryButton>
+        <SecondaryButton onClick={openReturnConfirmationModal}>
+          Return order
+        </SecondaryButton>
       )}
     </div>
   );
