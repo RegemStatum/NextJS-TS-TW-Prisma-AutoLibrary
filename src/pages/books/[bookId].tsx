@@ -18,12 +18,12 @@ type Props = {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const bookIds = await prisma.book.findMany({
+  const books = await prisma.book.findMany({
     select: {
       id: true,
     },
   });
-  const paths = bookIds.map((id) => `/books/${id}`);
+  const paths = books.map((book) => `/books/${book.id}`);
 
   return {
     paths,
@@ -32,20 +32,22 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
-  if (!context.params) {
+  if (!context.params || !context.params.bookId) {
     return {
       props: {},
-      error: "No context params",
       redirect: "/books",
     };
   }
 
   const bookId = context.params.bookId;
-  const id = Array.isArray(bookId) ? bookId[0] : bookId;
+
+  if (typeof bookId !== "string") {
+    throw new Error("Book id must be of string type");
+  }
 
   const book = await prisma.book.findUnique({
     where: {
-      id,
+      id: bookId,
     },
     include: {
       author: {
@@ -59,7 +61,6 @@ export const getStaticProps: GetStaticProps<Props> = async (context) => {
   });
 
   if (!book) {
-    console.log(`There is no book with id ${bookId}`);
     return {
       props: {},
       redirect: "/books",
@@ -85,7 +86,7 @@ const SingleBookPage: FC<Props> = ({ book }) => {
         />
       </Head>
       <div className="page-min-height xl:flex xl:items-center xl:justify-left">
-        <SingleBook book={book!} />
+        <SingleBook book={book} />
       </div>
     </>
   );

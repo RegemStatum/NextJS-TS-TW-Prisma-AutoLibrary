@@ -1,5 +1,5 @@
 import Home from "@/components/home/Home";
-import BookWithAuthorNameT from "@/types/BookWithAuthorNameT";
+import BookWithAuthorNameT from "@/types/misc/BookWithAuthorNameT";
 import prisma from "@/utils/prisma";
 import { GetStaticProps } from "next";
 import Head from "next/head";

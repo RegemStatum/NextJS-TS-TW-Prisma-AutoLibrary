@@ -20,7 +20,7 @@ interface SingleBookT extends Book {
 }
 
 type Props = {
-  book: SingleBookT;
+  book: SingleBookT | undefined;
 };
 
 const SingleBook: FC<Props> = ({ book }) => {
@@ -29,7 +29,7 @@ const SingleBook: FC<Props> = ({ book }) => {
   const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [currentBookQuantity, setCurrentBookQuantity] = useState(
-    book.currentQuantity
+    book?.currentQuantity || -1
   );
 
   // update current book quantity on page load
@@ -103,6 +103,10 @@ const SingleBook: FC<Props> = ({ book }) => {
       setErrorMsg(e.message);
     }
   };
+
+  if (!book) {
+    return <p>There is no book</p>;
+  }
 
   return (
     <div>

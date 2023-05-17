@@ -2,7 +2,7 @@ import { GetStaticProps } from "next";
 import React, { FC } from "react";
 import prisma from "@/utils/prisma";
 import BookGrid from "@/components/book/BookGrid";
-import BookWithAuthorNameT from "@/types/BookWithAuthorNameT";
+import BookWithAuthorNameT from "@/types/misc/BookWithAuthorNameT";
 import Head from "next/head";
 
 type Props = {
