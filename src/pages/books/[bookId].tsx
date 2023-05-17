@@ -85,7 +85,7 @@ const SingleBookPage: FC<Props> = ({ book }) => {
         />
       </Head>
       <div className="page-min-height xl:flex xl:items-center xl:justify-left">
-        <SingleBook book={book} />
+        <SingleBook book={book!} />
       </div>
     </>
   );
