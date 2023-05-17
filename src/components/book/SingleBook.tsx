@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { BadgeError } from "../ui/badges";
 import SingleBookNotFound from "./SingleBookNotFound";
 import SingleBookControlButtons from "./SingleBookControlButtons";
+import { HIDE_AFTER_DEFAULT_MILLISECONDS } from "@/utils/constants/misc";
 
 interface SingleBookT extends Book {
   author: {
@@ -19,7 +20,7 @@ interface SingleBookT extends Book {
 }
 
 type Props = {
-  book?: SingleBookT;
+  book: SingleBookT;
 };
 
 const SingleBook: FC<Props> = ({ book }) => {
@@ -27,7 +28,32 @@ const SingleBook: FC<Props> = ({ book }) => {
   const cartContext = useCartContext();
   const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [currentBookQuantity, setCurrentBookQuantity] = useState(
+    book.currentQuantity
+  );
 
+  // update current book quantity on page load
+  useEffect(() => {
+    if (!book) return;
+    // get book current quantity
+    const getBookCurrentQuantity = async () => {
+      const res = await fetch(`/api/books/${book.id}/getCurrentQuantity`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data: { currentQuantity: number; msg: string } = await res.json();
+      setCurrentBookQuantity(data.currentQuantity);
+    };
+    try {
+      getBookCurrentQuantity();
+    } catch (e: any) {
+      console.log(e);
+    }
+  }, [book]);
+
+  // check if book is already in cart
   useEffect(() => {
     if (!book) return;
     const isBookInCart =
@@ -35,12 +61,13 @@ const SingleBook: FC<Props> = ({ book }) => {
     setIsAlreadyInCart(isBookInCart);
   }, [cartContext.cartBooksIds, book]);
 
+  // hide error badge
   useEffect(() => {
     let timer: NodeJS.Timer;
     if (errorMsg !== "") {
       timer = setTimeout(() => {
         setErrorMsg("");
-      }, 5000);
+      }, HIDE_AFTER_DEFAULT_MILLISECONDS);
     }
     return () => clearTimeout(timer);
   }, [errorMsg]);
@@ -49,23 +76,24 @@ const SingleBook: FC<Props> = ({ book }) => {
     return <SingleBookNotFound />;
   }
 
-  const bookInfo = {
-    id: book.id,
-    publisher: book.publisher,
-    publicationYear: book.publicationYear,
-    ISBN10: book.ISBN10,
-    cover: book.cover,
-    language: book.language,
-    available: book.available,
-    featured: book.featured,
-    currentQuantity: book.currentQuantity,
-    maxQuantity: book.maxQuantity,
-    author: {
-      firstName: book.author.firstName,
-      secondName: book.author.secondName,
-      authorImgUrl: book.author.authorImgUrl,
-    },
-  };
+  // this object can be passed down to SingleBookInfo component
+  // const bookInfo = {
+  //   id: book.id,
+  //   publisher: book.publisher,
+  //   publicationYear: book.publicationYear,
+  //   ISBN10: book.ISBN10,
+  //   cover: book.cover,
+  //   language: book.language,
+  //   available: book.available,
+  //   featured: book.featured,
+  //   currentQuantity: book.currentQuantity,
+  //   maxQuantity: book.maxQuantity,
+  //   author: {
+  //     firstName: book.author.firstName,
+  //     secondName: book.author.secondName,
+  //     authorImgUrl: book.author.authorImgUrl,
+  //   },
+  // };
 
   const handleOrderBook = () => {
     try {
@@ -94,7 +122,7 @@ const SingleBook: FC<Props> = ({ book }) => {
           {/* badges [featured, quantity, available]*/}
           <SingleBookBadges
             featured={book.featured}
-            quantity={book.currentQuantity}
+            quantity={currentBookQuantity}
             available={book.available}
           />
         </div>
@@ -116,7 +144,7 @@ const SingleBook: FC<Props> = ({ book }) => {
         />
         {errorMsg && <BadgeError className="mt-2">{errorMsg}</BadgeError>}
       </div>
-      <SingleBookInfo book={bookInfo} authorId={book.authorId} />
+      <SingleBookInfo book={book} authorId={book.authorId} />
     </div>
   );
 };

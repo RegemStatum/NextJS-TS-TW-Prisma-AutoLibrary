@@ -22,42 +22,41 @@ const OrderCabinetsClosedConfirmationModal: FC = () => {
 
   useEffect(() => {
     const handleWindowStartClose = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = "";
-      if (
-        orderConfirmationModal.isOpen &&
-        orderConfirmationModal.modalType === "cabinetsToClose"
-      ) {
-        closeCabinets(orderConfirmationModal.orderCabinetNumbers);
-      }
-      setTimeout(() => {
-        if (window.confirm("Reopen cabinets?")) {
-          openCabinets(orderConfirmationModal.orderCabinetNumbers);
-        } else {
-          closeOrderModal();
+      try {
+        e.preventDefault();
+        e.returnValue = "";
+        if (
+          orderConfirmationModal.isOpen &&
+          orderConfirmationModal.modalType === "cabinetsToClose"
+        ) {
+          closeCabinets(orderConfirmationModal.orderCabinetNumbers);
         }
-      }, MILLISECONDS_WAIT_UNTIL_PROMPT_TO_REOPEN_CABINETS);
-      return;
+        setTimeout(() => {
+          if (window.confirm("Reopen cabinets?")) {
+            openCabinets(orderConfirmationModal.orderCabinetNumbers);
+          } else {
+            closeOrderModal();
+          }
+        }, MILLISECONDS_WAIT_UNTIL_PROMPT_TO_REOPEN_CABINETS);
+        return;
+      } catch (e: any) {
+        console.log(e);
+      }
     };
     const handleWindowClose = () => {
-      if (
-        orderConfirmationModal.isOpen &&
-        orderConfirmationModal.modalType === "cabinetsToClose"
-      ) {
-        closeCabinets(orderConfirmationModal.orderCabinetNumbers);
+      try {
+        if (
+          orderConfirmationModal.isOpen &&
+          orderConfirmationModal.modalType === "cabinetsToClose"
+        ) {
+          closeCabinets(orderConfirmationModal.orderCabinetNumbers);
+        }
+      } catch (e: any) {
+        console.log(e);
       }
     };
     const handleBrowseAway = async () => {
-      if (
-        orderConfirmationModal.isOpen &&
-        orderConfirmationModal.modalType === "cabinetsToClose"
-      ) {
-        await closeCabinets(orderConfirmationModal.orderCabinetNumbers);
-        closeOrderModal();
-      }
-    };
-    const handleVisibilityChange = async () => {
-      if (document.visibilityState === "hidden") {
+      try {
         if (
           orderConfirmationModal.isOpen &&
           orderConfirmationModal.modalType === "cabinetsToClose"
@@ -65,6 +64,23 @@ const OrderCabinetsClosedConfirmationModal: FC = () => {
           await closeCabinets(orderConfirmationModal.orderCabinetNumbers);
           closeOrderModal();
         }
+      } catch (e: any) {
+        console.log(e);
+      }
+    };
+    const handleVisibilityChange = async () => {
+      try {
+        if (document.visibilityState === "hidden") {
+          if (
+            orderConfirmationModal.isOpen &&
+            orderConfirmationModal.modalType === "cabinetsToClose"
+          ) {
+            await closeCabinets(orderConfirmationModal.orderCabinetNumbers);
+            closeOrderModal();
+          }
+        }
+      } catch (e: any) {
+        console.log(e);
       }
     };
 
@@ -91,21 +107,26 @@ const OrderCabinetsClosedConfirmationModal: FC = () => {
     closeOrderModal,
   ]);
 
-  const confirmCabinetsClosed = () => {
-    if (
-      orderConfirmationModal.prevModalTypeToCabinetsClosedConfirmationModal ===
-      "receive"
-    ) {
-      receiveOrder(orderConfirmationModal.orderId);
+  const confirmCabinetsClosed = async () => {
+    try {
+      if (
+        orderConfirmationModal.prevModalTypeToCabinetsClosedConfirmationModal ===
+        "receive"
+      ) {
+        receiveOrder(orderConfirmationModal.orderId);
+      }
+      if (
+        orderConfirmationModal.prevModalTypeToCabinetsClosedConfirmationModal ===
+        "return"
+      ) {
+        returnOrder(orderConfirmationModal.orderId);
+      }
+      await closeCabinets(orderConfirmationModal.orderCabinetNumbers);
+      closeOrderModal();
+    } catch (e: any) {
+      console.log(e);
+      closeOrderModal();
     }
-    if (
-      orderConfirmationModal.prevModalTypeToCabinetsClosedConfirmationModal ===
-      "return"
-    ) {
-      returnOrder(orderConfirmationModal.orderId);
-    }
-    closeCabinets(orderConfirmationModal.orderCabinetNumbers);
-    closeOrderModal();
   };
 
   return (

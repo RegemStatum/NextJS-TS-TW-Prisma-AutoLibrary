@@ -6,8 +6,8 @@ const SigninPage: FC = () => {
   return (
     <>
       <Head>
-        <title>Auto Library | Sign In</title>
-        <meta name="description" content="Auto Library sign in" />
+        <title>Autolib | Sign In</title>
+        <meta name="description" content="Autolib sign in" />
       </Head>
       <div className="page-min-height flex items-center">
         <Signin />

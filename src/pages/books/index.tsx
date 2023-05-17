@@ -31,8 +31,8 @@ const BooksPage: FC<Props> = ({ books }) => {
   return (
     <>
       <Head>
-        <title>Auto Library | Books</title>
-        <meta name="description" content="Auto Library books page" />
+        <title>Autolib | Books</title>
+        <meta name="description" content="Autolib books page" />
       </Head>
       <BookGrid books={books} />
     </>

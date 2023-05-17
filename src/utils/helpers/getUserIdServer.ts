@@ -1,6 +1,6 @@
 import { Session } from "next-auth";
 
-const getUserId: (session: Session | null) => Promise<string> = async (
+const getUserIdServer: (session: Session | null) => Promise<string> = async (
   session
 ) => {
   if (!session) {
@@ -16,21 +16,22 @@ const getUserId: (session: Session | null) => Promise<string> = async (
     throw new Error("No user email in session");
   }
 
-  const res = await fetch(`/api/profile/getIdByEmail`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email: email }),
-  });
+  const res = await fetch(
+    `${process.env.BASE_URL}/api/profile/${email}/getUserId`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Something went wrong while trying to receive user id");
   }
 
   const data = await res.json();
-  const id = data.id;
-  return id;
+  return data.id;
 };
 
-export default getUserId;
+export default getUserIdServer;

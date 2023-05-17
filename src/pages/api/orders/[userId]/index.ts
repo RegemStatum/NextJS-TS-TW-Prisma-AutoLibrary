@@ -1,6 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/utils/prisma";
-import { BadRequestError, CustomApiError } from "@/utils/errors";
+import {
+  BadRequestError,
+  CustomApiError,
+  MethodNotAllowedError,
+} from "@/utils/errors";
 import { Order } from "@prisma/client";
 
 type Data = {
@@ -12,11 +16,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const body = req.body;
-  const userId: string = body.id;
+  const reqMethod = req.method;
+  if (reqMethod !== "GET") {
+    throw new MethodNotAllowedError("Method not allowed");
+  }
 
-  if (!userId) {
-    throw new BadRequestError("Provide user id");
+  const { userId } = req.query;
+  if (!userId || typeof userId !== "string") {
+    throw new BadRequestError("Provide correct user id");
   }
 
   const userOrders = await prisma.order.findMany({

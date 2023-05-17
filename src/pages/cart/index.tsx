@@ -6,8 +6,8 @@ const CartPage: FC = () => {
   return (
     <>
       <Head>
-        <title>Auto Library | Cart</title>
-        <meta name="description" content="Auto Library cart page" />
+        <title>Autolib | Cart</title>
+        <meta name="description" content="Autolib cart page" />
       </Head>
       <div className="page-min-height">
         <Cart />

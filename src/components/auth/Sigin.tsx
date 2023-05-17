@@ -5,6 +5,7 @@ import Link from "next/link";
 import FormSeparator from "./FormSeparator";
 import AuthForm from "./AuthForm";
 import { useRouter } from "next/router";
+import { HIDE_AFTER_DEFAULT_MILLISECONDS } from "@/utils/constants/misc";
 
 const Signin: FC = () => {
   const { data: session } = useSession();
@@ -37,14 +38,13 @@ const Signin: FC = () => {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-
     if (validationError.msg) {
       timer = setTimeout(() => {
         setValidationError({
           inputName: "",
           msg: "",
         });
-      }, 5000);
+      }, HIDE_AFTER_DEFAULT_MILLISECONDS);
     }
     return () => clearTimeout(timer);
   }, [validationError]);

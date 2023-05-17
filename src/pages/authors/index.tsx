@@ -45,8 +45,8 @@ const AuthorsPage: FC<Props> = ({ authors }) => {
   return (
     <>
       <Head>
-        <title>Auto Library | Authors</title>
-        <meta name="description" content="Auto Library authors" />
+        <title>Autolib | Authors</title>
+        <meta name="description" content="Autolib authors" />
       </Head>
       <div className="page-min-height">
         <AuthorList authors={authors} />

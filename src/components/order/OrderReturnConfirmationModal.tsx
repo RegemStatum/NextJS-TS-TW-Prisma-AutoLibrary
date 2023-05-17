@@ -14,15 +14,20 @@ const OrderReturnConfirmationModal: FC = () => {
   } = useOrdersContext();
   const [isBooksReturned, setIsBooksReturned] = useState(false);
 
-  const confirmOrderReturn = () => {
-    openCabinets(orderCabinetNumbers);
-    openOrderModal(
-      "cabinetsToClose",
-      orderCabinetNumbers,
-      orderId,
-      orderNumber,
-      "return"
-    );
+  const confirmOrderReturn = async () => {
+    try {
+      await openCabinets(orderCabinetNumbers);
+      openOrderModal(
+        "cabinetsToClose",
+        orderCabinetNumbers,
+        orderId,
+        orderNumber,
+        "return"
+      );
+    } catch (e: any) {
+      console.log(e);
+      closeOrderModal();
+    }
   };
 
   return (

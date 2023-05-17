@@ -8,6 +8,7 @@ import CartNoBooks from "./CartNoBooks";
 import CartGridItem from "./CartGridItem";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { HIDE_AFTER_DEFAULT_MILLISECONDS } from "@/utils/constants/misc";
 
 const CartGrid: FC = () => {
   const { data: session } = useSession();
@@ -35,15 +36,17 @@ const CartGrid: FC = () => {
   useEffect(() => {
     const setNewCartBooksInfo = async () => {
       try {
+        if (cartBooksIds.length === 0) {
+          setCartBooks([]);
+          return;
+        }
         setIsLoading(true);
-        const res = await fetch(`/api/cart/findBooks`, {
-          method: "POST",
+        const fetchUri = `/api/cart/${cartBooksIds.join(",")}`;
+        const res = await fetch(`${fetchUri}`, {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            cartBooksIds,
-          }),
         });
         const { cartBooks: newCartBooks } = await res.json();
         setCartBooks(newCartBooks);
@@ -61,7 +64,7 @@ const CartGrid: FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setErrorMsg("");
-    }, 5000);
+    }, HIDE_AFTER_DEFAULT_MILLISECONDS);
     return () => clearTimeout(timer);
   }, [errorMsg]);
 
@@ -110,10 +113,7 @@ const CartGrid: FC = () => {
           />
         ))}
       </div>
-      <CartControlButtons
-        clearCart={cartContext.clearCart}
-        handleOrder={handleOrder}
-      />
+      <CartControlButtons handleOrder={handleOrder} />
       {errorMsg && <BadgeError className="mt-2">{errorMsg}</BadgeError>}
     </div>
   );

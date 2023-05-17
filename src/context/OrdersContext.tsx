@@ -10,6 +10,7 @@ import {
   PrevModalTypeToCabinetsClosedConfirmationModal,
 } from "@/types/context/OrdersContextValue";
 import { useRouter } from "next/router";
+import getUserIdClient from "@/utils/helpers/getUserIdClient";
 
 const hiddenOrderConfirmationModal: OrderConfirmationModal = {
   modalType: "receive",
@@ -59,49 +60,50 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
     return () => bodyHTMLElement?.classList.remove("overflow-hidden");
   }, [orderConfirmationModal]);
 
+  const closeOrderModal = useCallback(() => {
+    setOrderConfirmationModal(hiddenOrderConfirmationModal);
+  }, []);
+
   const handleError = useCallback(
     (e: any) => {
       console.log(e);
       profileContext.setBadge({ type: "error", msg: e.message });
       profileContext.setIsOrdersLoading(false);
+      closeOrderModal();
     },
-    [profileContext]
+    [profileContext, closeOrderModal]
   );
 
   const changeCabinetsState = useCallback(
     async (cabinets: number[], type: "open" | "close") => {
-      try {
-        const res = await fetch(`http://192.168.1.149:8082/cabinets/${type}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            cabinets,
-          }),
-        });
-        if (res.status === 404) {
-          throw new Error(
-            "Cabinets control server is currently unavailable. Try again later"
-          );
-        }
-        if (!res.ok) {
-          throw new Error(
-            "Something went wrong while accessing cabinets control server. Try again later"
-          );
-        }
-        const data = await res.json();
+      const res = await fetch(`http://192.168.1.149:8082/cabinets/${type}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cabinets,
+        }),
+      });
+      if (res.status === 404) {
+        throw new Error(
+          "Cabinets control server is currently unavailable. Try again later"
+        );
+      }
+      if (!res.ok) {
+        throw new Error(
+          "Something went wrong while accessing cabinets control server. Try again later"
+        );
+      }
+      const data = await res.json();
 
-        for (let i = 0; i < data.cabinets.length; i++) {
-          if (data.cabinets[i] !== cabinets[i]) {
-            throw new Error(`Wrong cabinets were ${type}ed`);
-          }
+      for (let i = 0; i < data.cabinets.length; i++) {
+        if (data.cabinets[i] !== cabinets[i]) {
+          throw new Error(`Wrong cabinets were ${type}ed`);
         }
-      } catch (e: any) {
-        handleError(e);
       }
     },
-    [handleError]
+    []
   );
 
   const openCabinets = useCallback(
@@ -131,10 +133,6 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
         prevModalTypeToCabinetsClosedConfirmationModal || "receive",
     });
   };
-
-  const closeOrderModal = useCallback(() => {
-    setOrderConfirmationModal(hiddenOrderConfirmationModal);
-  }, []);
 
   const checkSession = () => {
     if (!session) {
@@ -180,38 +178,19 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
   //   return cabinets;
   // };
 
-  const getUserIdByEmail = async (): Promise<string> => {
-    const userIdRes = await fetch(`/api/profile/getIdByEmail`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: session!.user!.email }),
-    });
-
-    if (!userIdRes.ok) {
-      throw new Error("Something went wrong while trying to receive user id");
-    }
-
-    const userData = await userIdRes.json();
-    const userId = userData.id;
-    return userId;
-  };
-
   // ORDER ACTIONS
   const receiveOrder = async (orderId: string) => {
     try {
       startOrderAction();
       // update order state to received
-      const userId = await getUserIdByEmail();
-      const res = await fetch("/api/order/receiveOrder", {
-        method: "POST",
+      const userId = await getUserIdClient(session);
+      const res = await fetch(`/api/orders/${userId}/receiveOrder`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           orderId,
-          userId,
         }),
       });
 
@@ -238,15 +217,14 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
     try {
       startOrderAction();
       // update order state to returned
-      const userId = await getUserIdByEmail();
-      const res = await fetch("/api/order/returnOrder", {
-        method: "POST",
+      const userId = await getUserIdClient(session);
+      const res = await fetch(`/api/orders/${userId}/returnOrder`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           orderId,
-          userId,
         }),
       });
 
@@ -272,17 +250,16 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
   const cancelOrder = async (orderId: string) => {
     try {
       startOrderAction();
-      const userId = await getUserIdByEmail();
+      const userId = await getUserIdClient(session);
 
       // delete order fetch delete, increment quantity to books in order
-      const res = await fetch(`/api/order/cancelOrder`, {
-        method: "POST",
+      const res = await fetch(`/api/orders/${userId}/cancelOrder`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           orderId,
-          userId,
         }),
       });
 

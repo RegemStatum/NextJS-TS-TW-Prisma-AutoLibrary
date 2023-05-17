@@ -78,10 +78,10 @@ const SingleBookPage: FC<Props> = ({ book }) => {
   return (
     <>
       <Head>
-        <title>{`Auto Library | ${book?.title || "Book"}`}</title>
+        <title>{`Autolib | ${book?.title || "Book"}`}</title>
         <meta
           name="description"
-          content={book?.description || "Auto Library single book page"}
+          content={book?.description || "Autolib single book page"}
         />
       </Head>
       <div className="page-min-height xl:flex xl:items-center xl:justify-left">

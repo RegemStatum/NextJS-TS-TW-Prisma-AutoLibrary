@@ -15,14 +15,19 @@ const OrderReceptionConfirmationModal: FC = () => {
   const [isBooksReadyToBeReceived, setIsBooksReadyToBeReceived] =
     useState(false);
 
-  const confirmOrderReception = () => {
-    openCabinets(orderCabinetNumbers);
-    openOrderModal(
-      "cabinetsToClose",
-      orderCabinetNumbers,
-      orderId,
-      orderNumber
-    );
+  const confirmOrderReception = async () => {
+    try {
+      await openCabinets(orderCabinetNumbers);
+      openOrderModal(
+        "cabinetsToClose",
+        orderCabinetNumbers,
+        orderId,
+        orderNumber
+      );
+    } catch (e: any) {
+      console.log(e);
+      closeOrderModal();
+    }
   };
 
   return (

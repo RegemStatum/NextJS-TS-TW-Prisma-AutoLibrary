@@ -8,6 +8,7 @@ import {
 import {
   BadRequestError,
   ConflictRequestError,
+  MethodNotAllowedError,
   NotFoundError,
 } from "@/utils/errors";
 import { OrderStatus } from "@/types/misc/OrderInfo";
@@ -21,12 +22,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const body = req.body;
-  const booksIds: string[] = body.booksIds;
-  const userId: string = body.userId;
+  const reqMethod = req.method;
+  if (reqMethod !== "POST") {
+    throw new MethodNotAllowedError("Method not allowed");
+  }
 
-  if (!userId || userId.length === 0) {
-    throw new BadRequestError("Provide user id");
+  const booksIds: string[] = req.body.booksIds;
+  const userId = req.query.userId;
+
+  if (!userId || typeof userId !== "string") {
+    throw new BadRequestError("Provide correct user id");
   }
 
   if (!booksIds || booksIds.length === 0) {
@@ -47,7 +52,7 @@ export default async function handler(
     select: {
       orders: {
         where: {
-          status: OrderStatus.ready,
+          status: OrderStatus.ready || OrderStatus.received,
         },
         select: {
           id: true,
@@ -60,7 +65,7 @@ export default async function handler(
   if (userOrders.orders.length >= MAX_ACTIVE_ORDERS_SIMULTANEOUSLY) {
     return res.status(400).json({
       order: null,
-      msg: `Maximum ${MAX_ACTIVE_ORDERS_SIMULTANEOUSLY} active order per user`,
+      msg: `Maximum ${MAX_ACTIVE_ORDERS_SIMULTANEOUSLY} active (ready or received) order`,
     });
   }
 

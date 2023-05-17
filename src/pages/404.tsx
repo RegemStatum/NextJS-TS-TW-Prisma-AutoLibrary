@@ -8,8 +8,8 @@ const ErrorPage: FC = () => {
   return (
     <>
       <Head>
-        <title>Auto Library | Error</title>
-        <meta name="description" content="Auto Library error page" />
+        <title>Autolib | Error</title>
+        <meta name="description" content="Autolib error page" />
       </Head>
       <div className="h-full flex flex-col items-center justify-center shrink-0 page-min-height">
         <div className="mb-1 flex flex-col gap-3 items-center">

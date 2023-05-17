@@ -14,6 +14,7 @@ import {
 } from "@/types/reducers/ProfileReducer";
 import { ProfileContextValue } from "@/types/context";
 import { profileReducer } from "@/reducers";
+import { HIDE_AFTER_DEFAULT_MILLISECONDS } from "@/utils/constants/misc";
 
 const hiddenBadge: Badge = {
   type: "",
@@ -49,7 +50,7 @@ const ProfileContextProvider: FC<ProfileContextProviderProps> = ({
     if (profile.badge.msg === "") return;
     const timer = setTimeout(() => {
       setBadge(hiddenBadge);
-    }, 5000);
+    }, HIDE_AFTER_DEFAULT_MILLISECONDS);
     return () => clearTimeout(timer);
   }, [profile.badge]);
   

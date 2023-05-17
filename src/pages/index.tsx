@@ -35,10 +35,10 @@ const HomePage: FC<Props> = ({ books }) => {
   return (
     <>
       <Head>
-        <title>Auto Library | Home</title>
+        <title>Autolib | Home</title>
         <meta
           name="description"
-          content="Auto Library home page. Auto Library - Automatic issue & acceptance of books Bored of common libraries? Visit our auto library — library with automatic issue & acceptance of books. Here you will be able to get any book in our library automatically without any boring conversations"
+          content="Autolib home page. Autolib - Automatic issue & acceptance of books Bored of common libraries? Visit our Autolib — library with automatic issue & acceptance of books. Here you will be able to get any book in our library automatically without any boring conversations"
         />
       </Head>
       <div className="page-min-height">
