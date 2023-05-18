@@ -16,12 +16,14 @@ const OrderGridItemBooksGridItem: FC<Props> = ({ book }) => {
           {book.author.firstName} {book.author.secondName}
         </p>
       </div>
-      <p className="mt-2 font-medium lg:mt-4">
-        Cabinet:{" "}
-        <span className="inline-block text-lg font-bold text-blue-800">
-          #{book.cabinet?.number}
-        </span>
-      </p>
+      {book.cabinet && (
+        <p className="mt-2 font-medium lg:mt-4">
+          Cabinet:{" "}
+          <span className="inline-block text-lg font-bold text-blue-800">
+            #{book.cabinet?.number}
+          </span>
+        </p>
+      )}
     </div>
   );
 };

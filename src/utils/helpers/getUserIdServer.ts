@@ -1,19 +1,20 @@
 import { Session } from "next-auth";
+import { BadRequestError } from "../errors";
 
 const getUserIdServer: (session: Session | null) => Promise<string> = async (
   session
 ) => {
   if (!session) {
-    throw new Error("No session");
+    throw new BadRequestError("No session");
   }
 
   if (!session.user) {
-    throw new Error("No user in session");
+    throw new BadRequestError("No user in session");
   }
 
   const email = session.user.email;
   if (!email) {
-    throw new Error("No user email in session");
+    throw new BadRequestError("No user email in session");
   }
 
   const res = await fetch(

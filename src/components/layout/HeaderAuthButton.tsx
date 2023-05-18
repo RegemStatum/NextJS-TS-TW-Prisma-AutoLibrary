@@ -18,7 +18,7 @@ const HeaderAuthButton: FC<Props> = ({ session }) => {
     </Link>
   ) : (
     <Link href="/auth/signin" className="block h-[40px]">
-      <PrimaryButton className="h-[40px] md:py-1">Sign in</PrimaryButton>
+      <PrimaryButton className="h-[40px] py-1 md:py-1">Sign in</PrimaryButton>
     </Link>
   );
 };

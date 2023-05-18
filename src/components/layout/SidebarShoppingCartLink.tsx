@@ -13,22 +13,20 @@ const SidebarShoppingCartLink: FC<Props> = ({ session }) => {
   const appContext = useAppContext();
 
   return (
-    <div className="mx-auto ">
+    <div className="w-full mx-auto">
       <Link
         href="/cart"
-        className={`group w-fit mx-auto flex gap-3 hover:text-blue-500 ${
+        className={`group px-5 py-2 mx-auto flex gap-5 hover:bg-slate-200 rounded-full hover:text-blue-500 overflow-hidden ${
           !session?.user
             ? "pointer-events-none text-neutral-400 items-center"
             : ""
         }`}
         onClick={() => {
-          setTimeout(() => {
-            appContext.closeSidebar();
-          }, 300);
+          appContext.closeSidebar();
         }}
       >
         <div
-          className={`w-[32px] h-[32px] p-0 group inline-block relative rounded-md shrink-0 hover:bg-neutral-100  hover:text-blue-500 `}
+          className={`w-[32px] h-[32px] p-0 group inline-block relative rounded-md shrink-0  `}
         >
           <ShoppingBagIcon />
           <ShoppingCartLinkCounter className="w-4 h-4 -bottom-[4px] -right-[2px] group-hover:text-neutral-100" />
@@ -39,7 +37,7 @@ const SidebarShoppingCartLink: FC<Props> = ({ session }) => {
           )}
         </div>
         <p
-          className={`w-[100px] font-medium text-2xl leading-tight ${
+          className={`font-medium text-2xl leading-5 ${
             !session?.user ? "text-lg" : ""
           }`}
         >

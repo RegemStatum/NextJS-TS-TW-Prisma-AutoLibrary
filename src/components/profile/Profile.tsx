@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { SecondaryButton } from "../ui/buttons";
 import { useCartContext } from "@/context/CartContext";
 import ProfileOrders from "./ProfileOrders";
+import Image from "next/image";
 
 const Profile: FC = () => {
   const { data: session } = useSession();
@@ -18,21 +19,31 @@ const Profile: FC = () => {
   };
 
   return (
-    <div className="pt-4 space-y-10">
+    <div className="space-y-10">
       {/* profile info */}
-      <div>
-        <h2 className="mb-1 text-xl font-medium lg:mb-2 lg:text-2xl">
-          Profile
-        </h2>
-        <p className="text-lg lg:text-xl">
-          Hello, {session?.user?.name || session?.user?.email}
-        </p>
-        <SecondaryButton
-          className="w-full max-w-[250px] mt-2"
-          onClick={() => handleSignOutButtonClick()}
-        >
-          Sign out
-        </SecondaryButton>
+      <div className="md:grid grid-cols-2 gap-4 lg:mt-12 lg:mb-32">
+        <div className="hidden mt-12 -6 w-full min-h-[225px] relative rounded-md md:block">
+          <Image
+            src="/images/undraw_hello.svg"
+            alt="profile"
+            fill
+            style={{ objectFit: "contain" }}
+            placeholder="blur"
+            blurDataURL="/images/undraw_hello.svg"
+            className="block max-h-[320px] h-fit"
+          />
+        </div>
+        <div className="mt-14 mb-20 flex flex-col items-center justify-center md:items-center">
+          <p className="text-lg lg:text-xl">
+            Hello, {session?.user?.name || session?.user?.email}
+          </p>
+          <SecondaryButton
+            className="w-full max-w-[250px] mt-2 md:mt-4"
+            onClick={() => handleSignOutButtonClick()}
+          >
+            Sign out
+          </SecondaryButton>
+        </div>
       </div>
       {/* orders */}
       <ProfileOrders />

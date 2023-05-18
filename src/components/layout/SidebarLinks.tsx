@@ -7,25 +7,20 @@ const SidebarLinks: FC = () => {
   const appContext = useAppContext();
 
   return (
-    <div className="flex flex-col gap-5 justify-center items-center">
+    <div className="w-full mx-auto flex flex-col gap-1 justify-center items-left">
       {pagesLinks.map((pageLink) => {
         const { id, name, path, LinkIcon } = pageLink;
-
         return (
           <Link
             key={id}
             href={path}
+            className="group px-5 py-2 flex flex-row gap-5 rounded-full overflow-hidden hover:bg-slate-200 hover:text-blue-500"
             onClick={() => {
-              setTimeout(() => {
-                appContext.closeSidebar();
-              }, 300);
+              appContext.closeSidebar();
             }}
-            className="flex flex-row gap-3 hover:text-blue-500"
           >
             <LinkIcon width={32} height={32} />
-            <p className="w-[100px] font-medium text-2xl leading-[1.45] ">
-              {name}
-            </p>
+            <p className="font-medium text-2xl leading-[1.45]">{name}</p>
           </Link>
         );
       })}

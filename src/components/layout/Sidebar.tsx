@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import SidebarLinks from "./SidebarLinks";
-import { XMarkIcon } from "../ui/icons";
+import { IconWrapper, XMarkIcon } from "../ui/icons";
 import { useAppContext } from "@/context/AppContext";
 import Logo from "./Logo";
 import { useSession } from "next-auth/react";
@@ -13,20 +13,20 @@ const Sidebar: FC = () => {
 
   return (
     <aside
-      className={`h-screen py-2 fixed z-10 top-0 overflow-hidden bg-neutral-100 ${
+      className={`h-screen py-3 fixed z-10 top-0 overflow-hidden bg-neutral-100 ${
         appContext.isSidebarOpen ? "w-full" : "w-0 p-0 hidden"
       } md:py-3 lg:hidden`}
     >
       <div className="container flex justify-between">
         <Logo />
-        <XMarkIcon
-          width={30}
-          strokeWidth={1.5}
+        <IconWrapper
           className="ml-auto mr-[1px] cursor-pointer"
           onClick={appContext.closeSidebar}
-        />
+        >
+          <XMarkIcon width={30} strokeWidth={1.5} />
+        </IconWrapper>
       </div>
-      <div className="h-[calc(100%-60px)] flex gap-5 flex-col justify-center align-center">
+      <div className="h-[calc(100%-60px)] w-[190px] mx-auto flex gap-1 flex-col justify-center align-center">
         <SidebarLinks />
         <SidebarShoppingCartLink session={session} />
         <SidebarAuthButton session={session} />

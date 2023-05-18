@@ -45,7 +45,9 @@ const OrderGridItem: FC<Props> = ({ order }) => {
             status={order.status}
             orderId={order.id}
             orderNumber={order.number}
-            orderCabinetNumbers={order.Book.map((book) => book.cabinet!.number)}
+            orderCabinetNumbers={order.Book.map(
+              (book) => book.cabinet?.number || -1
+            )}
           />
         </div>
       </div>

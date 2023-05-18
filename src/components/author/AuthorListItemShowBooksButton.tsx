@@ -18,7 +18,7 @@ const AuthorListItemShowBooksButton: FC<Props> = ({
         toggleShowBooks;
       }}
       disabled={booksLength === 0}
-      className="my-2 flex gap-1 items-center justify-center lg:hidden"
+      className="my-1 flex gap-1 items-center justify-center lg:hidden"
     >
       <p className="font-medium">
         {booksLength === 0

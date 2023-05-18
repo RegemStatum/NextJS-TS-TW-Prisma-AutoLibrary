@@ -1,6 +1,6 @@
 import { useProfileContext } from "@/context/ProfileContext";
 import React, { FC } from "react";
-import OrdersList from "../order/OrdersGrid";
+import OrdersGrid from "../order/OrdersGrid";
 import OrdersNoItems from "../order/OrdersNoItems";
 import { Spinner1 } from "../ui/spinners";
 import { createPortal } from "react-dom";
@@ -9,16 +9,13 @@ import { useOrdersContext } from "@/context/OrdersContext";
 import OrderReturnConfirmationModal from "../order/OrderReturnConfirmationModal";
 import OrderCancelationConfirmationModal from "../order/OrderCancelationConfirmationModal";
 import OrderCabinetsClosedConfirmationModal from "../order/OrderCabinetsClosedConfirmationModal";
+import OrdersHistory from "../order/OrdersHistory";
 
-const ProfileOrders: FC = ({}) => {
-  const profileContext = useProfileContext();
+const ProfileOrders: FC = () => {
+  const { orders: activeOrders, isOrdersLoading } = useProfileContext();
   const ordersContext = useOrdersContext();
 
-  if (!profileContext.orders || profileContext.orders.length === 0) {
-    return <OrdersNoItems />;
-  }
-
-  if (profileContext.isOrdersLoading) {
+  if (isOrdersLoading) {
     return (
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <Spinner1 />
@@ -44,10 +41,17 @@ const ProfileOrders: FC = ({}) => {
           orderConfirmationModal,
           document.getElementById("modals")!
         )}
+      {/* active orders */}
       <h2 className="mb-2 text-xl font-medium lg:mb-3 lg:text-2xl">
         Your orders
       </h2>
-      <OrdersList />
+      {!activeOrders || (activeOrders.length === 0 && <OrdersNoItems />)}
+      {activeOrders.length !== 0 && <OrdersGrid orders={activeOrders} />}
+      {/* canceled and returned orders */}
+      <p className="mt-6 mb-2 text-xl font-medium lg:mt-10 lg:mb-3 lg:text-2xl">
+        History of orders
+      </p>
+      <OrdersHistory />
     </div>
   );
 };

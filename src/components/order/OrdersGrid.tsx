@@ -1,13 +1,15 @@
 import React, { FC } from "react";
 import OrderGridItem from "./OrderGridItem";
-import { useProfileContext } from "@/context/ProfileContext";
+import OrderInfo from "@/types/misc/OrderInfo";
 
-const OrdersGrid: FC = () => {
-  const profileContext = useProfileContext();
+type Props = {
+  orders: OrderInfo[];
+};
 
+const OrdersGrid: FC<Props> = ({ orders }) => {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      {profileContext.orders.map((order) => {
+      {orders.map((order) => {
         return <OrderGridItem key={order.id} order={order} />;
       })}
     </div>

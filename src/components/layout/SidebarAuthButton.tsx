@@ -12,28 +12,26 @@ interface Props {
 const SidebarAuthButton: FC<Props> = ({ session }) => {
   const appContext = useAppContext();
 
-  const handleLinkClick = () => {
-    setTimeout(() => {
-      appContext.closeSidebar();
-    }, 300);
-  };
-
   return session ? (
     <Link
       href="/profile"
-      className="w-fit mx-auto flex gap-3 hover:text-blue-500"
-      onClick={() => handleLinkClick()}
+      className="w-full mx-auto px-5 py-2 flex gap-5 rounded-full hover:bg-slate-200 hover:text-blue-500 overflow-hidden"
+      onClick={() => {
+        appContext.closeSidebar();
+      }}
     >
-      <div className={`w-[32px] h-[32px] inline-block rounded-md shrink-0`}>
-        <UserIcon />
+      <div className={`w-[32px] h-[32px] -ml-[1px] inline-block rounded-md`}>
+        <UserIcon className="flex" />
       </div>
-      <p className="w-[100px] text-2xl font-medium">Profile</p>
+      <p className="text-2xl font-medium">Profile</p>
     </Link>
   ) : (
     <Link
       href="/auth/signin"
       className="shrink-0 flex justify-center"
-      onClick={() => handleLinkClick()}
+      onClick={() => {
+        appContext.closeSidebar();
+      }}
     >
       <PrimaryButton className="max-w-[144px] text-lg">Sign in</PrimaryButton>
     </Link>

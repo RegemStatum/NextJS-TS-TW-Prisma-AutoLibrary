@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { DeleteButton } from "../ui/buttons";
 import { useOrdersContext } from "@/context/OrdersContext";
 
 interface Props {
@@ -25,9 +24,12 @@ const OrderGridItemOtherControl: FC<Props> = ({
         isOpen ? "" : "hidden"
       }`}
     >
-      <DeleteButton onClick={openConfirmationModal} className="md:py-2 md:px-2">
+      <p
+        onClick={openConfirmationModal}
+        className="p-1 text-red-600 font-semibold"
+      >
         Cancel order
-      </DeleteButton>
+      </p>
     </div>
   );
 };
