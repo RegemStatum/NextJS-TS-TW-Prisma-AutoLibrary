@@ -5,22 +5,23 @@ import { useOrdersContext } from "@/context/OrdersContext";
 import { Modal } from "../ui/modals";
 
 const OrderCancelationConfirmationModal: FC = () => {
-  const ordersContext = useOrdersContext();
+  const {
+    cancelOrder,
+    closeOrderModal,
+    orderConfirmationModal: { orderId, orderNumber },
+  } = useOrdersContext();
   const [isWillingToCancel, setIsWillingToCancel] = useState(false);
 
   const confirmOrderCancelation = () => {
-    ordersContext.cancelOrder(ordersContext.orderConfirmationModal.orderId);
-    ordersContext.closeOrderModal();
+    cancelOrder(orderId);
+    closeOrderModal();
   };
 
   return (
     <Modal>
       <div className="mb-4 space-y-1 font-medium leading-snug md:mb-5 md:text-lg md:space-y-0">
         <div className="flex items-center justify-between text-lg ">
-          <p>
-            Cancel order number #
-            {ordersContext.orderConfirmationModal.orderNumber}
-          </p>
+          <p>Cancel order number #{orderNumber}</p>
         </div>
       </div>
       <div>

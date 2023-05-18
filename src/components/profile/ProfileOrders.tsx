@@ -1,7 +1,6 @@
 import { useProfileContext } from "@/context/ProfileContext";
 import React, { FC } from "react";
 import OrdersList from "../order/OrdersGrid";
-import { BadgeError, BadgeSuccess } from "../ui/badges";
 import OrdersNoItems from "../order/OrdersNoItems";
 import { Spinner1 } from "../ui/spinners";
 import { createPortal } from "react-dom";
@@ -40,18 +39,12 @@ const ProfileOrders: FC = ({}) => {
 
   return (
     <div>
-      {profileContext.badge.type === "error" && (
-        <BadgeError className="mb-2">{profileContext.badge.msg}</BadgeError>
-      )}
-      {profileContext.badge.type === "success" && (
-        <BadgeSuccess>{profileContext.badge.msg}</BadgeSuccess>
-      )}
       {ordersContext.orderConfirmationModal.isOpen &&
         createPortal(
           orderConfirmationModal,
           document.getElementById("modals")!
         )}
-      <h2 className="mb-2 text-xl font-bold lg:mb-3 lg:text-2xl">
+      <h2 className="mb-2 text-xl font-medium lg:mb-3 lg:text-2xl">
         Your orders
       </h2>
       <OrdersList />

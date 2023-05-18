@@ -26,7 +26,7 @@ const OrderGridItemHeader: FC<Props> = ({
           onClick={toggleShowOtherControl}
           className="p-1 rounded-md cursor-pointer hover:bg-neutral-100 hover:text-blue-500"
         >
-          <EllipsisVerticalIcon width={30} className="select-none" />
+          <EllipsisVerticalIcon width={28} className="select-none" />
         </div>
       )}
     </div>

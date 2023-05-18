@@ -11,7 +11,7 @@ const Book: FC<Props> = (book) => {
     <Link href={`books/${book.id}`} className="">
       <div
         className="border border-neutral-200 border-collapse cursor-pointer 
-      rounded-lg  overflow-hidden hover:border-neutral-300 hover:shadow-md"
+      rounded-lg  overflow-hidden hover:border-slate-300 hover:shadow-sm"
       >
         {/* image  */}
         <div className="w-full h-[300px] relative bg-neutral-100">

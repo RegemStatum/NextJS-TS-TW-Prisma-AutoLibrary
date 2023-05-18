@@ -10,7 +10,17 @@ module.exports = {
       center: true,
       padding: "0.25rem",
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        slideFromRight: {
+          "0%": { transform: "translateX(110%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+      },
+      animation: {
+        slideFromRight: "slideFromRight 70ms ease-out",
+      },
+    },
   },
   plugins: [],
 };

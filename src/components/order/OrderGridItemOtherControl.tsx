@@ -21,11 +21,11 @@ const OrderGridItemOtherControl: FC<Props> = ({
 
   return (
     <div
-      className={`absolute top-[105px] right-3 p-2 rounded-md bg-neutral-100 shadow-md md:top-[115px] md:right-5 ${
+      className={`absolute top-[105px] right-3 p-2 rounded-md bg-neutral-100 shadow-sm border border-slate-200 md:top-[115px] md:right-5 ${
         isOpen ? "" : "hidden"
       }`}
     >
-      <DeleteButton onClick={openConfirmationModal} className="">
+      <DeleteButton onClick={openConfirmationModal} className="md:py-2 md:px-2">
         Cancel order
       </DeleteButton>
     </div>

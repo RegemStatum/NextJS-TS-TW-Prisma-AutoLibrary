@@ -9,11 +9,6 @@ const profileReducer = (
   action: ProfileReducerActions
 ): ProfileState => {
   switch (action.type) {
-    case ProfileReducerActionTypes.SET_BADGE: {
-      const newBadge = action.payload;
-      const newState = { ...state, badge: newBadge };
-      return newState;
-    }
     case ProfileReducerActionTypes.SET_IS_ORDERS_LOADING: {
       const newIsLoading = action.payload;
       const newState = { ...state, isOrdersLoading: newIsLoading };

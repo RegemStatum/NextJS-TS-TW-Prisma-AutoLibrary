@@ -1,14 +1,8 @@
 import OrderInfo from "../misc/OrderInfo";
 
-type Badge = {
-  type: "success" | "error" | "info" | "pending" | "";
-  msg: string;
-};
-
 type ProfileState = {
   orders: OrderInfo[];
   isOrdersLoading: boolean;
-  badge: Badge;
 };
 
 enum ProfileReducerActionTypes {
@@ -22,21 +16,13 @@ type SetOrdersAction = {
   payload: OrderInfo[];
 };
 
-type SetBadgeAction = {
-  type: ProfileReducerActionTypes.SET_BADGE;
-  payload: Badge;
-};
-
 type SetIsOrdersLoadingAction = {
   type: ProfileReducerActionTypes.SET_IS_ORDERS_LOADING;
   payload: boolean;
 };
 
-type ProfileReducerActions =
-  | SetBadgeAction
-  | SetIsOrdersLoadingAction
-  | SetOrdersAction;
+type ProfileReducerActions = SetIsOrdersLoadingAction | SetOrdersAction;
 
-export type { Badge, ProfileState, ProfileReducerActions };
+export type { ProfileState, ProfileReducerActions };
 
 export { ProfileReducerActionTypes };

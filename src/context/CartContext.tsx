@@ -9,6 +9,7 @@ import { MAX_BOOKS_IN_ORDER } from "@/utils/constants/misc";
 import { CartContextValue } from "@/types/context";
 import { useSession } from "next-auth/react";
 import getUserIdClient from "@/utils/helpers/getUserIdClient";
+import { useAppContext } from "./AppContext";
 
 type Props = {
   children: React.ReactNode;
@@ -25,6 +26,7 @@ const contextDefaultValue: CartContextValue = {
 const CartContext = createContext(contextDefaultValue);
 
 const CartContextProvider: FC<Props> = ({ children }) => {
+  const { showInfoMessage } = useAppContext();
   const { data: session } = useSession();
   const [cartBooksIds, setCartBooksIds] = useState<string[]>([]);
 
@@ -60,23 +62,31 @@ const CartContextProvider: FC<Props> = ({ children }) => {
   };
 
   const createOrder = async () => {
-    const userId = await getUserIdClient(session);
+    try {
+      const userId = await getUserIdClient(session);
 
-    const res = await fetch(`/api/orders/${userId}/createOrder`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        booksIds: cartBooksIds,
-      }),
-    });
+      const res = await fetch(`/api/orders/${userId}/createOrder`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          booksIds: cartBooksIds,
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!res.ok) {
-      throw new Error(
-        data.msg || "Something went wrong while trying to create order"
+      if (!res.ok) {
+        throw new Error(
+          data.msg || "Something went wrong while trying to create order"
+        );
+      }
+    } catch (e: any) {
+      console.log(e);
+      showInfoMessage(
+        "error",
+        e.message || "Something went wrong. Try again later"
       );
     }
   };

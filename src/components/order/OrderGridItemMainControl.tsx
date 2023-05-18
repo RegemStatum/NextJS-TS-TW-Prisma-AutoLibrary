@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { PrimaryButton, SecondaryButton } from "../ui/buttons";
+import { SecondaryButton } from "../ui/buttons";
 import { useOrdersContext } from "@/context/OrdersContext";
 import { OrderInfoStatus, OrderStatus } from "@/types/misc/OrderInfo";
 
@@ -41,9 +41,9 @@ const OrderGridItemMainControl: FC<Props> = ({
   return (
     <div>
       {status === OrderStatus.ready && (
-        <PrimaryButton onClick={openReceptionConfirmationModal}>
+        <SecondaryButton onClick={openReceptionConfirmationModal}>
           Receive order
-        </PrimaryButton>
+        </SecondaryButton>
       )}
       {status === OrderStatus.received && (
         <SecondaryButton onClick={openReturnConfirmationModal}>

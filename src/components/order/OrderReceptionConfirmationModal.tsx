@@ -4,8 +4,13 @@ import CheckboxInput from "../ui/forms/CheckboxInput";
 import { useOrdersContext } from "@/context/OrdersContext";
 import { Modal } from "../ui/modals";
 import { IconWrapper, XMarkIcon } from "../ui/icons";
+import { useAppContext } from "@/context/AppContext";
+import { useProfileContext } from "@/context/ProfileContext";
+import { HIDE_AFTER_LONG_MILLISECONDS } from "@/utils/constants/misc";
 
 const OrderReceptionConfirmationModal: FC = () => {
+  const { showInfoMessage } = useAppContext();
+  const { setIsOrdersLoading } = useProfileContext();
   const {
     orderConfirmationModal: { orderId, orderNumber, orderCabinetNumbers },
     openCabinets,
@@ -26,7 +31,13 @@ const OrderReceptionConfirmationModal: FC = () => {
       );
     } catch (e: any) {
       console.log(e);
+      setIsOrdersLoading(false);
       closeOrderModal();
+      showInfoMessage(
+        "error",
+        e.message || "Something went wrong. Try again later",
+        HIDE_AFTER_LONG_MILLISECONDS
+      );
     }
   };
 

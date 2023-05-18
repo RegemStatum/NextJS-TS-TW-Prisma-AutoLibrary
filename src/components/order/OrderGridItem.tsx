@@ -20,7 +20,7 @@ const OrderGridItem: FC<Props> = ({ order }) => {
   };
 
   return (
-    <div className="max-w-[1100px] relative rounded-md outline outline-1 outline-neutral-200 shadow-md overflow-hidden">
+    <div className="max-w-[1100px] relative rounded-md outline outline-1 outline-neutral-200 shadow-lg overflow-hidden">
       {order.status === OrderStatus.ready && (
         <OrderGridItemOtherControl
           isOpen={isOtherControlOpen}
@@ -40,7 +40,7 @@ const OrderGridItem: FC<Props> = ({ order }) => {
         <div>
           <OrderGridItemBooksList books={order.Book} />
         </div>
-        <div className="mt-4">
+        <div className="mt-3">
           <OrderGridItemMainControl
             status={order.status}
             orderId={order.id}

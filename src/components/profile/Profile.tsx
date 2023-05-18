@@ -21,7 +21,9 @@ const Profile: FC = () => {
     <div className="pt-4 space-y-10">
       {/* profile info */}
       <div>
-        <h2 className="mb-1 text-xl font-bold lg:mb-2 lg:text-2xl">Profile</h2>
+        <h2 className="mb-1 text-xl font-medium lg:mb-2 lg:text-2xl">
+          Profile
+        </h2>
         <p className="text-lg lg:text-xl">
           Hello, {session?.user?.name || session?.user?.email}
         </p>

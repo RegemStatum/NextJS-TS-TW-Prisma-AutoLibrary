@@ -9,7 +9,7 @@ const CartNoBooks: FC = () => {
       </h2>
       <Link
         href="/books"
-        className="block pt-1 text-lg text-blue-600 underline md:pt-3 md:text-xl"
+        className="block w-fit mx-auto mt-1 text-lg text-blue-600 underline md:mt-3 md:text-xl"
       >
         Go to all books
       </Link>

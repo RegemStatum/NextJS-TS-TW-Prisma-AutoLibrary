@@ -15,6 +15,7 @@ export default function Document() {
         <Main />
         <NextScript />
         <div id="modals"></div>
+        <div id="infoMessages"></div>
       </body>
     </Html>
   );

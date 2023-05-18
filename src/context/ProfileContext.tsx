@@ -3,28 +3,19 @@ import React, {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useReducer,
 } from "react";
 import OrderInfo from "@/types/misc/OrderInfo";
 import {
-  Badge,
   ProfileReducerActionTypes,
   ProfileState,
 } from "@/types/reducers/ProfileReducer";
 import { ProfileContextValue } from "@/types/context";
 import { profileReducer } from "@/reducers";
-import { HIDE_AFTER_DEFAULT_MILLISECONDS } from "@/utils/constants/misc";
-
-const hiddenBadge: Badge = {
-  type: "",
-  msg: "",
-};
 
 const initialProfileState: ProfileState = {
   orders: [],
   isOrdersLoading: false,
-  badge: hiddenBadge,
 };
 
 type ProfileContextProviderProps = {
@@ -34,7 +25,6 @@ type ProfileContextProviderProps = {
 const initialContextState: ProfileContextValue = {
   ...initialProfileState,
   setOrders: (orders: OrderInfo[]) => {},
-  setBadge: (badge: Badge) => {},
   setIsOrdersLoading: (isLoading: boolean) => {},
 };
 
@@ -45,25 +35,12 @@ const ProfileContextProvider: FC<ProfileContextProviderProps> = ({
 }) => {
   const [profile, dispatch] = useReducer(profileReducer, initialProfileState);
 
-  // hide badge after showing for 5 secs
-  useEffect(() => {
-    if (profile.badge.msg === "") return;
-    const timer = setTimeout(() => {
-      setBadge(hiddenBadge);
-    }, HIDE_AFTER_DEFAULT_MILLISECONDS);
-    return () => clearTimeout(timer);
-  }, [profile.badge]);
-  
   // ORDERS CONTROL
   const setIsOrdersLoading = (isLoading: boolean) => {
     dispatch({
       type: ProfileReducerActionTypes.SET_IS_ORDERS_LOADING,
       payload: isLoading,
     });
-  };
-
-  const setBadge = (badge: Badge) => {
-    dispatch({ type: ProfileReducerActionTypes.SET_BADGE, payload: badge });
   };
 
   // setOrders is used as a dependency in useEffect hook in ProfilePage component.
@@ -74,7 +51,7 @@ const ProfileContextProvider: FC<ProfileContextProviderProps> = ({
 
   return (
     <ProfileContext.Provider
-      value={{ ...profile, setIsOrdersLoading, setBadge, setOrders }}
+      value={{ ...profile, setIsOrdersLoading, setOrders }}
     >
       {children}
     </ProfileContext.Provider>

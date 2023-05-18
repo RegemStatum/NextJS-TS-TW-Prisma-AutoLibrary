@@ -3,14 +3,15 @@ import { useProfileContext } from "./ProfileContext";
 import { useSession } from "next-auth/react";
 import OrderInfo from "@/types/misc/OrderInfo";
 import { OrdersContextValue } from "@/types/context";
-import BadgeType from "@/types/misc/BadgeType";
 import {
   OrderConfirmationModal,
   OrderConfirmationModalTypes,
   PrevModalTypeToCabinetsClosedConfirmationModal,
 } from "@/types/context/OrdersContextValue";
-import { useRouter } from "next/router";
 import getUserIdClient from "@/utils/helpers/getUserIdClient";
+import { useAppContext } from "./AppContext";
+import { HIDE_AFTER_LONG_MILLISECONDS } from "@/utils/constants/misc";
+import { InfoMessageType } from "@/types/context/AppContextValue";
 
 const hiddenOrderConfirmationModal: OrderConfirmationModal = {
   modalType: "receive",
@@ -45,9 +46,9 @@ type Props = {
 };
 
 const OrdersContextProvider: FC<Props> = ({ children }) => {
-  const router = useRouter();
   const { data: session } = useSession();
   const profileContext = useProfileContext();
+  const { showInfoMessage } = useAppContext();
   const [orderConfirmationModal, setOrderConfirmationModal] =
     useState<OrderConfirmationModal>(hiddenOrderConfirmationModal);
 
@@ -67,11 +68,15 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
   const handleError = useCallback(
     (e: any) => {
       console.log(e);
-      profileContext.setBadge({ type: "error", msg: e.message });
       profileContext.setIsOrdersLoading(false);
       closeOrderModal();
+      showInfoMessage(
+        "error",
+        e.message || "Something went wrong. Try again later",
+        HIDE_AFTER_LONG_MILLISECONDS
+      );
     },
-    [profileContext, closeOrderModal]
+    [profileContext, closeOrderModal, showInfoMessage]
   );
 
   const changeCabinetsState = useCallback(
@@ -85,11 +90,13 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
           cabinets,
         }),
       });
-      if (res.status === 404) {
+
+      if (res.status === 102) {
         throw new Error(
           "Cabinets control server is currently unavailable. Try again later"
         );
       }
+
       if (!res.ok) {
         throw new Error(
           "Something went wrong while accessing cabinets control server. Try again later"
@@ -155,14 +162,11 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
 
   const finishOrderAction = (
     newUserOrders: OrderInfo[],
-    badgeType: BadgeType,
-    badgeMsg: string
+    type: InfoMessageType,
+    msg: string
   ) => {
     profileContext.setOrders(newUserOrders);
-    profileContext.setBadge({
-      type: badgeType,
-      msg: badgeMsg,
-    });
+    showInfoMessage(type, msg);
     profileContext.setIsOrdersLoading(false);
   };
 
@@ -273,7 +277,7 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
       const newUserOrders = data.userOrders;
       const canceledOrderNumber = data.canceledOrder.number;
       const badgeMsg = `Order with number: ${canceledOrderNumber} successfully canceled`;
-      finishOrderAction(newUserOrders, "success", badgeMsg);
+      finishOrderAction(newUserOrders, "info", badgeMsg);
     } catch (e: any) {
       handleError(e);
     }

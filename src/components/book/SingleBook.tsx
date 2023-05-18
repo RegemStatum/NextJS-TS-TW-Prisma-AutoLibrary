@@ -6,10 +6,10 @@ import { Book } from "@prisma/client";
 import SingleBookBadges from "./SingleBookBadges";
 import { useCartContext } from "@/context/CartContext";
 import { useSession } from "next-auth/react";
-import { BadgeError } from "../ui/badges";
 import SingleBookNotFound from "./SingleBookNotFound";
 import SingleBookControlButtons from "./SingleBookControlButtons";
-import { HIDE_AFTER_DEFAULT_MILLISECONDS } from "@/utils/constants/misc";
+import { HIDE_AFTER_SHORT_MILLISECONDS } from "@/utils/constants/misc";
+import { useAppContext } from "@/context/AppContext";
 
 interface SingleBookT extends Book {
   author: {
@@ -25,9 +25,9 @@ type Props = {
 
 const SingleBook: FC<Props> = ({ book }) => {
   const { data: session } = useSession();
+  const { showInfoMessage } = useAppContext();
   const cartContext = useCartContext();
   const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const [currentBookQuantity, setCurrentBookQuantity] = useState(
     book?.currentQuantity || -1
   );
@@ -61,17 +61,6 @@ const SingleBook: FC<Props> = ({ book }) => {
     setIsAlreadyInCart(isBookInCart);
   }, [cartContext.cartBooksIds, book]);
 
-  // hide error badge
-  useEffect(() => {
-    let timer: NodeJS.Timer;
-    if (errorMsg !== "") {
-      timer = setTimeout(() => {
-        setErrorMsg("");
-      }, HIDE_AFTER_DEFAULT_MILLISECONDS);
-    }
-    return () => clearTimeout(timer);
-  }, [errorMsg]);
-
   if (!book) {
     return <SingleBookNotFound />;
   }
@@ -99,8 +88,16 @@ const SingleBook: FC<Props> = ({ book }) => {
     try {
       cartContext.addBookToCart(book.id);
       setIsAlreadyInCart(true);
+      showInfoMessage(
+        "success",
+        "Book added to your cart",
+        HIDE_AFTER_SHORT_MILLISECONDS
+      );
     } catch (e: any) {
-      setErrorMsg(e.message);
+      showInfoMessage(
+        "pending",
+        e.message || "Book was not added to your cart. Try again later"
+      );
     }
   };
 
@@ -146,7 +143,6 @@ const SingleBook: FC<Props> = ({ book }) => {
           isSessionUser={!!session?.user}
           handleOrderBook={handleOrderBook}
         />
-        {errorMsg && <BadgeError className="mt-2">{errorMsg}</BadgeError>}
       </div>
       <SingleBookInfo book={book} authorId={book.authorId} />
     </div>
