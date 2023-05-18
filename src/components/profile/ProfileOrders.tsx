@@ -1,5 +1,5 @@
 import { useProfileContext } from "@/context/ProfileContext";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import OrdersGrid from "../order/OrdersGrid";
 import OrdersNoItems from "../order/OrdersNoItems";
 import { Spinner1 } from "../ui/spinners";
@@ -10,8 +10,10 @@ import OrderReturnConfirmationModal from "../order/OrderReturnConfirmationModal"
 import OrderCancelationConfirmationModal from "../order/OrderCancelationConfirmationModal";
 import OrderCabinetsClosedConfirmationModal from "../order/OrderCabinetsClosedConfirmationModal";
 import OrdersHistory from "../order/OrdersHistory";
+import { ChevronDownIcon, ChevronUpIcon } from "../ui/icons";
 
 const ProfileOrders: FC = () => {
+  const [isShowOrdersHistory, setIsShowOrdersHistory] = useState(false);
   const { orders: activeOrders, isOrdersLoading } = useProfileContext();
   const ordersContext = useOrdersContext();
 
@@ -22,6 +24,15 @@ const ProfileOrders: FC = () => {
       </div>
     );
   }
+
+  const hideOrdersHistory = () => {
+    setIsShowOrdersHistory(false);
+  };
+
+  const toggleIsShowOrdersHistory = () => {
+    const newIsShowOrdersHistory = !isShowOrdersHistory;
+    setIsShowOrdersHistory(newIsShowOrdersHistory);
+  };
 
   const orderConfirmationModal =
     ordersContext.orderConfirmationModal.modalType === "receive" ? (
@@ -42,16 +53,26 @@ const ProfileOrders: FC = () => {
           document.getElementById("modals")!
         )}
       {/* active orders */}
-      <h2 className="mb-2 text-xl font-medium lg:mb-3 lg:text-2xl">
+      <h2 className="mb-3 text-xl font-medium lg:mb-3 lg:text-2xl">
         Your orders
       </h2>
       {!activeOrders || (activeOrders.length === 0 && <OrdersNoItems />)}
       {activeOrders.length !== 0 && <OrdersGrid orders={activeOrders} />}
       {/* canceled and returned orders */}
-      <p className="mt-6 mb-2 text-xl font-medium lg:mt-10 lg:mb-3 lg:text-2xl">
-        History of orders
-      </p>
-      <OrdersHistory />
+      <div
+        className="mt-6 mb-2 p-2 w-fit flex gap-3 rounded-md cursor-pointer hover:bg-neutral-100 lg:mt-10 lg:mb-3 "
+        onClick={toggleIsShowOrdersHistory}
+      >
+        <p className="font-medium lg:text-2xl">History of orders</p>
+        {isShowOrdersHistory ? (
+          <ChevronUpIcon width={22} />
+        ) : (
+          <ChevronDownIcon width={22} />
+        )}
+      </div>
+      {isShowOrdersHistory && (
+        <OrdersHistory hideOrdersHistory={hideOrdersHistory} />
+      )}
     </div>
   );
 };

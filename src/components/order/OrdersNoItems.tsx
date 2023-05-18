@@ -3,11 +3,13 @@ import React, { FC } from "react";
 
 const OrdersNoItems: FC = () => {
   return (
-    <div>
-      <h2 className="text-xl font-medium">You have no active orders yet</h2>
+    <div className="leading-snug">
+      <h2 className="text-lg font-medium leading-snug">
+        You have no active orders yet
+      </h2>
       <Link
         href="/cart"
-        className="pt-1 text-normal text-blue-600 underline  lg:pt-2 lg:text-xl"
+        className="text-lg text-blue-600 leading-snug underline lg:pt-2 lg:text-xl"
       >
         Check out cart
       </Link>

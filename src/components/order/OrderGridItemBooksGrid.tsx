@@ -8,7 +8,7 @@ interface Props {
 
 const OrderGridItemsBooksGrid: FC<Props> = ({ books }) => {
   return (
-    <div className="grid gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-1">
+    <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-1">
       {books.map((book) => (
         <OrderGridItemBooksGridItem key={book.id} book={book} />
       ))}

@@ -6,8 +6,13 @@ import { HIDE_AFTER_LONG_MILLISECONDS } from "@/utils/constants/misc";
 import getUserIdClient from "@/utils/helpers/getUserIdClient";
 import { useSession } from "next-auth/react";
 import OrdersGrid from "./OrdersGrid";
+import { SecondaryButton } from "../ui/buttons";
 
-const OrdersHistory: FC = ({}) => {
+type Props = {
+  hideOrdersHistory: () => void;
+};
+
+const OrdersHistory: FC<Props> = ({ hideOrdersHistory }) => {
   const { data: session } = useSession();
   const { showInfoMessage } = useAppContext();
   const [orders, setOrders] = useState<OrderInfo[]>([]);
@@ -43,13 +48,25 @@ const OrdersHistory: FC = ({}) => {
 
   if (isLoading) {
     return (
-      <div className="">
-        <Spinner1 className=" lg:w-[40px] lg:h-[40px]" />
+      <div className="flex justify-center">
+        <Spinner1 className="lg:w-[40px] lg:h-[40px]" />
       </div>
     );
   }
 
-  return <OrdersGrid orders={orders} />;
+  return (
+    <>
+      <OrdersGrid orders={orders} />
+      {!isLoading && (
+        <SecondaryButton
+          onClick={hideOrdersHistory}
+          className="mt-3 lg:w-[calc(50%_-_4px)]"
+        >
+          Hide orders history
+        </SecondaryButton>
+      )}
+    </>
+  );
 };
 
 export default OrdersHistory;

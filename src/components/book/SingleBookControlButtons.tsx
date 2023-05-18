@@ -18,7 +18,7 @@ const SingleBookControlButtons: FC<Props> = ({
   handleOrderBook,
 }) => {
   return (
-    <div className="flex flex-col gap-1 sm:flex-row">
+    <div className="flex flex-row gap-1">
       <PrimaryButton
         onClick={() => handleOrderBook()}
         disabled={
@@ -34,10 +34,7 @@ const SingleBookControlButtons: FC<Props> = ({
           ? "Already in cart"
           : "Add to cart"}
       </PrimaryButton>
-      <Link
-        href="/books"
-        className="w-full sm:w-[calc(50%_-_8px)] block shrink-0"
-      >
+      <Link href="/books" className="w-[calc(50%_-_8px)] block shrink-0">
         <SecondaryButton>Back to all books</SecondaryButton>
       </Link>
     </div>

@@ -3,6 +3,7 @@ import MenuBars from "./MenuBars";
 import XMarkIcon from "./XMarkIcon";
 import ExclamationTriangleIcon from "./ExclamationTriangleIcon";
 import ChevronUpIcon from "./ChevronUpIcon";
+import ChevronDownIcon from "./ChevronDownIcon";
 import ShoppingCartIcon from "./ShoppingCartIcon";
 import ShoppingBagIcon from "./ShoppingBagIcon";
 import UserIcon from "./UserIcon";
@@ -26,6 +27,7 @@ export {
   HomeIcon,
   ExclamationTriangleIcon,
   ChevronUpIcon,
+  ChevronDownIcon,
   ShoppingCartIcon,
   ShoppingBagIcon,
   UserIcon,

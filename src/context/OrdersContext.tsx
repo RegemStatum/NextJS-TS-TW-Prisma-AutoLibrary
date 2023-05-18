@@ -209,7 +209,7 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
       const receivedOrderNumber = data.receivedOrder.number;
       finishOrderAction(
         newUserOrders,
-        "success",
+        "info",
         `Order ${receivedOrderNumber} received`
       );
     } catch (e: any) {
@@ -243,7 +243,7 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
       const returnedOrderNumber = data.returnedOrder.number;
       finishOrderAction(
         newUserOrders,
-        "success",
+        "info",
         `Order ${returnedOrderNumber} returned`
       );
     } catch (e: any) {

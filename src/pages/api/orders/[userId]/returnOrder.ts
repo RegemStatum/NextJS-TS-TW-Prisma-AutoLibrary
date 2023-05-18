@@ -100,6 +100,9 @@ export default async function handler(
   const userOrders = await prisma.order.findMany({
     where: {
       userId,
+      status: {
+        in: ["ready", "received"],
+      },
     },
     select: {
       id: true,
