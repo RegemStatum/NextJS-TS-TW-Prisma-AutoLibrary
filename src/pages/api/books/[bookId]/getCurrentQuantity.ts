@@ -5,16 +5,14 @@ import {
   MethodNotAllowedError,
   NotFoundError,
 } from "@/utils/errors";
+import errorMiddleware from "@/utils/middleware/errorMiddleware";
 
 type Data = {
   currentQuantity: number;
   msg: string;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const reqMethod = req.method;
   if (reqMethod !== "GET") {
     throw new MethodNotAllowedError("Method not allowed");
@@ -44,3 +42,5 @@ export default async function handler(
     msg: `Book with id ${bookId} has current quantity ${currentQuantity}`,
   });
 }
+
+export default errorMiddleware(handler);

@@ -8,6 +8,7 @@ import BadRequestError from "@/utils/errors/BadRequestError";
 import validatePassword from "@/utils/auth/validatePassword";
 import { SessionStrategy } from "next-auth";
 import { User } from ".prisma/client";
+import errorMiddleware from "@/utils/middleware/errorMiddleware";
 
 const sessionStrategy: SessionStrategy = "jwt";
 
@@ -139,4 +140,4 @@ export const AuthOptions = {
   },
 };
 
-export default NextAuth(AuthOptions);
+export default errorMiddleware(NextAuth(AuthOptions));

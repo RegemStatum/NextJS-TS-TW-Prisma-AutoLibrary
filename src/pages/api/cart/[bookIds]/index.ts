@@ -2,16 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/utils/prisma";
 import CartBook from "@/types/misc/CartBook";
 import { MethodNotAllowedError } from "@/utils/errors";
+import errorMiddleware from "@/utils/middleware/errorMiddleware";
 
 type Data = {
   cartBooks: CartBook[];
   msg: string;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const reqMethod = req.method;
   if (reqMethod !== "GET") {
     throw new MethodNotAllowedError("Method not allowed");
@@ -42,3 +40,5 @@ export default async function handler(
 
   res.status(200).json({ cartBooks, msg: "Books in cart" });
 }
+
+export default errorMiddleware(handler);

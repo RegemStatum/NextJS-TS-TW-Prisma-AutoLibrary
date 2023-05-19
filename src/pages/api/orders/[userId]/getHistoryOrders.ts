@@ -6,16 +6,14 @@ import {
   MethodNotAllowedError,
 } from "@/utils/errors";
 import { Order } from "@prisma/client";
+import errorMiddleware from "@/utils/middleware/errorMiddleware";
 
 type Data = {
   msg: string;
   orders: Order[];
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const reqMethod = req.method;
   if (reqMethod !== "GET") {
     throw new MethodNotAllowedError("Method not allowed");
@@ -62,3 +60,5 @@ export default async function handler(
     .status(200)
     .json({ orders: userOrders, msg: `User with id: ${userId} orders` });
 }
+
+export default errorMiddleware(handler);

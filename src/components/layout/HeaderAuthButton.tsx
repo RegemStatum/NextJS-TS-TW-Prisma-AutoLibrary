@@ -1,6 +1,5 @@
 import { Session } from "next-auth";
 import React, { FC } from "react";
-import { PrimaryButton } from "../ui/buttons";
 import Link from "next/link";
 import { UserIcon } from "../ui/icons";
 
@@ -18,7 +17,9 @@ const HeaderAuthButton: FC<Props> = ({ session }) => {
     </Link>
   ) : (
     <Link href="/auth/signin" className="block h-[40px]">
-      <PrimaryButton className="h-[40px] py-1 md:py-1">Sign in</PrimaryButton>
+      <button className="block h-[40px] w-full py-1 px-4 bg-blue-600 text-slate-50 font-medium rounded-md select-none hover:bg-blue-700 disabled:bg-neutral-200 disabled:text-neutral-400">
+        Sign in
+      </button>
     </Link>
   );
 };

@@ -12,16 +12,14 @@ import {
   NotFoundError,
 } from "@/utils/errors";
 import { OrderStatus } from "@/types/misc/OrderInfo";
+import errorMiddleware from "@/utils/middleware/errorMiddleware";
 
 type Data = {
   order: Order | null;
   msg: string;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const reqMethod = req.method;
   if (reqMethod !== "POST") {
     throw new MethodNotAllowedError("Method not allowed");
@@ -39,10 +37,9 @@ export default async function handler(
   }
 
   if (booksIds.length > MAX_BOOKS_IN_ORDER) {
-    return res.status(400).json({
-      order: null,
-      msg: `Maximum ${MAX_BOOKS_IN_ORDER} books in 1(one) order`,
-    });
+    throw new BadRequestError(
+      `Maximum ${MAX_BOOKS_IN_ORDER} books in 1(one) order`
+    );
   }
 
   const userOrders = await prisma.user.findUniqueOrThrow({
@@ -63,10 +60,9 @@ export default async function handler(
   });
 
   if (userOrders.orders.length >= MAX_ACTIVE_ORDERS_SIMULTANEOUSLY) {
-    return res.status(400).json({
-      order: null,
-      msg: `Maximum ${MAX_ACTIVE_ORDERS_SIMULTANEOUSLY} active (ready or received) order`,
-    });
+    throw new BadRequestError(
+      `Maximum ${MAX_ACTIVE_ORDERS_SIMULTANEOUSLY} active (ready or received) order`
+    );
   }
 
   // check if all books have quantity and available
@@ -150,3 +146,5 @@ export default async function handler(
     .status(201)
     .json({ order: newOrder, msg: "New order successfully created" });
 }
+
+export default errorMiddleware(handler);

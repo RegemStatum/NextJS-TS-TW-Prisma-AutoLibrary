@@ -8,6 +8,7 @@ import {
 } from "@/utils/errors";
 import { Order } from "@prisma/client";
 import { OrderStatus } from "@/types/misc/OrderInfo";
+import errorMiddleware from "@/utils/middleware/errorMiddleware";
 
 type Data = {
   canceledOrder: Order;
@@ -15,10 +16,7 @@ type Data = {
   msg: string;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const reqMethod = req.method;
   if (reqMethod !== "PUT") {
     throw new MethodNotAllowedError("Method not allowed");
@@ -140,3 +138,5 @@ export default async function handler(
     msg: `Order with id ${orderId} was canceled`,
   });
 }
+
+export default errorMiddleware(handler);

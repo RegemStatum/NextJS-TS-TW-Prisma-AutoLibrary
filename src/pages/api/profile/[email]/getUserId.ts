@@ -3,13 +3,11 @@ import {
   MethodNotAllowedError,
   NotFoundError,
 } from "@/utils/errors";
+import errorMiddleware from "@/utils/middleware/errorMiddleware";
 import prisma from "@/utils/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const reqMethod = req.method;
   if (reqMethod !== "GET") {
     throw new MethodNotAllowedError("Method not allowed");
@@ -37,3 +35,5 @@ export default async function handler(
     msg: `User with email: ${email} has id: ${user.id}`,
   });
 }
+
+export default errorMiddleware(handler);
