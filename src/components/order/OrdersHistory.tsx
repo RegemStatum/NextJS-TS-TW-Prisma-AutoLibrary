@@ -6,7 +6,7 @@ import { HIDE_AFTER_LONG_MILLISECONDS } from "@/utils/constants/misc";
 import getUserIdClient from "@/utils/helpers/getUserIdClient";
 import { useSession } from "next-auth/react";
 import OrdersGrid from "./OrdersGrid";
-import { SecondaryButton } from "../ui/buttons";
+import { PrimaryButton } from "../ui/buttons";
 
 type Props = {
   hideOrdersHistory: () => void;
@@ -58,12 +58,12 @@ const OrdersHistory: FC<Props> = ({ hideOrdersHistory }) => {
     <>
       <OrdersGrid orders={orders} />
       {!isLoading && (
-        <SecondaryButton
+        <PrimaryButton
           onClick={hideOrdersHistory}
           className="mt-3 lg:w-[calc(50%_-_4px)]"
         >
           Hide orders history
-        </SecondaryButton>
+        </PrimaryButton>
       )}
     </>
   );

@@ -1,6 +1,6 @@
 import OrderInfo, { OrderStatus } from "@/types/misc/OrderInfo";
 import React, { FC, useState } from "react";
-import OrderGridItemBooksList from "./OrderGridItemBooksGrid";
+import OrderGridItemBooksGrid from "./OrderGridItemBooksGrid";
 import OrderGridItemStatuses from "./OrderGridItemStatuses";
 import OrderGridItemOtherControl from "./OrderGridItemOtherControl";
 import OrderGridItemMainControl from "./OrderGridItemMainControl";
@@ -38,7 +38,7 @@ const OrderGridItem: FC<Props> = ({ order }) => {
           />
         </div>
         <div>
-          <OrderGridItemBooksList books={order.Book} />
+          <OrderGridItemBooksGrid books={order.Book} />
         </div>
         <div className="mt-3">
           <OrderGridItemMainControl

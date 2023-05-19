@@ -130,54 +130,53 @@ const OrderCabinetsClosedConfirmationModal: FC = () => {
   };
 
   return (
-    <Modal>
-      <div className="mb-4 space-y-1 font-medium leading-snug md:mb-5 md:text-lg md:space-y-0">
-        <div className="text-lg ">
-          <p>
-            {`Close all cabinets related to your order after ${
+    <Modal className="max-w-[500px]">
+      <div className="p-2 md:p-3">
+        <div className="mb-10 leading-snug md:mb-14">
+          <p className="text-lg ">
+            {`Make sure that you ${
+              prevModalType === "receive" ? "received" : "returned"
+            } all books. `}
+            {`Close all cabinets related to the order after ${
               prevModalType === "receive" ? "receiving" : "returning"
-            } them`}
-          </p>
-          <p>
-            Cabinets to close:{" "}
+            } your books.`}{" "}
+            Cabinets to close: &nbsp;
             {orderConfirmationModal.orderCabinetNumbers.map(
               (cabinet, index) => (
-                <span key={index} className="text-2xl text-blue-800 font-bold">
-                  #{cabinet}{" "}
+                <span key={index} className="text-blue-600 font-bold">
+                  #{cabinet}
+                  {index !==
+                  orderConfirmationModal.orderCabinetNumbers.length - 1
+                    ? ","
+                    : ""}{" "}
                 </span>
               )
             )}
           </p>
-          <p>
-            {`Make sure that you ${
-              prevModalType === "receive" ? "received" : "returned"
-            } all books and closed all
-            cabinets`}
-          </p>
         </div>
+        <div className="leading-tight">
+          <CheckboxInput
+            name="cabinets_closed"
+            label={`I ${
+              prevModalType === "receive" ? "received" : "returned"
+            } all books ${
+              prevModalType === "receive" ? "in" : "to"
+            } corresponding cabinets and closed all cabinets`}
+            checked={isCabinetsClosed}
+            onChange={() => {
+              const newIsCabinetsClosed = !isCabinetsClosed;
+              setIsCabinetsClosed(newIsCabinetsClosed);
+            }}
+          />
+        </div>
+        <PrimaryButton
+          onClick={confirmCabinetsClosed}
+          disabled={!isCabinetsClosed}
+          className="mt-3 md:mt-4"
+        >
+          {!isCabinetsClosed ? "Mark all checks" : "Finish"}
+        </PrimaryButton>
       </div>
-      <div>
-        <CheckboxInput
-          name="cabinets_closed"
-          label={`I ${
-            prevModalType === "receive" ? "received" : "returned"
-          } all books ${
-            prevModalType === "receive" ? "in" : "to"
-          } corresponding cabinets and closed all cabinets`}
-          checked={isCabinetsClosed}
-          onChange={() => {
-            const newIsCabinetsClosed = !isCabinetsClosed;
-            setIsCabinetsClosed(newIsCabinetsClosed);
-          }}
-        />
-      </div>
-      <PrimaryButton
-        onClick={confirmCabinetsClosed}
-        disabled={!isCabinetsClosed}
-        className="mt-3 md:mt-4"
-      >
-        {!isCabinetsClosed ? "Mark all checks" : "Finish"}
-      </PrimaryButton>
     </Modal>
   );
 };

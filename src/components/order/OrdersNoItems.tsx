@@ -4,7 +4,7 @@ import React, { FC } from "react";
 const OrdersNoItems: FC = () => {
   return (
     <div className="leading-snug">
-      <h2 className="text-lg font-medium leading-snug">
+      <h2 className="text-lg leading-snug lg:text-xl">
         You have no active orders yet
       </h2>
       <Link

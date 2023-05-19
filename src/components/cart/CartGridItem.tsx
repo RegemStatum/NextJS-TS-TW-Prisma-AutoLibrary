@@ -6,10 +6,9 @@ import { useCartContext } from "@/context/CartContext";
 
 interface Props {
   cartBook: CartBook;
-  bookOrderIndex: number;
 }
 
-const CartGridItem: FC<Props> = ({ cartBook, bookOrderIndex }) => {
+const CartGridItem: FC<Props> = ({ cartBook }) => {
   const cartContext = useCartContext();
 
   return (
@@ -27,7 +26,7 @@ const CartGridItem: FC<Props> = ({ cartBook, bookOrderIndex }) => {
       </div>
       <div className="p-4 pb-5">
         {/* book info */}
-        <div className="mb-3 md:mb-5">
+        <div className="mb-3">
           <h2 className="mb-1 text-lg font-medium leading-snug lg:min-h-[60px] md:text-xl">
             {cartBook.title}
           </h2>
@@ -37,7 +36,6 @@ const CartGridItem: FC<Props> = ({ cartBook, bookOrderIndex }) => {
         </div>
         {/* book control */}
         <div className="flex gap-4">
-          <span className="font-bold">#{bookOrderIndex}</span>
           <Link
             href={`/books/${cartBook.id}`}
             className="text-blue-500 underline"

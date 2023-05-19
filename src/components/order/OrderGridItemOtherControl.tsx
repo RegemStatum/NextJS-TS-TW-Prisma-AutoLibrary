@@ -26,7 +26,7 @@ const OrderGridItemOtherControl: FC<Props> = ({
     >
       <p
         onClick={openConfirmationModal}
-        className="p-1 text-red-600 font-semibold"
+        className="p-1 text-red-600 font-semibold cursor-pointer"
       >
         Cancel order
       </p>

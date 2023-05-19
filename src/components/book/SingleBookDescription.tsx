@@ -16,9 +16,9 @@ const SingleBookDescription: FC<Props> = ({ description }) => {
   return (
     <div className="mt-1 xl:max-w-[810px] xl:max-h-[313px] xl:overflow-auto scrollbar xl:pr-4">
       <p
-        className={`text-sm md:text-base ${
+        className={`text-sm leading-relaxed md:text-base ${
           isFullDescription ? "" : "line-clamp-5"
-        } xl:line-clamp-none `}
+        } lg:leading-7 xl:line-clamp-none `}
       >
         {description}
       </p>

@@ -63,7 +63,7 @@ const ProfileOrders: FC = () => {
         className="mt-6 mb-2 p-2 w-fit flex gap-3 rounded-md cursor-pointer hover:bg-neutral-100 lg:mt-10 lg:mb-3 "
         onClick={toggleIsShowOrdersHistory}
       >
-        <p className="font-medium lg:text-2xl">History of orders</p>
+        <p className="font-medium text-lg lg:text-xl">History of orders</p>
         {isShowOrdersHistory ? (
           <ChevronUpIcon width={22} />
         ) : (

@@ -7,6 +7,7 @@ import { IconWrapper, XMarkIcon } from "../ui/icons";
 import { useAppContext } from "@/context/AppContext";
 import { useProfileContext } from "@/context/ProfileContext";
 import { HIDE_AFTER_LONG_MILLISECONDS } from "@/utils/constants/misc";
+import Image from "next/image";
 
 const OrderReceptionConfirmationModal: FC = () => {
   const { showInfoMessage } = useAppContext();
@@ -42,40 +43,56 @@ const OrderReceptionConfirmationModal: FC = () => {
   };
 
   return (
-    <Modal>
-      <div className="mb-4 space-y-1 font-medium leading-snug md:mb-5 md:text-lg md:space-y-0">
-        <div className="flex items-center justify-between text-lg ">
-          <p>
-            Your cabinets:{" "}
-            {orderCabinetNumbers.map((cabinet, index) => (
-              <span key={index} className="text-2xl text-blue-800 font-bold">
-                #{cabinet}{" "}
-              </span>
-            ))}
-          </p>
-          <IconWrapper onClick={closeOrderModal}>
-            <XMarkIcon width={26} />
-          </IconWrapper>
-        </div>
-      </div>
-      <div>
-        <CheckboxInput
-          name="books_received"
-          label="I am ready to receive my books"
-          checked={isBooksReadyToBeReceived}
-          onChange={() => {
-            const newIsBooksReadyToBeReceived = !isBooksReadyToBeReceived;
-            setIsBooksReadyToBeReceived(newIsBooksReadyToBeReceived);
-          }}
+    <Modal className="max-w-[500px]">
+      <div className="w-full min-h-[225px] relative rounded-md mt-6 mb-10">
+        <Image
+          src="/images/undraw_unboxing.svg"
+          alt="receive"
+          fill
+          style={{ objectFit: "contain" }}
+          placeholder="blur"
+          blurDataURL="/images/undraw_unboxing.svg"
+          className="block max-h-[320px] h-fit"
         />
       </div>
-      <PrimaryButton
-        onClick={confirmOrderReception}
-        disabled={!isBooksReadyToBeReceived}
-        className="mt-3 md:mt-4"
-      >
-        {!isBooksReadyToBeReceived ? "Mark all checks" : "Open cabinets"}
-      </PrimaryButton>
+      <div className="p-2 md:p-3">
+        <div className="mb-8 space-y-1 font-medium leading-snug">
+          <div className="flex items-center justify-between text-lg">
+            <div className="flex gap-3 align-center text-xl">
+              <p className="font-medium">Cabinets:</p>
+              <p>
+                {orderCabinetNumbers.map((cabinet, index) => (
+                  <span key={index} className="text-blue-600 font-bold">
+                    #{cabinet}
+                    {index !== orderCabinetNumbers.length - 1 ? "," : ""}{" "}
+                  </span>
+                ))}
+              </p>
+            </div>
+            <IconWrapper onClick={closeOrderModal}>
+              <XMarkIcon width={24} />
+            </IconWrapper>
+          </div>
+        </div>
+        <div>
+          <CheckboxInput
+            name="books_received"
+            label="I am ready to receive my books"
+            checked={isBooksReadyToBeReceived}
+            onChange={() => {
+              const newIsBooksReadyToBeReceived = !isBooksReadyToBeReceived;
+              setIsBooksReadyToBeReceived(newIsBooksReadyToBeReceived);
+            }}
+          />
+        </div>
+        <PrimaryButton
+          onClick={confirmOrderReception}
+          disabled={!isBooksReadyToBeReceived}
+          className="mt-3"
+        >
+          {!isBooksReadyToBeReceived ? "Mark all checks" : "Open cabinets"}
+        </PrimaryButton>
+      </div>
     </Modal>
   );
 };

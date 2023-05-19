@@ -105,12 +105,8 @@ const CartGrid: FC = () => {
   return (
     <div>
       <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
-        {cartBooks.map((cartBook, index) => (
-          <CartGridItem
-            key={cartBook.id}
-            cartBook={cartBook}
-            bookOrderIndex={index + 1}
-          />
+        {cartBooks.map((cartBook) => (
+          <CartGridItem key={cartBook.id} cartBook={cartBook} />
         ))}
       </div>
       <CartControlButtons handleOrder={handleOrder} />
