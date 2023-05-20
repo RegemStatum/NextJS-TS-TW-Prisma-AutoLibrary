@@ -15,7 +15,7 @@ const AuthorListItemShowBooksButton: FC<Props> = ({
   return (
     <PrimaryButton
       onClick={() => {
-        toggleShowBooks;
+        toggleShowBooks();
       }}
       disabled={booksLength === 0}
       className="my-1 flex gap-1 items-center justify-center lg:hidden"

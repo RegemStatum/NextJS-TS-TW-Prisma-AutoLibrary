@@ -12,7 +12,7 @@ const Header: FC = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="container mb-4 py-3 sticky top-0 z-10 flex flex-row items-center justify-between bg-neutral-50 border-b md:mb-5 md:py-4 lg:relative lg:mb-6 lg:py-4">
+    <header className="container py-3 sticky top-0 z-10 flex flex-row items-center justify-between bg-neutral-50 border-b md:py-4 lg:relative lg:py-4">
       <Logo />
       <IconWrapper
         onClick={appContext.openSidebar}

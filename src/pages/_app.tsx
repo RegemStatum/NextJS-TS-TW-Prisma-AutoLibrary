@@ -7,6 +7,7 @@ import {
   ProfileContextProvider,
   CartContextProvider,
   OrdersContextProvider,
+  AuthorsContextProvider,
 } from "@/context";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -16,9 +17,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <ProfileContextProvider>
           <OrdersContextProvider>
             <CartContextProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              <AuthorsContextProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </AuthorsContextProvider>
             </CartContextProvider>
           </OrdersContextProvider>
         </ProfileContextProvider>

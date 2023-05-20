@@ -15,7 +15,7 @@ const Sidebar: FC = () => {
     <aside
       className={`h-screen py-3 fixed z-10 top-0 overflow-hidden bg-neutral-100 ${
         appContext.isSidebarOpen ? "w-full" : "w-0 p-0 hidden"
-      } md:py-3 lg:hidden`}
+      } md:py-4 lg:hidden`}
     >
       <div className="container flex justify-between">
         <Logo />

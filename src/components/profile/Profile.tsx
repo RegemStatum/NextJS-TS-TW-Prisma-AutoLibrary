@@ -21,8 +21,8 @@ const Profile: FC = () => {
   return (
     <div className="space-y-10">
       {/* profile info */}
-      <div className="md:grid grid-cols-2 gap-4 lg:mt-12 lg:mb-32">
-        <div className="hidden mt-12 -6 w-full min-h-[225px] relative rounded-md md:block">
+      <div className="md:grid grid-cols-2 gap-4 lg:pt-12 lg:pb-14">
+        <div className="hidden mt-12 w-full min-h-[225px] relative rounded-md md:block">
           <Image
             src="/images/undraw_hello.svg"
             alt="profile"
@@ -33,7 +33,7 @@ const Profile: FC = () => {
             className="block max-h-[320px] h-fit"
           />
         </div>
-        <div className="mt-14 mb-20 flex flex-col items-center justify-center md:items-center">
+        <div className="pt-14 pb-20 flex flex-col items-center justify-center md:items-center">
           <p className="text-lg lg:text-xl">
             Hello, {session?.user?.name || session?.user?.email}
           </p>

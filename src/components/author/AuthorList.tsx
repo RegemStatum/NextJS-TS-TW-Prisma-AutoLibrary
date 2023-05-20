@@ -1,15 +1,13 @@
-import AuthorWithBooksT from "@/types/misc/AuthorWithBooksT";
 import React, { FC } from "react";
 import AuthorListItem from "./AuthorListItem";
+import { useAuthorsContext } from "@/context/AuthorsContext";
 
-interface Props {
-  authors: AuthorWithBooksT[];
-}
+const AuthorList: FC = ({}) => {
+  const { authorsToShow } = useAuthorsContext();
 
-const AuthorList: FC<Props> = ({ authors }) => {
   return (
     <div className="flex flex-col gap-3 lg:gap-6">
-      {authors.map((author) => (
+      {authorsToShow.map((author) => (
         <AuthorListItem key={author.id} author={author} />
       ))}
     </div>

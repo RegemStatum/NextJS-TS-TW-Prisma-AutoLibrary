@@ -8,6 +8,7 @@ import ShoppingCartIcon from "./ShoppingCartIcon";
 import ShoppingBagIcon from "./ShoppingBagIcon";
 import UserIcon from "./UserIcon";
 import EllipsisVerticalIcon from "./EllipsisVerticalicon";
+import MagnifyingGlassIcon from "./MagnifyingGlassIcon";
 
 // icon wrapper
 import IconWrapper from "./IconWrapper";
@@ -32,4 +33,5 @@ export {
   ShoppingBagIcon,
   UserIcon,
   EllipsisVerticalIcon,
+  MagnifyingGlassIcon,
 };
