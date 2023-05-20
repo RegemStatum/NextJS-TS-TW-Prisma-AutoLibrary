@@ -9,6 +9,7 @@ import {
   OrdersContextProvider,
   AuthorsContextProvider,
 } from "@/context";
+import BooksContextProvider from "@/context/BooksContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -18,9 +19,11 @@ export default function App({ Component, pageProps }: AppProps) {
           <OrdersContextProvider>
             <CartContextProvider>
               <AuthorsContextProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
+                <BooksContextProvider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </BooksContextProvider>
               </AuthorsContextProvider>
             </CartContextProvider>
           </OrdersContextProvider>

@@ -2,7 +2,7 @@ import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 import { useProfileContext } from "./ProfileContext";
 import { useSession } from "next-auth/react";
 import OrderInfo from "@/types/misc/OrderInfo";
-import { OrdersContextValue } from "@/types/context";
+import OrdersContextValue from "@/types/context/OrdersContextValue";
 import {
   OrderConfirmationModal,
   OrderConfirmationModalTypes,
@@ -23,11 +23,11 @@ const hiddenOrderConfirmationModal: OrderConfirmationModal = {
 };
 
 const ordersContextInitialValue: OrdersContextValue = {
-  receiveOrder: (orderId) => {},
-  returnOrder: (orderId) => {},
-  cancelOrder: (orderId) => {},
-  openCabinets: async (cabinets) => {},
-  closeCabinets: async (cabinets) => {},
+  receiveOrder: () => {},
+  returnOrder: () => {},
+  cancelOrder: () => {},
+  openCabinets: async () => {},
+  closeCabinets: async () => {},
   openOrderModal: (
     type: OrderConfirmationModalTypes,
     orderCabinetNumbers: number[],
