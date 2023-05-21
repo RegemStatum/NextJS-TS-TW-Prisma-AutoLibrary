@@ -1,17 +1,16 @@
-// import BookWithAuthorNameT from "@/types/misc/BookWithAuthorNameT";
-import { BooksStateSort } from "@/types/reducers/BooksReducer";
+import { CACHED_BOOKS_TTL_SEC } from "@/utils/constants/misc";
 import {
   BadRequestError,
   MethodNotAllowedError,
   NotFoundError,
 } from "@/utils/errors";
+import checkIsBooksStateSort from "@/utils/helpers/checkIsBooksStateSort";
 import errorMiddleware from "@/utils/middleware/errorMiddleware";
 import prisma from "@/utils/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import NodeCache from "node-cache";
 
-const isBooksStateSort = (sortBy: string): sortBy is BooksStateSort => {
-  return sortBy === "YEAR_ASC" || sortBy === "YEAR_DESC";
-};
+const cache = new NodeCache();
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const reqMethod = req.method;
@@ -29,11 +28,25 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     throw new BadRequestError("Provide sort by");
   }
 
-  if (!isBooksStateSort(sortBy)) {
+  if (!checkIsBooksStateSort(sortBy)) {
     throw new BadRequestError("Sort by can be 'YEAR_ASC' or 'YEAR_DESC'");
   }
 
-  const orderPublicationYear: "asc" | "desc" =
+  // return cached books if cache hit
+  type CachedBooksKey = "booksSortedByYearASC" | "booksSortedByYearDESC";
+  const cachedBooksKey: CachedBooksKey =
+    sortBy === "YEAR_ASC" ? "booksSortedByYearASC" : "booksSortedByYearDESC";
+
+  const cachedBooks = cache.get(cachedBooksKey);
+  if (cachedBooks) {
+    res
+      .status(200)
+      .json({ msg: `Books sorted by ${sortBy}`, books: cachedBooks });
+    return;
+  }
+
+  type OrderPublicationYear = "asc" | "desc";
+  const orderPublicationYear: OrderPublicationYear =
     sortBy === "YEAR_ASC" ? "asc" : "desc";
 
   const books = await prisma.book.findMany({
@@ -54,6 +67,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (!books) {
     throw new NotFoundError("There are no books");
+  }
+
+  // cache books if cache miss
+  const booksCacheSuccess = cache.set(
+    cachedBooksKey,
+    books,
+    CACHED_BOOKS_TTL_SEC
+  );
+  if (!booksCacheSuccess) {
+    console.log("Books were not cached");
   }
 
   res.status(200).json({ msg: `Books sorted by ${sortBy}`, books });

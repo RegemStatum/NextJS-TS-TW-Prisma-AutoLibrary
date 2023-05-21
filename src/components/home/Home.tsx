@@ -1,6 +1,6 @@
 import BookWithAuthorNameT from "@/types/misc/BookWithAuthorNameT";
 import React, { FC } from "react";
-import BookGrid from "../book/BookGrid";
+// import BookGrid from "../book/BooksGrid";
 import Hero from "./Hero";
 import { SectionHeader } from "../ui/headers";
 
@@ -15,7 +15,7 @@ const Home: FC<Props> = ({ books }) => {
       {/* featured books */}
       <div>
         <SectionHeader text="Featured books" />
-        <BookGrid books={books} />
+        {/* <BookGrid books={books} /> */}
       </div>
     </div>
   );

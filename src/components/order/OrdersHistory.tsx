@@ -2,7 +2,7 @@ import OrderInfo from "@/types/misc/OrderInfo";
 import React, { FC, useEffect, useState } from "react";
 import { Spinner1 } from "../ui/spinners";
 import { useAppContext } from "@/context/AppContext";
-import { HIDE_AFTER_LONG_MILLISECONDS } from "@/utils/constants/misc";
+import { HIDE_AFTER_LONG_MSEC } from "@/utils/constants/misc";
 import getUserIdClient from "@/utils/helpers/getUserIdClient";
 import { useSession } from "next-auth/react";
 import OrdersGrid from "./OrdersGrid";
@@ -38,7 +38,7 @@ const OrdersHistory: FC<Props> = ({ hideOrdersHistory }) => {
         showInfoMessage(
           "error",
           e.message || "Something went wrong. Try again later",
-          HIDE_AFTER_LONG_MILLISECONDS
+          HIDE_AFTER_LONG_MSEC
         );
       }
     };

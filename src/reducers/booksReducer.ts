@@ -33,6 +33,38 @@ const reducer = (
       };
       return newState;
     }
+    case BooksReducerActionTypes.SET_IS_BOOKS_FILTERED: {
+      const newIsBooksFiltered = action.payload;
+      const newState: BooksState = {
+        ...state,
+        isBooksFiltered: newIsBooksFiltered,
+      };
+      return newState;
+    }
+    case BooksReducerActionTypes.SET_PAGINATION: {
+      const newPagination = action.payload;
+      const newState: BooksState = {
+        ...state,
+        pagination: newPagination,
+      };
+      return newState;
+    }
+    case BooksReducerActionTypes.SET_SEARCH: {
+      const newSearch = action.payload;
+      const newState: BooksState = {
+        ...state,
+        search: newSearch,
+      };
+      return newState;
+    }
+    case BooksReducerActionTypes.SET_IS_BOOKS_LOADING: {
+      const newIsLoading = action.payload;
+      const newState: BooksState = {
+        ...state,
+        isBooksLoading: newIsLoading,
+      };
+      return newState;
+    }
     default: {
       return { ...state };
     }

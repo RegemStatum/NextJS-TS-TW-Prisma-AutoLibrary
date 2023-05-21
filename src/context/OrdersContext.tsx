@@ -10,7 +10,7 @@ import {
 } from "@/types/context/OrdersContextValue";
 import getUserIdClient from "@/utils/helpers/getUserIdClient";
 import { useAppContext } from "./AppContext";
-import { HIDE_AFTER_LONG_MILLISECONDS } from "@/utils/constants/misc";
+import { HIDE_AFTER_LONG_MSEC } from "@/utils/constants/misc";
 import { InfoMessageType } from "@/types/context/AppContextValue";
 
 const hiddenOrderConfirmationModal: OrderConfirmationModal = {
@@ -73,7 +73,7 @@ const OrdersContextProvider: FC<Props> = ({ children }) => {
       showInfoMessage(
         "error",
         e.message || "Something went wrong. Try again later",
-        HIDE_AFTER_LONG_MILLISECONDS
+        HIDE_AFTER_LONG_MSEC
       );
     },
     [profileContext, closeOrderModal, showInfoMessage]

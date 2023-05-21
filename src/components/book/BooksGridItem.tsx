@@ -6,7 +6,7 @@ import BookWithAuthorNameT from "@/types/misc/BookWithAuthorNameT";
 
 type Props = BookWithAuthorNameT;
 
-const Book: FC<Props> = (book) => {
+const BooksGridItem: FC<Props> = (book) => {
   return (
     <Link href={`books/${book.id}`} className="">
       <div
@@ -58,4 +58,4 @@ const Book: FC<Props> = (book) => {
   );
 };
 
-export default Book;
+export default BooksGridItem;

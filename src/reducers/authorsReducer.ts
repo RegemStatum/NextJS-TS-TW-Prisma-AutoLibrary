@@ -9,11 +9,11 @@ const reducer = (
   action: AuthorsReducerActions
 ): AuthorsState => {
   switch (action.type) {
-    case AuthorsReducerActionTypes.SET_AUTHORS_TO_SHOW: {
-      const newAuthorsToShow = action.payload;
+    case AuthorsReducerActionTypes.SET_AUTHORS: {
+      const newAuthors = action.payload;
       const newState: AuthorsState = {
         ...state,
-        authorsToShow: newAuthorsToShow,
+        authors: newAuthors,
       };
       return newState;
     }
@@ -33,36 +33,19 @@ const reducer = (
       };
       return newState;
     }
-    case AuthorsReducerActionTypes.SET_CURRENT_PAGE_NUMBER: {
-      const newCurrentPageNumber = action.payload;
+    case AuthorsReducerActionTypes.SET_SEARCH: {
+      const newSearch = action.payload;
       const newState: AuthorsState = {
         ...state,
-        pagination: {
-          ...state.pagination,
-          currentPageNumber: newCurrentPageNumber,
-        },
+        search: newSearch,
       };
       return newState;
     }
-    case AuthorsReducerActionTypes.SET_LAST_PAGE_NUMBER: {
-      const newLastPageNumber = action.payload;
+    case AuthorsReducerActionTypes.SET_PAGINATION: {
+      const newPagination = action.payload;
       const newState: AuthorsState = {
         ...state,
-        pagination: {
-          ...state.pagination,
-          lastPageNumber: newLastPageNumber,
-        },
-      };
-      return newState;
-    }
-    case AuthorsReducerActionTypes.SET_SEARCH_INPUT_VALUE: {
-      const newSearchInputValue = action.payload;
-      const newState: AuthorsState = {
-        ...state,
-        search: {
-          ...state.search,
-          searchInputValue: newSearchInputValue,
-        },
+        pagination: newPagination,
       };
       return newState;
     }

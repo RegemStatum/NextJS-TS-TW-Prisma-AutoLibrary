@@ -8,7 +8,7 @@ import CartNoBooks from "./CartNoBooks";
 import CartGridItem from "./CartGridItem";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { HIDE_AFTER_DEFAULT_MILLISECONDS } from "@/utils/constants/misc";
+import { HIDE_AFTER_DEFAULT_MSEC } from "@/utils/constants/misc";
 
 const CartGrid: FC = () => {
   const { data: session } = useSession();
@@ -64,7 +64,7 @@ const CartGrid: FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setErrorMsg("");
-    }, HIDE_AFTER_DEFAULT_MILLISECONDS);
+    }, HIDE_AFTER_DEFAULT_MSEC);
     return () => clearTimeout(timer);
   }, [errorMsg]);
 

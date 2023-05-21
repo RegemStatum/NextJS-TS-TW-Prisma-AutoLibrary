@@ -1,29 +1,32 @@
 import AuthorWithBooksT from "../misc/AuthorWithBooksT";
 
+type AuthorsStatePagination = {
+  currentPageNumber: number;
+  lastPageNumber: number;
+};
+
+type AuthorsStateSearch = {
+  searchInputValue: string;
+};
+
 type AuthorsState = {
-  authorsToShow: AuthorWithBooksT[];
+  authors: AuthorWithBooksT[];
   isAuthorsLoading: boolean;
   isAuthorsFiltered: boolean;
-  pagination: {
-    currentPageNumber: number;
-    lastPageNumber: number;
-  };
-  search: {
-    searchInputValue: string;
-  };
+  pagination: AuthorsStatePagination;
+  search: AuthorsStateSearch;
 };
 
 enum AuthorsReducerActionTypes {
-  SET_AUTHORS_TO_SHOW = "SET_AUTHORS_TO_SHOW",
+  SET_AUTHORS = "SET_AUTHORS",
   SET_IS_AUTHORS_LOADING = "SET_IS_AUTHORS_LOADING",
   SET_IS_AUTHORS_FILTERED = "SET_IS_AUTHORS_FILTERED",
-  SET_CURRENT_PAGE_NUMBER = "SET_CURRENT_PAGE_NUMBER",
-  SET_LAST_PAGE_NUMBER = "SET_LAST_PAGE_NUMBER",
-  SET_SEARCH_INPUT_VALUE = "SET_SEARCH_INPUT_VALUE",
+  SET_PAGINATION = "SET_PAGINATION",
+  SET_SEARCH = "SET_SEARCH",
 }
 
 type SetAuthorsToShowAction = {
-  type: AuthorsReducerActionTypes.SET_AUTHORS_TO_SHOW;
+  type: AuthorsReducerActionTypes.SET_AUTHORS;
   payload: AuthorWithBooksT[];
 };
 
@@ -32,34 +35,33 @@ type SetIsAuthorsLoadingAction = {
   payload: boolean;
 };
 
-type SetCurrentPageNumberAction = {
-  type: AuthorsReducerActionTypes.SET_CURRENT_PAGE_NUMBER;
-  payload: number;
-};
-
-type SetLastPageNumberAction = {
-  type: AuthorsReducerActionTypes.SET_LAST_PAGE_NUMBER;
-  payload: number;
-};
-
-type SetSearchInputValueAction = {
-  type: AuthorsReducerActionTypes.SET_SEARCH_INPUT_VALUE;
-  payload: string;
-};
-
 type SetIsAuthorsFilteredAction = {
   type: AuthorsReducerActionTypes.SET_IS_AUTHORS_FILTERED;
   payload: boolean;
 };
 
+type SetPaginationAction = {
+  type: AuthorsReducerActionTypes.SET_PAGINATION;
+  payload: AuthorsStatePagination;
+};
+
+type SetSearchAction = {
+  type: AuthorsReducerActionTypes.SET_SEARCH;
+  payload: AuthorsStateSearch;
+};
+
 type AuthorsReducerActions =
   | SetAuthorsToShowAction
   | SetIsAuthorsLoadingAction
-  | SetCurrentPageNumberAction
-  | SetLastPageNumberAction
-  | SetSearchInputValueAction
+  | SetPaginationAction
+  | SetSearchAction
   | SetIsAuthorsFilteredAction;
 
-export type { AuthorsState, AuthorsReducerActions };
+export type {
+  AuthorsState,
+  AuthorsReducerActions,
+  AuthorsStatePagination,
+  AuthorsStateSearch,
+};
 
 export { AuthorsReducerActionTypes };

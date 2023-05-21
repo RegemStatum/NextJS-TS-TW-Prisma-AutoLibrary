@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { MAX_BOOKS_IN_ORDER } from "@/utils/constants/misc";
-import { CartContextValue } from "@/types/context";
+import CartContextValue from "@/types/context/CartContextValue";
 import { useSession } from "next-auth/react";
 import getUserIdClient from "@/utils/helpers/getUserIdClient";
 import { useAppContext } from "./AppContext";

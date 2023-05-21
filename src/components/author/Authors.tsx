@@ -6,30 +6,40 @@ import { Spinner1 } from "../ui/spinners";
 import Image from "next/image";
 import { SecondaryButton } from "../ui/buttons";
 import { useAuthorsContext } from "@/context/AuthorsContext";
+import AuthorWithBooksT from "@/types/misc/AuthorWithBooksT";
 
-const Authors: FC = ({}) => {
+type Props = {
+  initialAuthors: AuthorWithBooksT[];
+  isRenderedFirstTime: boolean;
+  initialLastPageNumber: number;
+};
+
+const Authors: FC<Props> = ({
+  initialAuthors,
+  isRenderedFirstTime,
+  initialLastPageNumber,
+}) => {
   const {
+    authors,
     isAuthorsLoading,
     isAuthorsFiltered,
-    authorsToShow,
-    pagination: { currentPageNumber, lastPageNumber },
-    setAuthorsForPage,
-    setCurrentPageNumber,
-    setInitialAuthors,
+    pagination,
+    search,
     setIsAuthorsFiltered,
-    setSearchInputValue,
+    setPagination,
+    setSearch,
+    handlePageChange,
   } = useAuthorsContext();
 
   const handlePaginationClick = async (pageNumber: number) => {
-    await setAuthorsForPage(pageNumber);
+    await handlePageChange(pageNumber);
     window.scroll(0, 0);
-    setCurrentPageNumber(pageNumber);
   };
 
   const refreshAuthors = () => {
-    setSearchInputValue("");
+    setSearch({ ...search, searchInputValue: "" });
     setIsAuthorsFiltered(false);
-    setInitialAuthors();
+    handlePageChange(1);
   };
 
   return (
@@ -44,7 +54,7 @@ const Authors: FC = ({}) => {
           </div>
         )}
       </div>
-      {!isAuthorsLoading && authorsToShow.length === 0 && (
+      {!isAuthorsLoading && authors.length === 0 && !isRenderedFirstTime && (
         <div>
           <div className="w-full h-[300px] mt-10 relative rounded-md md:mt-20">
             <Image
@@ -62,19 +72,26 @@ const Authors: FC = ({}) => {
           </p>
         </div>
       )}
-      {isAuthorsLoading && authorsToShow.length !== 0 && (
+      {isAuthorsLoading && authors.length !== 0 && !isRenderedFirstTime && (
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <Spinner1 />
         </div>
       )}
-      {!isAuthorsLoading && authorsToShow.length !== 0 && (
+      {!isAuthorsLoading && (authors.length !== 0 || isRenderedFirstTime) && (
         <div>
-          <AuthorList />
+          <AuthorList
+            initialAuthors={initialAuthors}
+            isRenderedFirstTime={isRenderedFirstTime}
+          />
           {!isAuthorsFiltered && (
             <div className="my-3 md:my-5">
               <Pagination
-                currentPageNumber={currentPageNumber}
-                lastPageNumber={lastPageNumber}
+                currentPageNumber={pagination.currentPageNumber}
+                lastPageNumber={
+                  isRenderedFirstTime
+                    ? initialLastPageNumber
+                    : pagination.lastPageNumber
+                }
                 handlePageClick={handlePaginationClick}
               />
             </div>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import AuthForm from "./AuthForm";
 import FormSeparator from "./FormSeparator";
 import { useRouter } from "next/router";
-import { HIDE_AFTER_DEFAULT_MILLISECONDS } from "@/utils/constants/misc";
+import { HIDE_AFTER_DEFAULT_MSEC } from "@/utils/constants/misc";
 
 const Signup: FC = () => {
   const { data: session } = useSession();
@@ -45,7 +45,7 @@ const Signup: FC = () => {
           inputName: "",
           msg: "",
         });
-      }, HIDE_AFTER_DEFAULT_MILLISECONDS);
+      }, HIDE_AFTER_DEFAULT_MSEC);
     }
     return () => clearTimeout(timer);
   }, [validationError]);

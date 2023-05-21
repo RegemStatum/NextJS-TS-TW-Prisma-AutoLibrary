@@ -1,17 +1,18 @@
 import AuthorWithBooksT from "../misc/AuthorWithBooksT";
-import { AuthorsState } from "../reducers/AuthorsReducer";
+import {
+  AuthorsState,
+  AuthorsStatePagination,
+  AuthorsStateSearch,
+} from "../reducers/AuthorsReducer";
 
 type AuthorsContextValue = AuthorsState & {
-  startAuthorsLoading: () => void;
-  endAuthorsLoading: () => void;
   setAuthors: (authors: AuthorWithBooksT[]) => void;
-  setLastPageNumber: (pageNumber: number) => void;
-  setAuthorsForPage: (pageNumber: number) => Promise<void>;
-  setCurrentPageNumber: (pageNumber: number) => void;
-  setSearchInputValue: (value: string) => void;
-  findAuthors: (query: string) => Promise<void>;
-  setInitialAuthors: () => void;
   setIsAuthorsFiltered: (isFiltered: boolean) => void;
+  setPagination: (pagination: AuthorsStatePagination) => void;
+  setSearch: (search: AuthorsStateSearch) => void;
+  setIsAuthorsLoading: (isLoading: boolean) => void;
+  handlePageChange: (pageNumber: number) => Promise<void>;
+  findAuthor: (authorName: string) => Promise<void>;
 };
 
 export default AuthorsContextValue;

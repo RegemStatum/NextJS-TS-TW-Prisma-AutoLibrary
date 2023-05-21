@@ -8,7 +8,7 @@ import { useCartContext } from "@/context/CartContext";
 import { useSession } from "next-auth/react";
 import SingleBookNotFound from "./SingleBookNotFound";
 import SingleBookControlButtons from "./SingleBookControlButtons";
-import { HIDE_AFTER_SHORT_MILLISECONDS } from "@/utils/constants/misc";
+import { HIDE_AFTER_SHORT_MSEC } from "@/utils/constants/misc";
 import { useAppContext } from "@/context/AppContext";
 
 interface SingleBookT extends Book {
@@ -91,7 +91,7 @@ const SingleBook: FC<Props> = ({ book }) => {
       showInfoMessage(
         "success",
         "Book added to your cart",
-        HIDE_AFTER_SHORT_MILLISECONDS
+        HIDE_AFTER_SHORT_MSEC
       );
     } catch (e: any) {
       showInfoMessage(

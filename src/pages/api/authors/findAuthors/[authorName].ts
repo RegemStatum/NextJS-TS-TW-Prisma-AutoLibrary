@@ -25,13 +25,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
   const splittedAuthorName = authorName.split(" ");
 
-  // const capitalizeWord = (word: string) => {
-  //   if (word.length === 0) {
-  //     return word;
-  //   }
-  //   return word.charAt(0).toUpperCase() + word.slice(1);
-  // };
-
   const prismaIsAuthorFirstNameContainsQuery = splittedAuthorName.map(
     (queryPart) => ({
       firstName: {
@@ -48,18 +41,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       },
     })
   );
-  // const prismaIsAuthorFirstNameContainsCapitalizedQuery =
-  //   splittedAuthorName.map((queryPart) => ({
-  //     firstName: {
-  //       contains: capitalizeWord(queryPart),
-  //     },
-  //   }));
-  // const prismaIsAuthorSecondNameContainsCapitalizedQuery =
-  //   splittedAuthorName.map((queryPart) => ({
-  //     secondName: {
-  //       contains: capitalizeWord(queryPart),
-  //     },
-  //   }));
 
   const authors = await prisma.author.findMany({
     where: {

@@ -5,12 +5,14 @@ import reducer from "../reducers/authorsReducer";
 import {
   AuthorsReducerActionTypes,
   AuthorsState,
+  AuthorsStatePagination,
+  AuthorsStateSearch,
 } from "@/types/reducers/AuthorsReducer";
 import AuthorsContextValue from "@/types/context/AuthorsContextValue";
 
 const authorsStateInitialValue: AuthorsState = {
-  authorsToShow: [],
-  isAuthorsLoading: true,
+  authors: [],
+  isAuthorsLoading: false,
   isAuthorsFiltered: false,
   pagination: {
     currentPageNumber: 1,
@@ -23,16 +25,13 @@ const authorsStateInitialValue: AuthorsState = {
 
 const authorsContextInitialValue: AuthorsContextValue = {
   ...authorsStateInitialValue,
-  startAuthorsLoading: () => {},
-  endAuthorsLoading: () => {},
-  setAuthors: () => {},
-  setLastPageNumber: () => {},
-  setAuthorsForPage: async () => {},
-  setCurrentPageNumber: () => {},
-  setSearchInputValue: () => {},
-  findAuthors: async () => {},
-  setInitialAuthors: () => {},
-  setIsAuthorsFiltered: () => {},
+  setAuthors: (authors: AuthorWithBooksT[]) => {},
+  setIsAuthorsFiltered: (isFiltered: boolean) => {},
+  setPagination: (pagination: AuthorsStatePagination) => {},
+  setSearch: (search: AuthorsStateSearch) => {},
+  setIsAuthorsLoading: (isLoading: boolean) => {},
+  handlePageChange: async (pageNumber: number) => {},
+  findAuthor: async (authorName: string) => {},
 };
 
 const AuthorsContext = React.createContext(authorsContextInitialValue);
@@ -45,49 +44,12 @@ const AuthorsContextProvider: FC<Props> = ({ children }) => {
   const { showInfoMessage } = useAppContext();
   const [state, dispatch] = useReducer(reducer, authorsStateInitialValue);
 
-  // const [isAllAuthorsBtnShown, setIsAllAuthorsBtnShown] = useState(false);
-
-  const startAuthorsLoading = useCallback(() => {
-    dispatch({
-      type: AuthorsReducerActionTypes.SET_IS_AUTHORS_LOADING,
-      payload: true,
-    });
-  }, []);
-
-  const endAuthorsLoading = useCallback(() => {
-    dispatch({
-      type: AuthorsReducerActionTypes.SET_IS_AUTHORS_LOADING,
-      payload: false,
-    });
-  }, []);
-
   const setAuthors = useCallback((authors: AuthorWithBooksT[]) => {
     dispatch({
-      type: AuthorsReducerActionTypes.SET_AUTHORS_TO_SHOW,
+      type: AuthorsReducerActionTypes.SET_AUTHORS,
       payload: authors,
     });
   }, []);
-
-  const setCurrentPageNumber = useCallback((pageNumber: number) => {
-    dispatch({
-      type: AuthorsReducerActionTypes.SET_CURRENT_PAGE_NUMBER,
-      payload: pageNumber,
-    });
-  }, []);
-
-  const setLastPageNumber = useCallback((pageNumber: number) => {
-    dispatch({
-      type: AuthorsReducerActionTypes.SET_LAST_PAGE_NUMBER,
-      payload: pageNumber,
-    });
-  }, []);
-
-  const setSearchInputValue = (value: string) => {
-    dispatch({
-      type: AuthorsReducerActionTypes.SET_SEARCH_INPUT_VALUE,
-      payload: value,
-    });
-  };
 
   const setIsAuthorsFiltered = (isFiltered: boolean) => {
     dispatch({
@@ -96,62 +58,87 @@ const AuthorsContextProvider: FC<Props> = ({ children }) => {
     });
   };
 
-  const setAuthorsForPage = async (pageNumber: number) => {
+  const setPagination = useCallback((pagination: AuthorsStatePagination) => {
+    dispatch({
+      type: AuthorsReducerActionTypes.SET_PAGINATION,
+      payload: pagination,
+    });
+  }, []);
+
+  const setSearch = (search: AuthorsStateSearch) => {
+    dispatch({
+      type: AuthorsReducerActionTypes.SET_SEARCH,
+      payload: search,
+    });
+  };
+
+  const setIsAuthorsLoading = (isLoading: boolean) => {
+    dispatch({
+      type: AuthorsReducerActionTypes.SET_IS_AUTHORS_LOADING,
+      payload: isLoading,
+    });
+  };
+
+  const handlePageChange = async (pageNumber: number) => {
     try {
-      startAuthorsLoading();
-      const res = await fetch(`api/authors/paginateAuthors/${pageNumber}`, {
+      setIsAuthorsLoading(true);
+      const res = await fetch(`api/authors/paginate/${pageNumber}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
       const data = await res.json();
+
       const authorsOnPage: AuthorWithBooksT[] = data.authors;
       if (!authorsOnPage) {
         throw new Error("There are no authors");
       }
       setAuthors(authorsOnPage);
-      endAuthorsLoading();
+      setPagination({
+        ...state.pagination,
+        currentPageNumber: pageNumber,
+      });
+      setIsAuthorsLoading(false);
     } catch (e: any) {
       console.log(e);
       showInfoMessage(
         "error",
         e.message || "Something went wrong. Try again later"
       );
-      endAuthorsLoading();
+      setIsAuthorsLoading(false);
     }
   };
 
-  const findAuthors = async (query: string) => {
+  const findAuthor = async (authorName: string) => {
     try {
-      startAuthorsLoading();
-      const res = await fetch(`api/authors/findAuthors/${query}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      setIsAuthorsLoading(true);
+      const res = await fetch(
+        `api/authors/paginate/1?authorName=${authorName}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await res.json();
       const authors: AuthorWithBooksT[] = data.authors;
 
       if (authors.length === 0) {
         setAuthors(authors);
-        endAuthorsLoading();
+        setIsAuthorsLoading(false);
         return;
       }
 
       setAuthors(authors);
-      endAuthorsLoading();
+      setIsAuthorsLoading(false);
     } catch (e: any) {
       console.log(e);
       showInfoMessage(
         "error",
         e.message || "Something went wrong. Try again later"
       );
-      endAuthorsLoading();
+      setIsAuthorsLoading(false);
     }
-  };
-
-  const setInitialAuthors = () => {
-    setAuthorsForPage(1);
   };
 
   return (
@@ -159,15 +146,12 @@ const AuthorsContextProvider: FC<Props> = ({ children }) => {
       value={{
         ...state,
         setAuthors,
-        setLastPageNumber,
-        setAuthorsForPage,
-        setCurrentPageNumber,
-        setSearchInputValue,
-        findAuthors,
-        startAuthorsLoading,
-        endAuthorsLoading,
-        setInitialAuthors,
         setIsAuthorsFiltered,
+        setPagination,
+        setSearch,
+        setIsAuthorsLoading,
+        handlePageChange,
+        findAuthor,
       }}
     >
       {children}

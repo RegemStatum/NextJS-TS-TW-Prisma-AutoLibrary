@@ -6,7 +6,7 @@ import { Modal } from "../ui/modals";
 import { IconWrapper, XMarkIcon } from "../ui/icons";
 import { useAppContext } from "@/context/AppContext";
 import { useProfileContext } from "@/context/ProfileContext";
-import { HIDE_AFTER_LONG_MILLISECONDS } from "@/utils/constants/misc";
+import { HIDE_AFTER_LONG_MSEC } from "@/utils/constants/misc";
 import Image from "next/image";
 
 const OrderReceptionConfirmationModal: FC = () => {
@@ -37,7 +37,7 @@ const OrderReceptionConfirmationModal: FC = () => {
       showInfoMessage(
         "error",
         e.message || "Something went wrong. Try again later",
-        HIDE_AFTER_LONG_MILLISECONDS
+        HIDE_AFTER_LONG_MSEC
       );
     }
   };

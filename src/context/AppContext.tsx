@@ -1,6 +1,6 @@
-import { AppContextValue } from "@/types/context";
+import AppContextValue from "@/types/context/AppContextValue";
 import { InfoMessage, InfoMessageType } from "@/types/context/AppContextValue";
-import { HIDE_AFTER_DEFAULT_MILLISECONDS } from "@/utils/constants/misc";
+import { HIDE_AFTER_DEFAULT_MSEC } from "@/utils/constants/misc";
 import React, {
   FC,
   createContext,
@@ -17,7 +17,7 @@ const hiddenInfoMessage: InfoMessage = {
   isShown: false,
   type: "info",
   msg: "",
-  hideAfterMs: HIDE_AFTER_DEFAULT_MILLISECONDS,
+  hideAfterMs: HIDE_AFTER_DEFAULT_MSEC,
 };
 
 const AppContextInitialValue: AppContextValue = {
@@ -48,7 +48,7 @@ const AppContextProvider: FC<Props> = ({ children }) => {
         isShown: true,
         type,
         msg,
-        hideAfterMs: hideAfterMs || HIDE_AFTER_DEFAULT_MILLISECONDS,
+        hideAfterMs: hideAfterMs || HIDE_AFTER_DEFAULT_MSEC,
       });
     },
     []

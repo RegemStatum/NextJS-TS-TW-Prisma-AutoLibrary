@@ -18,7 +18,7 @@ const OrderCabinetsClosedConfirmationModal: FC = () => {
   const prevModalType =
     orderConfirmationModal.prevModalTypeToCabinetsClosedConfirmationModal;
   const [isCabinetsClosed, setIsCabinetsClosed] = useState(false);
-  const MILLISECONDS_WAIT_UNTIL_PROMPT_TO_REOPEN_CABINETS = 5000;
+  const MSEC_WAIT_UNTIL_PROMPT_TO_REOPEN_CABINETS = 5000;
 
   useEffect(() => {
     const handleWindowStartClose = (e: BeforeUnloadEvent) => {
@@ -37,7 +37,7 @@ const OrderCabinetsClosedConfirmationModal: FC = () => {
           } else {
             closeOrderModal();
           }
-        }, MILLISECONDS_WAIT_UNTIL_PROMPT_TO_REOPEN_CABINETS);
+        }, MSEC_WAIT_UNTIL_PROMPT_TO_REOPEN_CABINETS);
         return;
       } catch (e: any) {
         console.log(e);
