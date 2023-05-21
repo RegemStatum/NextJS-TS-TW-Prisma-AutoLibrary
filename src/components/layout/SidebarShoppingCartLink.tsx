@@ -37,9 +37,7 @@ const SidebarShoppingCartLink: FC<Props> = ({ session }) => {
           )}
         </div>
         <p
-          className={`font-medium text-2xl leading-5 ${
-            !session?.user ? "text-lg" : ""
-          }`}
+          className={`font-medium text-2xl ${!session?.user ? "text-lg" : ""}`}
         >
           {!session?.user ? "Sign in to access cart" : "Cart"}
         </p>

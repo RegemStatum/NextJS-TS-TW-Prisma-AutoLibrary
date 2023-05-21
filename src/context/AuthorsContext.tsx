@@ -1,12 +1,12 @@
 import AuthorWithBooksT from "@/types/misc/AuthorWithBooksT";
 import React, { FC, useCallback, useContext, useReducer } from "react";
 import { useAppContext } from "./AppContext";
-import { authorsReducer as reducer } from "../reducers";
+import reducer from "../reducers/authorsReducer";
 import {
   AuthorsReducerActionTypes,
   AuthorsState,
 } from "@/types/reducers/AuthorsReducer";
-import { AuthorsContextValue } from "@/types/context";
+import AuthorsContextValue from "@/types/context/AuthorsContextValue";
 
 const authorsStateInitialValue: AuthorsState = {
   authorsToShow: [],

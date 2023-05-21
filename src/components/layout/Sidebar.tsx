@@ -23,7 +23,7 @@ const Sidebar: FC = () => {
           className="ml-auto mr-[1px] cursor-pointer"
           onClick={appContext.closeSidebar}
         >
-          <XMarkIcon width={30} strokeWidth={1.5} />
+          <XMarkIcon width={28} strokeWidth={1.5} />
         </IconWrapper>
       </div>
       <div className="h-[calc(100%-60px)] w-[190px] mx-auto flex gap-1 flex-col justify-center align-center">

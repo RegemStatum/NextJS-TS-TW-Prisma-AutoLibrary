@@ -5,6 +5,7 @@ import {
 } from "@/utils/errors";
 import errorMiddleware from "@/utils/middleware/errorMiddleware";
 import prisma from "@/utils/prisma";
+import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -17,23 +18,25 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (
     !authorName ||
     typeof authorName !== "string" ||
-    authorName.length === 0
+    authorName === "" ||
+    authorName.trim() === ""
   ) {
     throw new BadRequestError("Provide correct author name");
   }
   const splittedAuthorName = authorName.split(" ");
 
-  const capitalizeWord = (word: string) => {
-    if (word.length === 0) {
-      return word;
-    }
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  };
+  // const capitalizeWord = (word: string) => {
+  //   if (word.length === 0) {
+  //     return word;
+  //   }
+  //   return word.charAt(0).toUpperCase() + word.slice(1);
+  // };
 
   const prismaIsAuthorFirstNameContainsQuery = splittedAuthorName.map(
     (queryPart) => ({
       firstName: {
         contains: queryPart,
+        mode: Prisma.QueryMode.insensitive,
       },
     })
   );
@@ -41,29 +44,28 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     (queryPart) => ({
       secondName: {
         contains: queryPart,
+        mode: Prisma.QueryMode.insensitive,
       },
     })
   );
-  const prismaIsAuthorFirstNameContainsCapitalizedQuery =
-    splittedAuthorName.map((queryPart) => ({
-      firstName: {
-        contains: capitalizeWord(queryPart),
-      },
-    }));
-  const prismaIsAuthorSecondNameContainsCapitalizedQuery =
-    splittedAuthorName.map((queryPart) => ({
-      secondName: {
-        contains: capitalizeWord(queryPart),
-      },
-    }));
+  // const prismaIsAuthorFirstNameContainsCapitalizedQuery =
+  //   splittedAuthorName.map((queryPart) => ({
+  //     firstName: {
+  //       contains: capitalizeWord(queryPart),
+  //     },
+  //   }));
+  // const prismaIsAuthorSecondNameContainsCapitalizedQuery =
+  //   splittedAuthorName.map((queryPart) => ({
+  //     secondName: {
+  //       contains: capitalizeWord(queryPart),
+  //     },
+  //   }));
 
   const authors = await prisma.author.findMany({
     where: {
       OR: [
         ...prismaIsAuthorFirstNameContainsQuery,
         ...prismaIsAuthorSecondNameContainsQuery,
-        ...prismaIsAuthorFirstNameContainsCapitalizedQuery,
-        ...prismaIsAuthorSecondNameContainsCapitalizedQuery,
       ],
     },
     include: {

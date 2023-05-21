@@ -10,8 +10,8 @@ import {
   ProfileReducerActionTypes,
   ProfileState,
 } from "@/types/reducers/ProfileReducer";
-import { ProfileContextValue } from "@/types/context";
-import { profileReducer } from "@/reducers";
+import ProfileContextValue from "@/types/context/ProfileContextValue";
+import profileReducer from "@/reducers/profileReducer";
 
 const initialProfileState: ProfileState = {
   orders: [],

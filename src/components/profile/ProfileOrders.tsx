@@ -60,14 +60,14 @@ const ProfileOrders: FC = () => {
       {activeOrders.length !== 0 && <OrdersGrid orders={activeOrders} />}
       {/* canceled and returned orders */}
       <div
-        className="mt-6 mb-2 p-2 w-fit flex gap-3 rounded-md cursor-pointer hover:bg-neutral-100 lg:mt-10 lg:mb-3 "
+        className="mt-6 mb-2 w-fit flex gap-1 rounded-md cursor-pointer lg:mt-10 lg:mb-3 "
         onClick={toggleIsShowOrdersHistory}
       >
         <p className="font-medium text-lg lg:text-xl">History of orders</p>
         {isShowOrdersHistory ? (
-          <ChevronUpIcon width={22} />
+          <ChevronUpIcon width={18} />
         ) : (
-          <ChevronDownIcon width={22} />
+          <ChevronDownIcon width={18} />
         )}
       </div>
       {isShowOrdersHistory && (
