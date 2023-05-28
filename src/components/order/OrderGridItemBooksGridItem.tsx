@@ -7,7 +7,7 @@ interface Props {
 
 const OrderGridItemBooksGridItem: FC<Props> = ({ book }) => {
   return (
-    <div className="p-4 bg-neutral-200 bg-opacity-30 rounded-md shadow-sm">
+    <div className="p-4 bg-neutral-100 bg-opacity-30 border rounded-md shadow-sm">
       <div>
         <h4 className="font-medium leading-snug md:min-h-[44px] lg:min-h-0">
           {book.title}

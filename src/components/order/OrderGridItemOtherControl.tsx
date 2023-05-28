@@ -20,13 +20,13 @@ const OrderGridItemOtherControl: FC<Props> = ({
 
   return (
     <div
-      className={`absolute top-[105px] right-3 p-2 rounded-md bg-neutral-100 shadow-sm border border-slate-200 md:top-[115px] md:right-5 ${
+      className={`absolute top-[56px] right-3 rounded-md shadow-sm border bg-neutral-50 border-slate-200 md:top-[70px] md:right-5 ${
         isOpen ? "" : "hidden"
       }`}
     >
       <p
         onClick={openConfirmationModal}
-        className="p-1 text-red-600 font-semibold cursor-pointer"
+        className="px-2 py-2 text-red-600 font-semibold cursor-pointer hover:bg-neutral-100"
       >
         Cancel order
       </p>

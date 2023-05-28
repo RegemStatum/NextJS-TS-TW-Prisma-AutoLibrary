@@ -1,7 +1,6 @@
 import OrderInfo, { OrderStatus } from "@/types/misc/OrderInfo";
 import React, { FC, useState } from "react";
 import OrderGridItemBooksGrid from "./OrderGridItemBooksGrid";
-import OrderGridItemStatuses from "./OrderGridItemStatuses";
 import OrderGridItemOtherControl from "./OrderGridItemOtherControl";
 import OrderGridItemMainControl from "./OrderGridItemMainControl";
 import OrderGridItemHeader from "./OrderGridItemHeader";
@@ -28,9 +27,8 @@ const OrderGridItem: FC<Props> = ({ order }) => {
           orderNumber={order.number}
         />
       )}
-      <OrderGridItemStatuses status={order.status} />
       <div className="p-2 md:p-5 md:pt-4">
-        <div className="mt-1 mb-4 md:mb-7">
+        <div className="mt-2 mb-4 md:mt-3 md:mb-8">
           <OrderGridItemHeader
             orderStatus={order.status}
             orderNumber={order.number}

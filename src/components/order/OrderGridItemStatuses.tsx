@@ -10,17 +10,27 @@ const OrderGridItemStatuses: FC<Props> = ({ status }) => {
   return status === OrderStatus.ready ? (
     <OrderGridItemStatus
       status={status}
-      className="bg-green-300 text-green-900"
+      textClassName="text-green-600"
+      indicatorClassName="bg-green-700"
     />
   ) : status === OrderStatus.received ? (
     <OrderGridItemStatus
       status={status}
-      className="bg-yellow-300 text-yellow-900"
+      textClassName="text-yellow-600"
+      indicatorClassName="bg-yellow-700"
     />
   ) : status === OrderStatus.returned ? (
-    <OrderGridItemStatus status={status} className="bg-sky-300 text-sky-900" />
+    <OrderGridItemStatus
+      status={status}
+      textClassName="text-sky-600"
+      indicatorClassName="bg-sky-700"
+    />
   ) : (
-    <OrderGridItemStatus status={status} className="bg-red-300 text-red-900" />
+    <OrderGridItemStatus
+      status={status}
+      textClassName="text-red-600"
+      indicatorClassName="bg-red-700"
+    />
   );
 };
 

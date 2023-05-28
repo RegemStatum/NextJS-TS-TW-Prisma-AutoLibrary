@@ -7,15 +7,25 @@ interface Props
     HTMLDivElement
   > {
   status: OrderInfoStatus;
+  textClassName?: string;
+  indicatorClassName?: string;
 }
 
-const OrderGridItemStatus: FC<Props> = ({ status, ...rest }) => {
+const OrderGridItemStatus: FC<Props> = ({
+  status,
+  textClassName,
+  indicatorClassName,
+  ...rest
+}) => {
   return (
     <div
       {...rest}
-      className={`p-3 font-bold capitalize text-center ${rest.className || ""}`}
+      className={`p-1 h-fit flex items-center gap-1 font-bold capitalize text-center md:text-lg ${
+        rest.className || ""
+      }`}
     >
-      <p>{status}</p>
+      <div className={`w-2 h-2 rounded-full ${indicatorClassName}`}></div>
+      <p className={textClassName}>{status}</p>
     </div>
   );
 };
