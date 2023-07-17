@@ -3,17 +3,28 @@ import BooksFilterAuthorsItem from "./BooksFilterAuthorsItem";
 
 type Props = {
   authors: string[];
+  selectedAuthor: string;
+  selectAuthor: (author: string) => void;
 };
 
-const BooksFilterAuthors: FC<Props> = ({ authors }) => {
+const BooksFilterAuthors: FC<Props> = ({
+  authors,
+  selectedAuthor,
+  selectAuthor,
+}) => {
   return (
     <div>
-      {authors.map((author, index) => (
-        <BooksFilterAuthorsItem
-          key={index + Number(new Date())}
-          name={author}
-        />
-      ))}
+      <p className="pl-2 pb-1 font-bold">Authors</p>
+      <div>
+        {authors.map((author, index) => (
+          <BooksFilterAuthorsItem
+            key={index + Number(new Date())}
+            name={author}
+            selectedAuthor={selectedAuthor}
+            selectAuthor={selectAuthor}
+          />
+        ))}
+      </div>
     </div>
   );
 };

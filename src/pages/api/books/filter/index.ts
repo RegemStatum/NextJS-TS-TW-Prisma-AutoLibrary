@@ -23,8 +23,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     throw new BadRequestError("Provide filter by");
   }
 
+  const 
+
   // filter books with prisma
   const filteredBooks = null;
+
+  const books = await prisma.book.findMany({
+    include: {
+      author: {
+        select: {
+          firstName: true,
+          secondName: true,
+        },
+      },
+    },
+  });
 
   // const books = await prisma.book.findMany({
   //   orderBy: [

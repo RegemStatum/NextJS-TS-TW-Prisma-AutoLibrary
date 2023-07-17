@@ -104,12 +104,10 @@ const CartGrid: FC = () => {
 
   return (
     <div>
-      <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
-        <div className="pt-4 md:pt-6">
-          {cartBooks.map((cartBook) => (
-            <CartGridItem key={cartBook.id} cartBook={cartBook} />
-          ))}
-        </div>
+      <div className="grid gap-3 pt-4 md:pt-6 lg:grid-cols-2 xl:grid-cols-3">
+        {cartBooks.map((cartBook) => (
+          <CartGridItem key={cartBook.id} cartBook={cartBook} />
+        ))}
       </div>
       <CartControlButtons handleOrder={handleOrder} />
       {errorMsg && <BadgeError className="mt-2">{errorMsg}</BadgeError>}
