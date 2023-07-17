@@ -120,6 +120,13 @@ const AuthorsContextProvider: FC<Props> = ({ children }) => {
           },
         }
       );
+
+      if (res.status === 404) {
+        showInfoMessage("error", "Author not found");
+        setIsAuthorsLoading(false);
+        return;
+      }
+
       const data = await res.json();
       const authors: AuthorWithBooksT[] = data.authors;
 
@@ -133,6 +140,7 @@ const AuthorsContextProvider: FC<Props> = ({ children }) => {
       setIsAuthorsLoading(false);
     } catch (e: any) {
       console.log(e);
+
       showInfoMessage(
         "error",
         e.message || "Something went wrong. Try again later"

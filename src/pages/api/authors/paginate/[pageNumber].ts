@@ -21,7 +21,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const authorName = req.query.authorName;
   const fetchUri = authorName
     ? `${process.env.BASE_URL}/api/authors/findAuthors/${authorName}`
-    : `${process.env.BASE_URL}/api/authors/getAuthors`;
+    : `${process.env.BASE_URL}/api/authors/getAllAuthors`;
 
   const response = await fetch(fetchUri, {
     method: "GET",

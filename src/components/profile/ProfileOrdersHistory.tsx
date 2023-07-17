@@ -5,7 +5,7 @@ import { useAppContext } from "@/context/AppContext";
 import { HIDE_AFTER_LONG_MSEC } from "@/utils/constants/misc";
 import getUserIdClient from "@/utils/helpers/getUserIdClient";
 import { useSession } from "next-auth/react";
-import OrdersGrid from "./OrdersGrid";
+import OrdersGrid from "../order/OrdersGrid";
 import { PrimaryButton } from "../ui/buttons";
 
 type Props = {
@@ -49,9 +49,13 @@ const OrdersHistory: FC<Props> = ({ hideOrdersHistory }) => {
   if (isLoading) {
     return (
       <div className="flex justify-center">
-        <Spinner1 className="lg:w-[40px] lg:h-[40px]" />
+        <Spinner1 className="lg:w-[30px] lg:h-[30px]" />
       </div>
     );
+  }
+
+  if (!orders || orders.length === 0) {
+    return <p>No previous orders</p>;
   }
 
   return (

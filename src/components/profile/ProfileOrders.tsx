@@ -9,7 +9,7 @@ import { useOrdersContext } from "@/context/OrdersContext";
 import OrderReturnConfirmationModal from "../order/OrderReturnConfirmationModal";
 import OrderCancelationConfirmationModal from "../order/OrderCancelationConfirmationModal";
 import OrderCabinetsClosedConfirmationModal from "../order/OrderCabinetsClosedConfirmationModal";
-import OrdersHistory from "../order/OrdersHistory";
+import OrdersHistory from "./ProfileOrdersHistory";
 import { ChevronDownIcon, ChevronUpIcon } from "../ui/icons";
 
 const ProfileOrders: FC = () => {

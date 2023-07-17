@@ -33,6 +33,14 @@ const reducer = (
       };
       return newState;
     }
+    case BooksReducerActionTypes.SET_IS_FILTER_SIDEBAR_OPEN: {
+      const newIsFilterSidebarOpen = action.payload;
+      const newState: BooksState = {
+        ...state,
+        isFilterSidebarOpen: newIsFilterSidebarOpen,
+      };
+      return newState;
+    }
     case BooksReducerActionTypes.SET_IS_BOOKS_FILTERED: {
       const newIsBooksFiltered = action.payload;
       const newState: BooksState = {

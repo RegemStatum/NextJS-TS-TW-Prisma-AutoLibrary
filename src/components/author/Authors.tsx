@@ -84,7 +84,7 @@ const Authors: FC<Props> = ({
             isRenderedFirstTime={isRenderedFirstTime}
           />
           {!isAuthorsFiltered && (
-            <div className="my-3 md:my-5">
+            <div className="my-3 md:my-4">
               <Pagination
                 currentPageNumber={pagination.currentPageNumber}
                 lastPageNumber={

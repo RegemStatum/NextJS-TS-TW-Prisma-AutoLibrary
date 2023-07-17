@@ -28,6 +28,7 @@ type BooksState = {
   books: BookWithAuthorNameT[];
   sort: BooksStateSort;
   filter: BooksStateFilter;
+  isFilterSidebarOpen: boolean;
   isBooksLoading: boolean;
   isBooksFiltered: boolean;
   pagination: BooksStatePagination;
@@ -39,6 +40,7 @@ enum BooksReducerActionTypes {
   SET_IS_BOOKS_LOADING = "SET_IS_BOOKS_LOADING",
   SET_SORT = "SET_SORT",
   SET_FILTER = "SET_FILTER",
+  SET_IS_FILTER_SIDEBAR_OPEN = "SET_IS_FILTER_SIDEBAR_OPEN",
   SET_IS_BOOKS_FILTERED = "SET_IS_BOOKS_FILTERED",
   SET_PAGINATION = "SET_PAGINATION",
   SET_SEARCH = "SET_SEARCH",
@@ -79,6 +81,11 @@ type SetSearchAction = {
   payload: BooksStateSearch;
 };
 
+type SetIsFilterSidebarOpenAction = {
+  type: BooksReducerActionTypes.SET_IS_FILTER_SIDEBAR_OPEN;
+  payload: boolean;
+};
+
 type BooksReducerActions =
   | SetBooksAction
   | SetIsBooksLoading
@@ -86,7 +93,8 @@ type BooksReducerActions =
   | SetFilterAction
   | SetIsBooksFilteredAction
   | SetPaginationAction
-  | SetSearchAction;
+  | SetSearchAction
+  | SetIsFilterSidebarOpenAction;
 
 export type {
   BooksState,

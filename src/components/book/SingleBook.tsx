@@ -108,7 +108,7 @@ const SingleBook: FC<Props> = ({ book }) => {
   return (
     <div>
       <div className="xl:flex xl:justify-between xl:mb-2 xl:gap-8">
-        <div className="">
+        <div className="pt-2 md:pt-4 lg:pt-5">
           {/* image  */}
           <div className="w-full h-[400px] my-2 bg-neutral-100 relative xl:w-[500px]">
             <Image

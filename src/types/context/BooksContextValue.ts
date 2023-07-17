@@ -11,6 +11,7 @@ type BooksContextValue = BooksState & {
   setBooks: (books: BookWithAuthorNameT[]) => void;
   setSort: (sortBy: BooksStateSort) => void;
   setFilter: (filterBy: BooksStateFilter) => void;
+  setIsBooksFilterSidebarOpen: (isOpen: boolean) => void;
   setIsBooksFiltered: (isBooksFiltered: boolean) => void;
   setPagination: (pagination: BooksStatePagination) => void;
   setSearch: (search: BooksStateSearch) => void;

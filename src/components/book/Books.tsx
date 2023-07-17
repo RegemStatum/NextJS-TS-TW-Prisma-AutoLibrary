@@ -1,29 +1,33 @@
 import React, { FC, useEffect } from "react";
 import BookGrid from "./BooksGrid";
 import BookWithAuthorNameT from "@/types/misc/BookWithAuthorNameT";
-import { PrimaryButton, SecondaryButton } from "../ui/buttons";
 import Pagination from "../ui/pagination/Pagination";
 import { useBooksContext } from "@/context/BooksContext";
 import { Spinner1 } from "../ui/spinners";
+import BooksControl from "./BooksControl";
+import BooksFilterSidebar from "./booksFilter/BooksFilterSidebar";
+import BooksFilterData from "@/types/misc/BooksFilterData";
 
 type Props = {
   initialBooks: BookWithAuthorNameT[];
   initialLastPageNumber: number;
   isRenderedFirstTime: boolean;
+  filterData: BooksFilterData;
 };
 
 const Books: FC<Props> = ({
   initialBooks,
   initialLastPageNumber,
   isRenderedFirstTime,
+  filterData,
 }) => {
   const {
-    setSort,
     handlePageChange,
     sort,
     filter,
     pagination: { currentPageNumber, lastPageNumber },
     isBooksLoading,
+    isFilterSidebarOpen,
   } = useBooksContext();
 
   // go to first page after each sort or filter update
@@ -34,26 +38,23 @@ const Books: FC<Props> = ({
   }, [sort, filter]);
 
   return (
-    <div>
+    <div className="page-min-height relative">
+      <div className="my-2 md:my-4">
+        <BooksControl />
+      </div>
       {isBooksLoading && (
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <Spinner1 />
         </div>
       )}
+      {isFilterSidebarOpen && <BooksFilterSidebar filterData={filterData} />}
       {!isBooksLoading && (
         <>
-          <PrimaryButton onClick={() => setSort("YEAR_DESC")}>
-            Set desc order
-          </PrimaryButton>
-          <SecondaryButton onClick={() => setSort("YEAR_ASC")}>
-            Set asc order
-          </SecondaryButton>
           <BookGrid
             initialBooks={initialBooks}
             isRenderedFirstTime={isRenderedFirstTime}
           />
-
-          <div className="my-3 md:my-5">
+          <div className="my-2 md:my-4">
             <Pagination
               currentPageNumber={currentPageNumber}
               lastPageNumber={

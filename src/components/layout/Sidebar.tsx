@@ -13,7 +13,7 @@ const Sidebar: FC = () => {
 
   return (
     <aside
-      className={`h-screen py-3 fixed z-10 top-0 overflow-hidden bg-neutral-100 ${
+      className={`h-screen py-3 fixed z-20 top-0 overflow-hidden bg-neutral-100 ${
         appContext.isSidebarOpen ? "w-full" : "w-0 p-0 hidden"
       } md:py-4 lg:hidden`}
     >

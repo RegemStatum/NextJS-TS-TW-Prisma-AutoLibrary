@@ -32,7 +32,7 @@ const AuthorListItem: FC<Props> = ({ author }) => {
 
   return (
     <div
-      className="px-4 py-3 bg-neutral-100 rounded-md shadow-lg md:px-6 md:py-6 lg:p-8 lg:flex lg:gap-1"
+      className="px-4 py-3 bg-neutral-100 rounded-md shadow-md md:px-6 md:py-6 md:shadow-lg lg:p-8 lg:flex lg:gap-1"
       id={author.id}
     >
       <div className="lg:w-[1/2 - 5px]">

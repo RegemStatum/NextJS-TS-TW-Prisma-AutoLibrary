@@ -28,6 +28,7 @@ const initialReducerState: BooksState = {
       to: "",
     },
   },
+  isFilterSidebarOpen: false,
   isBooksFiltered: false,
   pagination: {
     currentPageNumber: 1,
@@ -48,6 +49,7 @@ const booksContextInitialValue: BooksContextValue = {
   setSearch: (search: BooksStateSearch) => {},
   setIsBooksLoading: (isLoading: boolean) => {},
   handlePageChange: async (pageNumber: number) => {},
+  setIsBooksFilterSidebarOpen: (isOpen: boolean) => {},
 };
 
 const BooksContext = React.createContext(booksContextInitialValue);
@@ -97,6 +99,13 @@ const BooksContextProvider: FC<Props> = ({ children }) => {
     });
   };
 
+  const setIsBooksFilterSidebarOpen = (isOpen: boolean) => {
+    dispatch({
+      type: BooksReducerActionTypes.SET_IS_FILTER_SIDEBAR_OPEN,
+      payload: isOpen,
+    });
+  };
+
   const handlePageChange = async (pageNumber: number) => {
     try {
       setIsBooksLoading(true);
@@ -138,6 +147,7 @@ const BooksContextProvider: FC<Props> = ({ children }) => {
         setBooks,
         setSort,
         setFilter,
+        setIsBooksFilterSidebarOpen,
         setIsBooksFiltered,
         setPagination,
         setSearch,

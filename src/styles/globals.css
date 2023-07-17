@@ -40,18 +40,18 @@ h8 {
 
 @layer utilities {
   .page-min-height {
-    min-height: calc(100vh - 53px - 89px);
+    min-height: calc(100vh - 53px - 93px);
   }
 
   @media (min-width: 768px) {
     .page-min-height {
-      min-height: calc(100vh - 61px - 101px);
+      min-height: calc(100vh - 61px - 113px);
     }
   }
 
   @media (min-width: 1024px) {
     .page-min-height {
-      min-height: calc(100vh - 73px - 113px);
+      min-height: calc(100vh - 73px - 117px);
     }
   }
 
