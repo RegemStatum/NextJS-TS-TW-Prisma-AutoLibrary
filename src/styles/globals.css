@@ -5,13 +5,13 @@
 // --foreground: neutral-950
 // --background: neutral-50
 :root {
-  --foreground: #0a0a0a;
+  --foreground: #3f3f46;
   --background: #fafafa;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground: #0a0a0a;
+    --foreground: #27272a;
     --background: #fafafa;
   }
 }

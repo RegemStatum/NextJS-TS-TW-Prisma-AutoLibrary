@@ -1,8 +1,4 @@
-import {
-  BadRequestError,
-  MethodNotAllowedError,
-  NotFoundError,
-} from "@/utils/errors";
+import { MethodNotAllowedError, NotFoundError } from "@/utils/errors";
 import errorMiddleware from "@/utils/middleware/errorMiddleware";
 import prisma from "@/utils/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -13,22 +9,39 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     throw new MethodNotAllowedError("Method not allowed");
   }
 
-  const filterBy = req.query.params;
-  if (
-    !filterBy ||
-    typeof filterBy !== "string" ||
-    filterBy === "" ||
-    filterBy.trim() === ""
-  ) {
-    throw new BadRequestError("Provide filter by");
-  }
+  // set filter options
+  let { author, publishers, available, featured } = req.query;
 
-  const 
+  if (typeof publishers === "string") publishers = [publishers];
+
+  type FilterOptions = {
+    author?: {
+      firstName: string;
+      secondName: string;
+    };
+    publisher?: {
+      in: string[];
+    };
+    available?: boolean;
+    featured?: boolean;
+  };
+
+  const filterOptions: FilterOptions = {};
+
+  if (author && typeof author === "string" && author !== "") {
+    const [firstName, secondName] = author.split(" ");
+    filterOptions.author = { firstName, secondName };
+  }
+  if (publishers && typeof publishers === "object" && publishers.length !== 0)
+    filterOptions.publisher = { in: publishers };
+  if (available && typeof available === "string")
+    filterOptions.available = Boolean(Number(available));
+  if (featured && typeof featured === "string")
+    filterOptions.featured = Boolean(Number(featured));
 
   // filter books with prisma
-  const filteredBooks = null;
-
-  const books = await prisma.book.findMany({
+  const filteredBooks = await prisma.book.findMany({
+    where: filterOptions,
     include: {
       author: {
         select: {
@@ -39,27 +52,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  // const books = await prisma.book.findMany({
-  //   orderBy: [
-  //     {
-  //       publicationYear: orderPublicationYear,
-  //     },
-  //   ],
-  //   include: {
-  //     author: {
-  //       select: {
-  //         firstName: true,
-  //         secondName: true,
-  //       },
-  //     },
-  //   },
-  // });
-
   if (!filteredBooks) {
     throw new NotFoundError("There are no books");
   }
 
-  res.status(200).json({ msg: `Books filtered`, filteredBooks});
+  res.status(200).json({ msg: `Books filtered`, filteredBooks });
 }
 
 export default errorMiddleware(handler);

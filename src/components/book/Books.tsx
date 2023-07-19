@@ -7,6 +7,7 @@ import { Spinner1 } from "../ui/spinners";
 import BooksControl from "./BooksControl";
 import BooksFilterSidebar from "./booksFilter/BooksFilterSidebar";
 import BooksFilterData from "@/types/misc/BooksFilterData";
+import NoBooks from "./NoBooks";
 
 type Props = {
   initialBooks: BookWithAuthorNameT[];
@@ -24,22 +25,24 @@ const Books: FC<Props> = ({
   const {
     handlePageChange,
     sort,
-    filter,
+    books,
     pagination: { currentPageNumber, lastPageNumber },
     isBooksLoading,
     isFilterSidebarOpen,
   } = useBooksContext();
 
-  // go to first page after each sort or filter update
+  // go to first page after each sort update
+  // Warning - isRenderedFirstTime is not working if we revisit page, which was visited earlier
+  // probably this only affects developing version
   useEffect(() => {
-    if (isRenderedFirstTime) return;
+    // if (isRenderedFirstTime) return;
     handlePageChange(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sort, filter]);
+  }, [sort]);
 
   return (
     <div className="page-min-height relative">
-      <div className="my-2 md:my-4">
+      <div className="py-2 md:py-4">
         <BooksControl />
       </div>
       {isBooksLoading && (
@@ -48,7 +51,7 @@ const Books: FC<Props> = ({
         </div>
       )}
       {isFilterSidebarOpen && <BooksFilterSidebar filterData={filterData} />}
-      {!isBooksLoading && (
+      {!isBooksLoading && books.length !== 0 && (
         <>
           <BookGrid
             initialBooks={initialBooks}
@@ -65,6 +68,7 @@ const Books: FC<Props> = ({
           </div>
         </>
       )}
+      {!isBooksLoading && books.length === 0 && <NoBooks />}
     </div>
   );
 };

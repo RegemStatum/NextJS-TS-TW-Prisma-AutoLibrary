@@ -33,15 +33,40 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     throw new BadRequestError("Provide correct page number");
   }
 
-  const response = await fetch(
-    `${process.env.BASE_URL}/api/books/sort/${sortBy}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+  let { author, publisher, available, featured } = req.query;
+
+  if (typeof publisher === "string") publisher = [publisher];
+
+  // configure filter params in uri
+  const filterParams: string[] = [];
+
+  if (author && author !== "") {
+    filterParams.push(`author=${author}`);
+  }
+  if (publisher && publisher.length !== 0) {
+    for (let p of publisher) {
+      filterParams.push(`publisher=${p}`);
     }
-  );
+  }
+  if (available) {
+    filterParams.push(`available=${Number(available)}`);
+  }
+  if (featured) {
+    filterParams.push(`featured=${Number(featured)}`);
+  }
+
+  const filterParamsURI = filterParams.join("&");
+  const queryURI = `${process.env.BASE_URL}/api/books?sortBy=${sortBy}&${
+    filterParamsURI.length !== 0 ? filterParamsURI : ""
+  }`;
+  console.log("Query URI", queryURI);
+
+  const response = await fetch(queryURI, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   const data = await response.json();
   const books = data.books;
   if (!books || books.length === 0) {

@@ -17,9 +17,9 @@ const OrderGridItemBooksGridItem: FC<Props> = ({ book }) => {
         </p>
       </div>
       {book.cabinet && (
-        <p className="mt-2 font-medium lg:mt-4">
+        <p className="mt-2 font-medium  lg:mt-4">
           Cabinet:{" "}
-          <span className="inline-block text-lg font-bold text-blue-800">
+          <span className="inline-block text-lg font-bold ">
             #{book.cabinet?.number}
           </span>
         </p>

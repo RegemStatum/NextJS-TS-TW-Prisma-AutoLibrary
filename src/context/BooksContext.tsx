@@ -6,28 +6,34 @@ import {
   BooksStatePagination,
   BooksStateSearch,
   BooksStateSort,
+  BooksStateSortLabel,
 } from "@/types/reducers/BooksReducer";
 import React, { FC, useCallback, useContext, useReducer } from "react";
 import reducer from "../reducers/booksReducer";
 import BookWithAuthorNameT from "@/types/misc/BookWithAuthorNameT";
 import { useAppContext } from "./AppContext";
+import { BOOKS_PER_PAGE } from "@/utils/constants/misc";
+
+export const defaultFilterOptions: BooksStateFilter = {
+  author: "",
+  publishers: [],
+  onlyAvailable: false,
+  onlyFeatured: false,
+  // is not used by frontend for a moment
+  language: "",
+  cover: "",
+  publicationYear: {
+    from: "",
+    to: "",
+  },
+};
 
 const initialReducerState: BooksState = {
   books: [],
   isBooksLoading: false,
   sort: "YEAR_DESC",
-  filter: {
-    onlyAvailable: false,
-    onlyFeatured: false,
-    author: "",
-    publisher: "",
-    language: "",
-    cover: "",
-    publicationYear: {
-      from: "",
-      to: "",
-    },
-  },
+  sortLabel: "Newest to oldest",
+  filter: defaultFilterOptions,
   isFilterSidebarOpen: false,
   isBooksFiltered: false,
   pagination: {
@@ -43,13 +49,18 @@ const booksContextInitialValue: BooksContextValue = {
   ...initialReducerState,
   setBooks: (books: BookWithAuthorNameT[]) => {},
   setSort: (sortBy: BooksStateSort) => {},
+  setSortLabel: (sortLabel: BooksStateSortLabel) => {},
   setFilter: (filterBy: BooksStateFilter) => {},
   setIsBooksFiltered: (isBooksFiltered: boolean) => {},
   setPagination: (pagination: BooksStatePagination) => {},
   setSearch: (search: BooksStateSearch) => {},
   setIsBooksLoading: (isLoading: boolean) => {},
-  handlePageChange: async (pageNumber: number) => {},
+  handlePageChange: async (
+    pageNumber: number,
+    filterParams?: BooksStateFilter
+  ) => {},
   setIsBooksFilterSidebarOpen: (isOpen: boolean) => {},
+  resetFilter: () => {},
 };
 
 const BooksContext = React.createContext(booksContextInitialValue);
@@ -68,6 +79,13 @@ const BooksContextProvider: FC<Props> = ({ children }) => {
 
   const setSort = (sortBy: BooksStateSort) => {
     dispatch({ type: BooksReducerActionTypes.SET_SORT, payload: sortBy });
+  };
+
+  const setSortLabel = (sortLabel: BooksStateSortLabel) => {
+    dispatch({
+      type: BooksReducerActionTypes.SET_SORT_LABEL,
+      payload: sortLabel,
+    });
   };
 
   const setFilter = (filterBy: BooksStateFilter) => {
@@ -106,28 +124,84 @@ const BooksContextProvider: FC<Props> = ({ children }) => {
     });
   };
 
-  const handlePageChange = async (pageNumber: number) => {
+  const resetFilter = () => {
+    setFilter({ ...defaultFilterOptions });
+    console.log("State filter 1: ", state.filter);
+  };
+
+  const getFilterURIParams = () => {
+    const fetchParams: string[] = [];
+
+    console.log("Filter opotions : ", state.filter);
+
+    if (state.filter.author !== "") {
+      fetchParams.push(`author=${state.filter.author}`);
+    }
+    if (state.filter.publishers.length !== 0) {
+      for (let publisher of state.filter.publishers) {
+        fetchParams.push(`publisher=${publisher}`);
+      }
+    }
+    if (state.filter.onlyAvailable) {
+      fetchParams.push(`available=${Number(state.filter.onlyAvailable)}`);
+    }
+    if (state.filter.onlyFeatured) {
+      fetchParams.push(`featured=${Number(state.filter.onlyFeatured)}`);
+    }
+
+    const fetchParamsURI = fetchParams.join("&");
+    return fetchParamsURI;
+  };
+
+  const handlePageChange = async (
+    pageNumber: number,
+    filterParams?: BooksStateFilter
+  ) => {
     try {
       setIsBooksLoading(true);
-      const res = await fetch(
-        `/api/books/paginate/${pageNumber}?sortBy=${state.sort}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+
+      const filterURIParams = getFilterURIParams();
+      console.log("filterURIParams: ", filterURIParams);
+      console.log("filter Params", filterParams);
+
+      const fetchQuery = filterParams
+        ? `/api/books/paginate/${pageNumber}?sortBy=${state.sort}&${filterParams}`
+        : `/api/books/paginate/${pageNumber}?sortBy=${state.sort}&${filterURIParams}`;
+
+      console.log("fetch query: ", fetchQuery);
+
+      const res = await fetch(fetchQuery, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.status === 404) {
+        setBooks([]);
+        setIsBooksLoading(false);
+        return;
+      }
+
       const data = await res.json();
 
       const newBooks = data.books;
+      const newTotalBooksAmount = data.totalBooksAmount;
+
       if (!newBooks) {
         throw new Error(`No books were fetched for page ${pageNumber}`);
       }
+      if (!newTotalBooksAmount) {
+        throw new Error(`No Total Books Amount`);
+      }
+
+      const newLastPageNumber = Math.ceil(newTotalBooksAmount / BOOKS_PER_PAGE);
+
       setBooks(newBooks);
       setPagination({
         ...state.pagination,
         currentPageNumber: pageNumber,
+        lastPageNumber: newLastPageNumber,
       });
       setIsBooksLoading(false);
     } catch (e: any) {
@@ -146,6 +220,7 @@ const BooksContextProvider: FC<Props> = ({ children }) => {
         ...state,
         setBooks,
         setSort,
+        setSortLabel,
         setFilter,
         setIsBooksFilterSidebarOpen,
         setIsBooksFiltered,
@@ -153,6 +228,7 @@ const BooksContextProvider: FC<Props> = ({ children }) => {
         setSearch,
         setIsBooksLoading,
         handlePageChange,
+        resetFilter,
       }}
     >
       {children}

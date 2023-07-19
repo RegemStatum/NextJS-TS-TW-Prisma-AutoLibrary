@@ -3,15 +3,9 @@ import BooksFilterAuthorsItem from "./BooksFilterAuthorsItem";
 
 type Props = {
   authors: string[];
-  selectedAuthor: string;
-  selectAuthor: (author: string) => void;
 };
 
-const BooksFilterAuthors: FC<Props> = ({
-  authors,
-  selectedAuthor,
-  selectAuthor,
-}) => {
+const BooksFilterAuthors: FC<Props> = ({ authors }) => {
   return (
     <div>
       <p className="pl-2 pb-1 font-bold">Authors</p>
@@ -20,8 +14,6 @@ const BooksFilterAuthors: FC<Props> = ({
           <BooksFilterAuthorsItem
             key={index + Number(new Date())}
             name={author}
-            selectedAuthor={selectedAuthor}
-            selectAuthor={selectAuthor}
           />
         ))}
       </div>

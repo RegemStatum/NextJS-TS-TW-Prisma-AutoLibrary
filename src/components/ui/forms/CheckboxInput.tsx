@@ -7,9 +7,9 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const CheckboxInput: FC<Props> = ({ name, label, ...rest }) => {
   return (
-    <div className="flex gap-2 cursor-pointer">
+    <div className="flex cursor-pointer">
       <input id={name} type="checkbox" {...rest}></input>
-      <label htmlFor={name} className="cursor-pointer select-none">
+      <label htmlFor={name} className="w-full pl-2 cursor-pointer select-none">
         {label}
       </label>
     </div>

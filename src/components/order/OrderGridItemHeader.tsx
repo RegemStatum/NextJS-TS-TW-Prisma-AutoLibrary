@@ -19,7 +19,7 @@ const OrderGridItemHeader: FC<Props> = ({
       <div className="flex flex-col md:flex-row md:gap-6">
         <h3 className="text-xl font-medium">
           Order number:
-          <span className="inline-block ml-2 text-4xl font-medium md:ml-3">
+          <span className="inline-block ml-2 text-4xl font-medium  md:ml-3">
             {orderNumber}
           </span>
         </h3>

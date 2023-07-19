@@ -8,11 +8,15 @@ import {
 import { useBooksContext } from "@/context/BooksContext";
 
 const BooksControl: FC = () => {
-  const { setSort, setIsBooksFilterSidebarOpen } = useBooksContext();
-
+  const {
+    sortLabel,
+    isFilterSidebarOpen,
+    setSort,
+    setSortLabel,
+    setIsBooksFilterSidebarOpen,
+  } = useBooksContext();
   const [isShowMoreSortingOptions, setIsShowMoreSortingOptions] =
     useState(false);
-  const [showSort, setShowSort] = useState("Newest to oldest");
 
   const toggleIsShowMoreSortingOptions = () => {
     const newIsShowMoreSortingOptions = !isShowMoreSortingOptions;
@@ -20,34 +24,28 @@ const BooksControl: FC = () => {
   };
 
   const setSortNewestToOldest = () => {
-    setShowSort("Newest to oldest");
+    setSortLabel("Newest to oldest");
     setSort("YEAR_DESC");
     setIsShowMoreSortingOptions(false);
   };
 
   const setSortOldestToNewest = () => {
-    setShowSort("Oldest to newest");
+    setSortLabel("Oldest to newest");
     setSort("YEAR_ASC");
     setIsShowMoreSortingOptions(false);
   };
 
-  const openFilterSidebar = () => {
-    setIsBooksFilterSidebarOpen(true);
-  };
-
-  const closeFilterSidebar = () => {
-    setIsBooksFilterSidebarOpen(true);
+  const handleFilterButtonClick = () => {
+    setIsShowMoreSortingOptions(false);
+    isFilterSidebarOpen
+      ? setIsBooksFilterSidebarOpen(false)
+      : setIsBooksFilterSidebarOpen(true);
   };
 
   return (
     <div className="flex gap-1 justify-end items-center text-neutral-800">
       {/* filter btn */}
-      <IconWrapper
-        onClick={() => {
-          setIsShowMoreSortingOptions(false);
-          openFilterSidebar();
-        }}
-      >
+      <IconWrapper onClick={handleFilterButtonClick}>
         <FunnelIcon width={32} />
       </IconWrapper>
       {/* sort btn */}
@@ -55,17 +53,17 @@ const BooksControl: FC = () => {
         className="relative flex p-2 gap-1 bg-neutral-100 border rounded-md cursor-pointer"
         onClick={toggleIsShowMoreSortingOptions}
       >
-        <p className="leading-relaxed">{showSort}</p>
+        <p className="leading-relaxed select-none">{sortLabel}</p>
         {isShowMoreSortingOptions ? (
           <ChevronDownIcon width={18} />
         ) : (
           <ChevronUpIcon width={18} />
         )}
         {isShowMoreSortingOptions && (
-          <div className="absolute w-full top-[50px] z-10 left-0 flex flex-col bg-neutral-100 rounded-md border border-neutral-300 overflow-hidden shadow-md">
+          <div className="absolute w-full top-[50px] z-10 left-0 flex flex-col bg-neutral-100 rounded-md border border-neutral-300 overflow-hidden shadow-md ">
             <p
-              className={`px-2 py-2 leading-relaxed ${
-                showSort === "Newest to oldest"
+              className={`px-2 py-2 leading-relaxed select-none ${
+                sortLabel === "Newest to oldest"
                   ? "bg-neutral-200 font-medium pointer-events-none"
                   : ""
               }`}
@@ -74,8 +72,8 @@ const BooksControl: FC = () => {
               Newest to oldest
             </p>
             <p
-              className={`px-2 py-2 leading-relaxed  ${
-                showSort === "Oldest to newest"
+              className={`px-2 py-2 leading-relaxed select-none  ${
+                sortLabel === "Oldest to newest"
                   ? "bg-neutral-200 font-medium pointer-events-none"
                   : ""
               }`}

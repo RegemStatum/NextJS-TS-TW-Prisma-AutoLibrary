@@ -1,21 +1,26 @@
+import { useBooksFilterContext } from "@/context/BooksFilterContext";
 import React, { FC } from "react";
 
 type Props = {
   name: string;
-  selectAuthor: (author: string) => void;
-  selectedAuthor: string;
 };
 
-const BooksFilterAuthorsItem: FC<Props> = ({
-  name,
-  selectAuthor,
-  selectedAuthor,
-}) => {
+const BooksFilterAuthorsItem: FC<Props> = ({ name }) => {
+  const {
+    filterOptions: { author },
+    selectAuthor,
+    clearAuthor,
+  } = useBooksFilterContext();
+
+  const handleClick = () => {
+    name === author ? clearAuthor() : selectAuthor(name);
+  };
+
   return (
     <div
-      onClick={() => selectAuthor(name)}
+      onClick={handleClick}
       className={`${
-        name === selectedAuthor ? "outline outline-1 outline-blue-200 bg-blue-50" : ""
+        name === author ? "outline outline-1 outline-blue-200 bg-blue-50" : ""
       } p-2 flex gap-1 rounded-md cursor-pointer hover:bg-blue-50`}
     >
       <p>{name}</p>

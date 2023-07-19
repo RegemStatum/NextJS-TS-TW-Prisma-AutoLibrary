@@ -11,12 +11,17 @@ const PaginationPageItem: FC<Props> = ({
   isActive,
   handlePageClick,
 }) => {
+  const onPageClick = () => {
+    handlePageClick(pageNumber);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <button
-      onClick={() => handlePageClick(pageNumber)}
+      onClick={onPageClick}
       className={`py-2 px-4 text-lg border-2 rounded-md leading-tight md:text-xl ${
         isActive
-          ? "border-neutral-400 font-medium"
+          ? "border-neutral-400 font-medium pointer-events-none select-none"
           : "border-neutral-200 hover:border-neutral-300"
       }`}
     >

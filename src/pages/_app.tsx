@@ -8,6 +8,7 @@ import {
   CartContextProvider,
   OrdersContextProvider,
   AuthorsContextProvider,
+  BooksFilterContextProvider,
 } from "@/context";
 import BooksContextProvider from "@/context/BooksContext";
 
@@ -20,9 +21,11 @@ export default function App({ Component, pageProps }: AppProps) {
             <CartContextProvider>
               <AuthorsContextProvider>
                 <BooksContextProvider>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
+                  <BooksFilterContextProvider>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </BooksFilterContextProvider>
                 </BooksContextProvider>
               </AuthorsContextProvider>
             </CartContextProvider>

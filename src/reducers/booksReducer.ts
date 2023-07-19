@@ -25,6 +25,14 @@ const reducer = (
       };
       return newState;
     }
+    case BooksReducerActionTypes.SET_SORT_LABEL: {
+      const newSortLabel = action.payload;
+      const newState: BooksState = {
+        ...state,
+        sortLabel: newSortLabel,
+      };
+      return newState;
+    }
     case BooksReducerActionTypes.SET_FILTER: {
       const newFilter = action.payload;
       const newState: BooksState = {

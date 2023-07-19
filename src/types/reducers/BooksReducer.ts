@@ -1,12 +1,13 @@
 import BookWithAuthorNameT from "../misc/BookWithAuthorNameT";
 
-type BooksStateSort = "YEAR_ASC" | "YEAR_DESC";
+type BooksStateSort = "YEAR_DESC" | "YEAR_ASC";
+type BooksStateSortLabel = "Newest to oldest" | "Oldest to newest";
 
 type BooksStateFilter = {
   onlyAvailable: boolean;
   onlyFeatured: boolean;
   author: string;
-  publisher: string;
+  publishers: string[];
   language: string;
   cover: "hardcover" | "softcover" | "";
   publicationYear: {
@@ -27,6 +28,7 @@ type BooksStateSearch = {
 type BooksState = {
   books: BookWithAuthorNameT[];
   sort: BooksStateSort;
+  sortLabel: BooksStateSortLabel;
   filter: BooksStateFilter;
   isFilterSidebarOpen: boolean;
   isBooksLoading: boolean;
@@ -39,6 +41,7 @@ enum BooksReducerActionTypes {
   SET_BOOKS = "SET_BOOKS",
   SET_IS_BOOKS_LOADING = "SET_IS_BOOKS_LOADING",
   SET_SORT = "SET_SORT",
+  SET_SORT_LABEL = "SET_SORT_LABEL",
   SET_FILTER = "SET_FILTER",
   SET_IS_FILTER_SIDEBAR_OPEN = "SET_IS_FILTER_SIDEBAR_OPEN",
   SET_IS_BOOKS_FILTERED = "SET_IS_BOOKS_FILTERED",
@@ -59,6 +62,11 @@ type SetIsBooksLoading = {
 type SetSortAction = {
   type: BooksReducerActionTypes.SET_SORT;
   payload: BooksStateSort;
+};
+
+type SetSortLabel = {
+  type: BooksReducerActionTypes.SET_SORT_LABEL;
+  payload: BooksStateSortLabel;
 };
 
 type SetFilterAction = {
@@ -90,6 +98,7 @@ type BooksReducerActions =
   | SetBooksAction
   | SetIsBooksLoading
   | SetSortAction
+  | SetSortLabel
   | SetFilterAction
   | SetIsBooksFilteredAction
   | SetPaginationAction
@@ -101,6 +110,7 @@ export type {
   BooksReducerActions,
   BooksStateFilter,
   BooksStateSort,
+  BooksStateSortLabel,
   BooksStatePagination,
   BooksStateSearch,
 };
