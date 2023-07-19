@@ -80,7 +80,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     filterOptions.featured = Boolean(Number(featured));
 
   const isFilters = !!Object.keys(filterOptions).length;
-  console.log("Is filters?: ", isFilters);
 
   // prisma query
   const books = isFilters

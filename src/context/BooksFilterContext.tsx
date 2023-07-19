@@ -33,16 +33,12 @@ type Props = {
 };
 
 const BooksFilterContextProvider: FC<Props> = ({ children }) => {
-  const { showInfoMessage } = useAppContext();
   const {
     filter: filterOptions,
     setFilter,
-    setIsBooksFilterSidebarOpen,
-    setBooks,
   } = useBooksContext();
   const [isShowClearFiltersButton, setIsShowClearFiltersButton] =
     useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const clearAuthor = () => {
     setFilter({ ...filterOptions, author: "" });
@@ -91,24 +87,6 @@ const BooksFilterContextProvider: FC<Props> = ({ children }) => {
     setFilter({ ...defaultFilterOptions });
     setIsShowClearFiltersButton(false);
   };
-
-  // const applyFilters = async () => {
-  //   try {
-  //     setIsLoading(true);
-
-  //     setBooks(data.filteredBooks);
-  //     setIsBooksFilterSidebarOpen(false);
-  //     setIsLoading(false);
-  //   } catch (e: any) {
-  //     console.log(e);
-  //     setIsBooksFilterSidebarOpen(false);
-  //     setIsLoading(false);
-  //     showInfoMessage(
-  //       "error",
-  //       e.message || "Something went wrong, try again later"
-  //     );
-  //   }
-  // };
 
   return (
     <BooksFilterContext.Provider

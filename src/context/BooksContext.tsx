@@ -126,13 +126,10 @@ const BooksContextProvider: FC<Props> = ({ children }) => {
 
   const resetFilter = () => {
     setFilter({ ...defaultFilterOptions });
-    console.log("State filter 1: ", state.filter);
   };
 
   const getFilterURIParams = () => {
     const fetchParams: string[] = [];
-
-    console.log("Filter opotions : ", state.filter);
 
     if (state.filter.author !== "") {
       fetchParams.push(`author=${state.filter.author}`);
@@ -161,14 +158,10 @@ const BooksContextProvider: FC<Props> = ({ children }) => {
       setIsBooksLoading(true);
 
       const filterURIParams = getFilterURIParams();
-      console.log("filterURIParams: ", filterURIParams);
-      console.log("filter Params", filterParams);
 
       const fetchQuery = filterParams
         ? `/api/books/paginate/${pageNumber}?sortBy=${state.sort}&${filterParams}`
         : `/api/books/paginate/${pageNumber}?sortBy=${state.sort}&${filterURIParams}`;
-
-      console.log("fetch query: ", fetchQuery);
 
       const res = await fetch(fetchQuery, {
         method: "GET",

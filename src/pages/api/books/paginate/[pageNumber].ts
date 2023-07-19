@@ -59,7 +59,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const queryURI = `${process.env.BASE_URL}/api/books?sortBy=${sortBy}&${
     filterParamsURI.length !== 0 ? filterParamsURI : ""
   }`;
-  console.log("Query URI", queryURI);
 
   const response = await fetch(queryURI, {
     method: "GET",
