@@ -53,22 +53,29 @@ const Books: FC<Props> = ({
       {isFilterSidebarOpen && <BooksFilterSidebar filterData={filterData} />}
       {!isBooksLoading && books.length !== 0 && (
         <>
-          <BookGrid
-            initialBooks={initialBooks}
-            isRenderedFirstTime={isRenderedFirstTime}
-          />
+          <BookGrid books={books} />
           <div className="my-2 md:my-4">
             <Pagination
               currentPageNumber={currentPageNumber}
-              lastPageNumber={
-                isRenderedFirstTime ? initialLastPageNumber : lastPageNumber
-              }
+              lastPageNumber={lastPageNumber}
               handlePageClick={handlePageChange}
             />
           </div>
         </>
       )}
-      {!isBooksLoading && books.length === 0 && <NoBooks />}
+      {initialBooks.length !== 0 && books.length === 0 && (
+        <>
+          <BookGrid books={initialBooks} />
+          <div className="my-2 md:my-4">
+            <Pagination
+              currentPageNumber={currentPageNumber}
+              lastPageNumber={initialLastPageNumber}
+              handlePageClick={handlePageChange}
+            />
+          </div>
+        </>
+      )}
+      {!isBooksLoading && books?.length === 0 && <NoBooks />}
     </div>
   );
 };

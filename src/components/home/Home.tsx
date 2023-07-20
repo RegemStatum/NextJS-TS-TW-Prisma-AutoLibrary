@@ -15,7 +15,7 @@ const Home: FC<Props> = ({ books }) => {
       {/* featured books */}
       <div>
         <SectionHeader text="Featured books" />
-        <BookGrid initialBooks={books} isRenderedFirstTime={true} />
+        <BookGrid books={books} />
       </div>
     </div>
   );

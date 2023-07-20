@@ -162,8 +162,6 @@ const getBooksPageInitialProps: GetBooksInitialProps = async () => {
     minPublicationYear,
   ];
 
-  console.log("Initial props: ", initialProps);
-
   return initialProps;
 };
 
