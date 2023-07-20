@@ -9,6 +9,7 @@ import ShoppingBagIcon from "./ShoppingBagIcon";
 import UserIcon from "./UserIcon";
 import MagnifyingGlassIcon from "./MagnifyingGlassIcon";
 import FunnelIcon from "./FunnelIcon";
+import EllipsisVerticalIcon from "./EllipsisVerticalicon";
 
 // icon wrapper
 import IconWrapper from "./IconWrapper";
@@ -21,6 +22,7 @@ import AuthorIcon from "./AuthorIcon";
 export {
   IconWrapper,
   LogoBookIcon,
+  EllipsisVerticalIcon,
   MenuBars,
   XMarkIcon,
   BookIcon,
