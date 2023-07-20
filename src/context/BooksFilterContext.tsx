@@ -2,7 +2,6 @@ import { BooksStateFilter } from "@/types/reducers/BooksReducer";
 import React, { FC, useContext, useState } from "react";
 import { useBooksContext } from "./BooksContext";
 import { defaultFilterOptions } from "./BooksContext";
-import { useAppContext } from "./AppContext";
 
 interface BooksFilterContextValue {
   filterOptions: BooksStateFilter;
@@ -33,10 +32,7 @@ type Props = {
 };
 
 const BooksFilterContextProvider: FC<Props> = ({ children }) => {
-  const {
-    filter: filterOptions,
-    setFilter,
-  } = useBooksContext();
+  const { filter: filterOptions, setFilter } = useBooksContext();
   const [isShowClearFiltersButton, setIsShowClearFiltersButton] =
     useState(false);
 
