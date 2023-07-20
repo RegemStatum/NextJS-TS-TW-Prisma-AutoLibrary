@@ -63,18 +63,20 @@ const Books: FC<Props> = ({
           </div>
         </>
       )}
-      {initialBooks.length !== 0 && books.length === 0 && (
-        <>
-          <BookGrid books={initialBooks} />
-          <div className="my-2 md:my-4">
-            <Pagination
-              currentPageNumber={currentPageNumber}
-              lastPageNumber={initialLastPageNumber}
-              handlePageClick={handlePageChange}
-            />
-          </div>
-        </>
-      )}
+      {initialBooks.length !== 0 &&
+        books.length === 0 &&
+        isRenderedFirstTime && (
+          <>
+            <BookGrid books={initialBooks} />
+            <div className="my-2 md:my-4">
+              <Pagination
+                currentPageNumber={currentPageNumber}
+                lastPageNumber={initialLastPageNumber}
+                handlePageClick={handlePageChange}
+              />
+            </div>
+          </>
+        )}
       {!isBooksLoading && books?.length === 0 && <NoBooks />}
     </div>
   );
