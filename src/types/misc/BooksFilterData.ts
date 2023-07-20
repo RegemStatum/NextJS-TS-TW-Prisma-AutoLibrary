@@ -1,10 +1,10 @@
 type BooksFilterData = {
   authors: string[];
-  covers: string[];
-  languages: string[];
+  // covers: string[];
+  // languages: string[];
   publishers: string[];
-  maxPublicationYear: number;
-  minPublicationYear: number;
+  // maxPublicationYear: number;
+  // minPublicationYear: number;
 };
 
 export default BooksFilterData;

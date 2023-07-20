@@ -9,7 +9,7 @@ import {
   CACHED_AUTHORS_TTL_SEC,
 } from "@/utils/constants/misc";
 import { useAuthorsContext } from "@/context/AuthorsContext";
-import { NotFoundError } from "@/utils/errors";
+// import { NotFoundError } from "@/utils/errors";
 
 type Props = {
   authors: AuthorWithBooksT[];
@@ -18,34 +18,6 @@ type Props = {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   try {
-    const res = await fetch(`${process.env.BASE_URL}/api/authors/paginate/1`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    const authors = data.authors;
-    if (!authors) {
-      throw new NotFoundError(
-        "getStaticProps was not able to fetch authors paginate api correctly. No authors"
-      );
-    }
-    const totalAuthorsAmount = data.totalAuthorsAmount;
-    if (!totalAuthorsAmount) {
-      throw new NotFoundError(
-        "getStaticProps was not able to fetch authors paginate api correctly. No total authors amount"
-      );
-    }
-
-    const lastPageNumber = Math.ceil(totalAuthorsAmount / AUTHORS_PER_PAGE);
-
-    return {
-      props: { authors, lastPageNumber },
-      revalidate: CACHED_AUTHORS_TTL_SEC,
-    };
-  } catch (e: any) {
-    console.log(e);
     const authors = await prisma.author.findMany({
       include: {
         books: {
@@ -72,6 +44,17 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     });
     const authorsCount = await prisma.author.count();
     const lastPageNumber = Math.ceil(authorsCount / AUTHORS_PER_PAGE);
+
+    return {
+      props: { authors: authorsToJson, lastPageNumber },
+      revalidate: CACHED_AUTHORS_TTL_SEC,
+    };
+  } catch (e: any) {
+    console.log(e);
+
+    const authorsToJson: any[] = [];
+    const lastPageNumber = -1;
+
     return {
       props: { authors: authorsToJson, lastPageNumber },
       revalidate: CACHED_AUTHORS_TTL_SEC,

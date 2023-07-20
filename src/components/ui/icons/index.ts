@@ -9,7 +9,7 @@ import ShoppingBagIcon from "./ShoppingBagIcon";
 import UserIcon from "./UserIcon";
 import MagnifyingGlassIcon from "./MagnifyingGlassIcon";
 import FunnelIcon from "./FunnelIcon";
-import EllipsisVerticalIcon from "./EllipsisVerticalicon";
+import EllipsisVerticalIcon from "./EllipsisVerticalIcon";
 
 // icon wrapper
 import IconWrapper from "./IconWrapper";

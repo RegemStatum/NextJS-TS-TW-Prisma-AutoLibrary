@@ -129,18 +129,18 @@ const getAllAuthorNames = async () => {
   return authorNames;
 };
 
-type GetBooksInitialProps = () => Promise<
-  [
-    books: BookWithAuthorNameT[],
-    totalBooksAmount: number,
-    authors: string[],
-    covers: string[],
-    languages: string[],
-    publishers: string[],
-    maxPublicationYear: number,
-    minPublicationYear: number
-  ]
->;
+type BooksInitialProps = [
+  books: BookWithAuthorNameT[],
+  totalBooksAmount: number,
+  authors: string[],
+  covers: string[],
+  languages: string[],
+  publishers: string[],
+  maxPublicationYear: number,
+  minPublicationYear: number
+];
+
+type GetBooksInitialProps = () => Promise<BooksInitialProps>;
 
 const getBooksPageInitialProps: GetBooksInitialProps = async () => {
   const [books, totalBooksAmount] = await getInitialBooks();
@@ -150,7 +150,8 @@ const getBooksPageInitialProps: GetBooksInitialProps = async () => {
   const publishers = await getAllPublishers();
   const maxPublicationYear = await getMaxPublicationYear();
   const minPublicationYear = await getMinPublicationYear();
-  return [
+
+  const initialProps: BooksInitialProps = [
     books,
     totalBooksAmount,
     authors,
@@ -160,6 +161,10 @@ const getBooksPageInitialProps: GetBooksInitialProps = async () => {
     maxPublicationYear,
     minPublicationYear,
   ];
+
+  console.log("Initial props: ", initialProps);
+
+  return initialProps;
 };
 
 export default getBooksPageInitialProps;

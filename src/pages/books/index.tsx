@@ -5,8 +5,9 @@ import Head from "next/head";
 import { BOOKS_PER_PAGE, CACHED_BOOKS_TTL_SEC } from "@/utils/constants/misc";
 import { useBooksContext } from "@/context/BooksContext";
 import Books from "@/components/book/Books";
-import getBooksPageInitialProps from "@/utils/helpers/getBooksPageInitialProps";
 import BooksFilterData from "@/types/misc/BooksFilterData";
+import prisma from "@/utils/prisma";
+import NotFoundError from "@/utils/errors/NotFoundError";
 
 type Props = {
   books: BookWithAuthorNameT[];
@@ -16,33 +17,71 @@ type Props = {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   try {
-    const initialProps = await getBooksPageInitialProps();
-    const [
-      books,
-      totalBooksAmount,
-      authors,
-      covers,
-      languages,
-      publishers,
-      maxPublicationYear,
-      minPublicationYear,
-    ] = initialProps;
+    // books
+    const books = await prisma.book.findMany({
+      orderBy: [
+        {
+          publicationYear: "desc",
+        },
+      ],
+      include: {
+        author: {
+          select: {
+            firstName: true,
+            secondName: true,
+          },
+        },
+      },
+    });
 
-    const lastPageNumber = Math.ceil(totalBooksAmount / BOOKS_PER_PAGE);
+    const indexToStartWith = 0;
+    const indexToEndWith = indexToStartWith + BOOKS_PER_PAGE;
+    const booksOnPage = books.slice(indexToStartWith, indexToEndWith);
+
+    // last page number
+    const lastPageNumber = Math.ceil(books.length / BOOKS_PER_PAGE);
+
+    // filter data
+    // - authors
+    const prismaAuthors = await prisma.author.findMany({
+      select: {
+        firstName: true,
+        secondName: true,
+      },
+    });
+    if (!prismaAuthors) {
+      throw new NotFoundError("Authors were not found");
+    }
+
+    const authors = prismaAuthors.map((author) => {
+      const fullName = `${author.firstName} ${author.secondName}`;
+      return fullName;
+    });
+
+    // - publishers
+    const prismaPublishers = await prisma.book.findMany({
+      select: {
+        publisher: true,
+      },
+      distinct: ["publisher"],
+    });
+    if (!prismaPublishers) {
+      throw new NotFoundError("Publishers not found");
+    }
+
+    const publishers = prismaPublishers.map(
+      (publisherObj) => publisherObj.publisher
+    );
+
     const filterData = {
       authors,
-      covers,
-      languages,
       publishers,
-      maxPublicationYear,
-      minPublicationYear,
     };
 
     return {
       props: {
-        books,
+        books: booksOnPage,
         lastPageNumber,
-        authors,
         filterData,
       },
       revalidate: CACHED_BOOKS_TTL_SEC,
@@ -55,11 +94,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         lastPageNumber: -1,
         filterData: {
           authors: [],
-          covers: [],
-          languages: [],
           publishers: [],
-          maxPublicationYear: -1,
-          minPublicationYear: -1,
         },
       },
     };
