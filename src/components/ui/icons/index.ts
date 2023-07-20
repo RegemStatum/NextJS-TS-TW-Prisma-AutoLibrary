@@ -7,7 +7,6 @@ import ChevronDownIcon from "./ChevronDownIcon";
 import ShoppingCartIcon from "./ShoppingCartIcon";
 import ShoppingBagIcon from "./ShoppingBagIcon";
 import UserIcon from "./UserIcon";
-import EllipsisVerticalIcon from "./EllipsisVerticalIcon";
 import MagnifyingGlassIcon from "./MagnifyingGlassIcon";
 import FunnelIcon from "./FunnelIcon";
 
@@ -33,7 +32,6 @@ export {
   ShoppingCartIcon,
   ShoppingBagIcon,
   UserIcon,
-  EllipsisVerticalIcon,
   MagnifyingGlassIcon,
   FunnelIcon,
 };
