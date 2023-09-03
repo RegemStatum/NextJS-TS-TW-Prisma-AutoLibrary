@@ -6,15 +6,16 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
   errorMsg: string;
-  clearInput: () => void;
+  clearInput?: () => void;
 }
 
 const Input: FC<Props> = ({ name, label, errorMsg, clearInput, ...rest }) => {
   return (
     <div className="relative">
-      {rest.value !== "" && (
+      {rest.value !== "" && clearInput && (
         <XMarkIcon
           width={27}
+          height={27}
           onClick={clearInput}
           className="absolute top-[8px] right-[8px] md:top-[12px] md:right-[12px] md:cursor-pointer"
         />
