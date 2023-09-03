@@ -9,6 +9,7 @@ import CartGridItem from "./CartGridItem";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { HIDE_AFTER_DEFAULT_MSEC } from "@/utils/constants/misc";
+import { H2 } from "../ui/headings";
 
 const CartGrid: FC = () => {
   const { data: session } = useSession();
@@ -104,7 +105,8 @@ const CartGrid: FC = () => {
 
   return (
     <div>
-      <div className="grid gap-3 pt-4 md:pt-6 lg:grid-cols-2 xl:grid-cols-3">
+      <H2>Books Cart</H2>
+      <div className="grid gap-3 pt-2 md:pt-4 lg:grid-cols-2 xl:grid-cols-3">
         {cartBooks.map((cartBook) => (
           <CartGridItem key={cartBook.id} cartBook={cartBook} />
         ))}

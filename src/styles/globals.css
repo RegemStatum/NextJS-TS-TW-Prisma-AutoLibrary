@@ -33,11 +33,6 @@ h8 {
   font-family: "Roboto", sans-serif;
 }
 
-::selection {
-  background-color: #7dd3fc; /* Replace with your desired color */
-  /* color: #082f49; Replace with your desired text color */
-}
-
 @layer utilities {
   .page-min-height {
     min-height: calc(100vh - 53px - 93px);
@@ -76,6 +71,7 @@ h8 {
   }
 
   /* browser scrollbar */
+  /*
   ::-webkit-scrollbar {
     width: 15px;
     height: 15px;
@@ -93,5 +89,5 @@ h8 {
 
   ::-webkit-scrollbar-thumb:hover {
     background: #a8a29e;
-  }
+  } */
 }

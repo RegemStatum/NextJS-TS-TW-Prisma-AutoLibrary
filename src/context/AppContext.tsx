@@ -22,15 +22,18 @@ const hiddenInfoMessage: InfoMessage = {
 
 const AppContextInitialValue: AppContextValue = {
   infoMessage: hiddenInfoMessage,
+  isSidebarOpen: false,
+  isSearchModalOpen: false,
   showInfoMessage: (
     type: InfoMessageType,
     msg: string,
     hideAfterMs?: number
   ) => {},
   hideInfoMessage: () => {},
-  isSidebarOpen: false,
   openSidebar: () => {},
   closeSidebar: () => {},
+  openSearchModal: () => {},
+  closeSearchModal: () => {},
 };
 
 const AppContext = createContext<AppContextValue>(AppContextInitialValue);
@@ -39,8 +42,16 @@ const AppContextProvider: FC<Props> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(
     AppContextInitialValue.isSidebarOpen
   );
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(
+    AppContextInitialValue.isSearchModalOpen
+  );
   const [infoMessage, setInfoMessage] =
     useState<InfoMessage>(hiddenInfoMessage);
+
+  // useEffect(() => {
+  //   console.log("opening!");
+
+  // }, [isSearchModalOpen]);
 
   const showInfoMessage = useCallback(
     (type: InfoMessageType, msg: string, hideAfterMs?: number) => {
@@ -66,15 +77,26 @@ const AppContextProvider: FC<Props> = ({ children }) => {
     setIsSidebarOpen(false);
   };
 
+  const openSearchModal = () => {
+    setIsSearchModalOpen(true);
+  };
+
+  const closeSearchModal = () => {
+    setIsSearchModalOpen(false);
+  };
+
   return (
     <AppContext.Provider
       value={{
         infoMessage,
+        isSidebarOpen,
+        isSearchModalOpen,
         showInfoMessage,
         hideInfoMessage,
-        isSidebarOpen,
         openSidebar,
         closeSidebar,
+        openSearchModal,
+        closeSearchModal,
       }}
     >
       {children}

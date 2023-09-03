@@ -9,15 +9,18 @@ type InfoMessage = {
 
 type AppContextValue = {
   infoMessage: InfoMessage;
+  isSidebarOpen: boolean;
+  isSearchModalOpen: boolean;
   showInfoMessage: (
     type: InfoMessageType,
     msg: string,
     hideAfterMs?: number
   ) => void;
   hideInfoMessage: () => void;
-  isSidebarOpen: boolean;
   openSidebar: () => void;
   closeSidebar: () => void;
+  openSearchModal: () => void;
+  closeSearchModal: () => void;
 };
 
 export default AppContextValue;

@@ -13,6 +13,10 @@ const AuthorSearch: FC = ({}) => {
     setSearch({ ...search, searchInputValue: newValue });
   };
 
+  const clearInput = () => {
+    setSearch({ ...search, searchInputValue: "" });
+  };
+
   const handleSearchSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsAuthorsFiltered(true);
@@ -26,7 +30,9 @@ const AuthorSearch: FC = ({}) => {
           value={search.searchInputValue}
           onChange={handleSearchInputChange}
           name="authors_search"
+          placeholder="Enter author name"
           errorMsg=""
+          clearInput={clearInput}
           className="w-full"
         />
       </div>

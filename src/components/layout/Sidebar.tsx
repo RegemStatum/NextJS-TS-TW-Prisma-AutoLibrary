@@ -20,10 +20,10 @@ const Sidebar: FC = () => {
       <div className="container flex justify-between">
         <Logo />
         <IconWrapper
-          className="ml-auto mr-[1px] cursor-pointer"
+          className="flex items-centerml-auto mr-[1px] cursor-pointer"
           onClick={appContext.closeSidebar}
         >
-          <XMarkIcon width={28} strokeWidth={1.5} />
+          <XMarkIcon width={37} strokeWidth={1.75} />
         </IconWrapper>
       </div>
       <div className="h-[calc(100%-60px)] w-[190px] mx-auto flex gap-1 flex-col justify-center align-center">

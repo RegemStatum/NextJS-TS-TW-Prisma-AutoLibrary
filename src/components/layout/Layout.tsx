@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import { useAppContext } from "@/context/AppContext";
 import InfoMessage from "./InfoMessage";
 import { createPortal } from "react-dom";
+import SearchModal from "../search/SearchModal";
 
 interface Props {
   children: React.ReactNode;
@@ -25,6 +26,8 @@ const Layout: FC<Props> = ({ children }) => {
               <InfoMessage />,
               document.getElementById("infoMessages")!
             )}
+          {useAppContext().isSearchModalOpen &&
+            createPortal(<SearchModal />, document.getElementById("modals")!)}
         </>
       </main>
       <Footer />
